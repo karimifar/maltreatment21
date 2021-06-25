@@ -1,0 +1,35 @@
+.content-wrap{
+    flex-wrap: wrap;
+}
+#mapwrap{
+    width: 60%;
+    height: 100vh;
+    position: relative;
+}
+#map{
+    width:100%;
+    height: 100%;
+    position: absolute;
+}
+#legend{
+    position: absolute;
+    z-index: 2;
+    bottom: 5px;
+    left: 5px;
+    min-width: 270px;
+    background-color: #ffffffee;
+    padding: 10px;
+}
+#dashboard{
+    width:40%;
+    text-align: right;
+}
+select{
+    padding: 10px;
+}
+.map-popup p{
+    margin-bottom: 0;
+}
+.map-popup p{
+    text-transform: capitalize;
+}
