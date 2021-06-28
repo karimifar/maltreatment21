@@ -11,7 +11,7 @@
     <!-- <link rel="stylesheet" href="https://use.typekit.net/ewr5ovq.css"> -->
     <!-- BOOTSTRAP CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     <!-- MAPBOX CDN -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
@@ -23,14 +23,60 @@
 <body>
     <div class="content-wrap">
         <div class="upper-content d-flex">
-            <div id="dashboard">
-                <select name="age-groups" id="ageGroups" onchange="switchAge()">
-                    <option value="inf">Infants</option>
-                    <option value="1to4">1 to 4 year olds</option>
-                    <option value="5to9">5 to 9 year olds</option>
-                    <option value="10to14">10 to 14 year olds</option>
-                    <option value="15to17">15 to 17 year olds</option>
-                </select>
+            <div id="home-left-col">
+                <div id="intro">
+                    <h1>Maltreatment Risk</h1>
+                    <p>
+                        Data presented in these maps are the estimated risk of maltreatment in communities across Texas. Data are not presented for communities with small child populations as these estimates are not reliable. 
+                    </p>
+                    <p>
+                        You can learn more about how these estimates were produced here. You can learn more about a community’s maltreatment risk by selecting it on the map and clicking “learn more” or by typing in the ZIP Code in the search bar
+                    </p>
+                </div>
+                <div id="controls-wrap">
+                    <div class="control-input age-group">
+                        <label class="control-head">Age group:</label>
+                        <select name="age-groups" id="ageGroups" onchange="switchAge()">
+                            <option value="inf">Infants</option>
+                            <option value="1to4">1 to 4 year olds</option>
+                            <option value="5to9">5 to 9 year olds</option>
+                            <option value="10to14">10 to 14 year olds</option>
+                            <option value="15to17">15 to 17 year olds</option>
+                        </select>
+                    </div>
+                    <div class="control-input search">
+                        <label class="control-head">Search by ZIP Code or county:</label>
+                        <div id="search-tool" class="d-flex">
+                            <div class="d-flex" id="search-bar">
+                                <div id="search-input">
+                                    <input class="input" id="main-input" type="text">
+                                </div>
+                                
+                                <div id="selector-dropdown">  
+                                    <button type="button" class="dropdown-toggle" data-toggle="dropdown">  
+                                        <i class="fas fa-mouse-pointer"></i>
+                                    </button>  
+                                    <div class="dropdown-menu">  
+                                        <a class="dropdown-item" href="#"><i class="fas fa-vector-square"></i></a>  
+                                        <a class="dropdown-item" href="#"> <i class="fas fa-draw-polygon"></i></a>  
+                                        <a class="dropdown-item" href="#"> <i class="far fa-circle"></i></a>  
+                                    </div>  
+                                </div> 
+                                
+                                <!-- <select name="search-tool" id="search-tool" onchange="">
+                                    <option value="inf">Select <i class="fas fa-draw-polygon"></i></option>
+                                    <option value="1to4"><i class="fas fa-mouse-pointer"></i></option>
+                                    <option value="5to9"><i class="fas fa-draw-polygon"></i></option>
+                                    <option value="10to14">10 to 14 year olds</option>
+                                    <option value="15to17">15 to 17 year olds</option>
+                                </select> -->
+                            </div>
+                            <button id="submit">Search</button>
+                        </div>
+                        
+                    </div>
+                </div>
+
                 <div id="test"></div>
             </div>
 
@@ -41,7 +87,9 @@
         </div>
         
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     
     <script src= "./assets/js/app.js"></script>
 </body>

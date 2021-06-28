@@ -2,7 +2,7 @@
     flex-wrap: wrap;
 }
 #mapwrap{
-    width: 60%;
+    width: 50%;
     height: 100vh;
     position: relative;
 }
@@ -20,9 +20,8 @@
     background-color: #ffffffee;
     padding: 10px;
 }
-#dashboard{
-    width:40%;
-    text-align: right;
+#home-left-col{
+    width:50%;
 }
 select{
     padding: 10px;
@@ -32,4 +31,14 @@ select{
 }
 .map-popup p{
     text-transform: capitalize;
+}
+
+.dropdown-menu{
+    min-width: unset;
+}
+.dropdown-item{
+    padding: 5px 15px;
+}
+#intro, #controls-wrap{
+    padding: 20px;
 }
