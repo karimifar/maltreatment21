@@ -8,7 +8,7 @@
     
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="https://use.typekit.net/ewr5ovq.css"> -->
+    <link rel="stylesheet" href="https://use.typekit.net/gjn3fft.css">
     <!-- BOOTSTRAP CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -36,7 +36,7 @@
                 <div id="controls-wrap">
                     <div class="control-input age-group">
                         <label class="control-head">Age group:</label>
-                        <select name="age-groups" id="ageGroups" onchange="switchAge()">
+                        <select class="control-element" name="age-groups" id="ageGroups" onchange="switchAge()">
                             <option value="inf">Infants</option>
                             <option value="1to4">1 to 4 year olds</option>
                             <option value="5to9">5 to 9 year olds</option>
@@ -47,13 +47,13 @@
                     <div class="control-input search">
                         <label class="control-head">Search by ZIP Code or county:</label>
                         <div id="search-tool" class="d-flex">
-                            <div class="d-flex" id="search-bar">
+                            <div class="" id="search-bar">
                                 <div id="search-input">
-                                    <input class="input" id="main-input" type="text">
+                                    <input class="input control-element" id="main-input" type="text">
                                 </div>
                                 
                                 <div id="selector-dropdown">  
-                                    <button type="button" class="dropdown-toggle" data-toggle="dropdown">  
+                                    <button type="button" class="dropdown-toggle control-element" data-toggle="dropdown">  
                                         <i class="fas fa-mouse-pointer"></i>
                                     </button>  
                                     <div class="dropdown-menu">  
@@ -71,16 +71,29 @@
                                     <option value="15to17">15 to 17 year olds</option>
                                 </select> -->
                             </div>
-                            <button id="submit">Search</button>
+                            <button class="control-element" id="submit">Search</button>
                         </div>
                         
                     </div>
                 </div>
 
-                <div id="test"></div>
+                <div id="test">
+                    
+                </div>
             </div>
 
             <div id="mapwrap">
+                <div id="geo-switch">
+                    <label class="switch">
+                        <input type="checkbox" id="togBtn">
+                        <div class="slider round">
+                            <!--ADDED HTML -->
+                            <span class="on">ZIP</span>
+                            <span class="off">COUNTY</span>
+                            <!--END-->
+                        </div>
+                    </label>
+                </div>
                 <div id="map"></div>
                 <div id="legend"></div>
             </div>

@@ -3,7 +3,9 @@ var firstSymbolId;
 var hoveredZipId;
 var selectedAge ='inf';
 var hoveredCtId;
-
+var geoIsZip = false;
+var geography= '_cty';
+var visible_layer;
 var COLORS = [
     
     '#eee',
@@ -53,7 +55,7 @@ var ageGroups = [
     },
 ]
 
-var visible_layer = ageGroups[0]['key'];
+
 
 
 mapboxgl.accessToken = "pk.eyJ1Ijoia2FyaW1pZmFyIiwiYSI6ImNqOGtnaWp4OTBjemsyd211ZDV4bThkNmIifQ.Xg-Td2FFJso83Mmmc87NDA";
@@ -87,25 +89,29 @@ function createMap(){
             data: "https://texashealthdata.com/maltreatment/zip-map",
             generateId: true,
         })
+        map.addSource("counties", {
+            type: "geojson",
+            data: "https://texashealthdata.com/maltreatment/cty-map",
+            generateId: true,
+        })
 
         
         
         for (var i=0; i<ageGroups.length; i++){
-            addLayer(map,ageGroups[i].key)
+            addZipLayer(map,ageGroups[i].key)
+            addCtyLayer(map,ageGroups[i].key)
             console.log (i)
         }
-        map.setLayoutProperty(
-            'pred_'+ageGroups[0].key,
-            'visibility',
-            'visible'
-        )
-
+        
 
         
         map.addLayer({
-            'id': 'zips_outline',
+            'id': 'outline_zip',
             'type': 'line',
             'source':'zips',
+            'layout':{
+                'visibility':'none'
+            },
             'paint':{
                 "line-color": ["case",
                     ["boolean", ["feature-state", "hover"], false],
@@ -120,6 +126,36 @@ function createMap(){
             }
         }, firstSymbolId);
 
+        map.addLayer({
+            'id': 'outline_cty',
+            'type': 'line',
+            'source':'counties',
+            'layout':{
+                'visibility':'none'
+            },
+            'paint':{
+                "line-color": ["case",
+                    ["boolean", ["feature-state", "hover"], false],
+                    "#111",
+                    "#fff"
+                ],
+                "line-width": ["case",
+                    ["boolean", ["feature-state", "hover"], false],
+                    1.5,
+                    0.3
+                ],
+            }
+        }, firstSymbolId);
+
+        
+        visible_layer = 'pred_'+selectedAge+geography
+        map.setLayoutProperty(
+            visible_layer,
+            'visibility',
+            'visible'
+        )
+        updateGeo();
+        
         
     })
 }
@@ -131,10 +167,11 @@ function createMap(){
 
 createMap();
 
-function addLayer(themap, key){
+function addZipLayer(themap, key){
     var id = 'pred_' + key;
+    var layerId = 'pred_' + key+'_zip';
     themap.addLayer({
-        'id':id,
+        'id':layerId,
         'type': 'fill',
         'source': 'zips',
         'layout': {
@@ -158,7 +195,7 @@ function addLayer(themap, key){
 
     },firstSymbolId)
 
-    themap.on("click", id, function(e) {
+    themap.on("click", layerId, function(e) {
         if(e.features.length >0){
             // if(hoveredZipId>=0){
             //     themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: false}); 
@@ -186,7 +223,7 @@ function addLayer(themap, key){
         
     })
 
-    themap.on("mousemove", id, function(e) {
+    themap.on("mousemove", layerId, function(e) {
         if(e.features.length >0){
             if(hoveredZipId>=0){
                 themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: false}); 
@@ -198,10 +235,90 @@ function addLayer(themap, key){
         }
         
     })
-    themap.on("mouseleave", id, function(){
+    themap.on("mouseleave", layerId, function(){
         if(hoveredZipId>=0){
             themap.setFeatureState(
                 {source:'zips', id: hoveredZipId},
+                {hover: false}
+            )
+        }
+        // popup.remove();
+    })
+}
+
+
+function addCtyLayer(themap, key){
+    var id = 'pred_' + key;
+    var layerId = id+'_cty';
+    themap.addLayer({
+        'id':layerId,
+        'type': 'fill',
+        'source': 'counties',
+        'layout': {
+            'visibility':'none'
+        },
+        'paint':{
+            'fill-color':[
+                'step',
+                ['get', id],
+                COLORS[0],breaksArr[0],
+                COLORS[1],breaksArr[1], 
+                COLORS[2],breaksArr[2], 
+                COLORS[3],breaksArr[3], 
+                COLORS[4],breaksArr[4],
+                COLORS[5], breaksArr[5],
+                COLORS[6], breaksArr[6],
+                COLORS[7]
+            ],
+            'fill-opacity': 0.9
+        }
+
+    },firstSymbolId)
+
+    themap.on("click", layerId, function(e) {
+        if(e.features.length >0){
+            // if(hoveredZipId>=0){
+            //     themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: false}); 
+            // }
+            // themap.getCanvas().style.cursor = "pointer";
+            // hoveredZipId = e.features[0].id;
+            var cty = e.features[0].properties.NAME10;
+            var labelKey = 'lbl_'+id;
+            var label = e.features[0].properties[labelKey];
+            var zscore = e.features[0].properties[id];
+            // var causeName = KEYS[cause_id].name;
+            var coordinates = [e.lngLat.lng, e.lngLat.lat];
+            // console.log(zipcode)
+            popup = new mapboxgl.Popup({
+                // closeButton: false,
+                // closeOnClick: false,
+                offset: [0, -5],
+                className: 'cty-pop map-popup'
+            });
+            // themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: true});
+            var popupHTML = '<p class="zip-name">'+cty+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p>'
+            popup.setLngLat(coordinates).setHTML(popupHTML).addTo(themap);
+        }
+        
+        
+    })
+
+    themap.on("mousemove", layerId, function(e) {
+        if(e.features.length >0){
+            if(hoveredCtId>=0){
+                themap.setFeatureState({source: 'counties', id: hoveredCtId}, { hover: false}); 
+            }
+            themap.getCanvas().style.cursor = "pointer";
+            hoveredCtId = e.features[0].id;
+            // console.log(zipcode)
+            themap.setFeatureState({source: 'counties', id: hoveredCtId}, { hover: true});
+        }
+        
+    })
+    themap.on("mouseleave", layerId, function(){
+        if(hoveredCtId>=0){
+            themap.setFeatureState(
+                {source:'counties', id: hoveredCtId},
                 {hover: false}
             )
         }
@@ -211,23 +328,47 @@ function addLayer(themap, key){
 
 }
 
+function updateGeo(){
+    map.setLayoutProperty(
+        'outline'+geography,
+        'visibility',
+        'none'
+    )
+    if(geoIsZip){
+        geography='_zip';
+        
+    }else{
+        geography = '_cty'
+    }
+    switchVisibility (visible_layer, 'pred_'+selectedAge+geography)
+    map.setLayoutProperty(
+        'outline'+geography,
+        'visibility',
+        'visible'
+    )
+
+}
 function switchAge(){
     selectedAge = $('#ageGroups').val()
-    switchVisibility (visible_layer, selectedAge)
+    switchVisibility (visible_layer, 'pred_'+selectedAge+geography)
     if(popup){
         popup.remove()
     }
 }
+function switchGeo(){
+    geoIsZip = !geoIsZip
+    updateGeo();
+}
 
-
+$('#togBtn').on('click', switchGeo)
 function switchVisibility(a,b){
     map.setLayoutProperty(
-        'pred_'+a,
+        a,
         'visibility',
         'none'
     )
     map.setLayoutProperty(
-        'pred_'+b,
+        b,
         'visibility',
         'visible'
     )
