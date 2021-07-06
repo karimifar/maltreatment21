@@ -56,6 +56,9 @@ h1{
 }
 .control-head{
     display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    /* padding-left: px; */
 }
 .control-element{
     height: 40px;
@@ -74,11 +77,8 @@ h1{
     right: 0;
     top:0;
 }
-
-#geo-switch{
-    /* position: absolute; */
-    z-index: 10;
-    top:0
+#age-control{
+    margin-right: 20px;
 }
 
 
@@ -98,8 +98,8 @@ h1{
 .switch {
     position: relative;
     display: inline-block;
-    width: 90px;
-    height: 34px;
+    width: 150px;
+    height: 40px;
   }
   
   .switch input {display:none;}
@@ -111,69 +111,74 @@ h1{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ca2222;
-    -webkit-transition: .4s;
-    transition: .4s;
+    background-color: #1A1A1A;
+    /* -webkit-transition: .4s;
+    transition: all cubic-bezier(.19,.69,0,1) 0.4s; */
+    border: 1px solid #1A1A1A
   }
   
-  .slider:before {
+  .slider:after {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    height: 38px;
+    width: 50%;
+    /* left: 4px;
+    bottom: 4px; */
+    background-color: #FFF7E2;
+    -webkit-transition: all cubic-bezier(.19,.69,0,1) 0.6s;
+    transition: all cubic-bezier(.19,.69,0,1) 0.6s;
   }
   
-  input:checked + .slider {
-    background-color: #2ab934;
-  }
+
   
-  input:focus + .slider {
+  #geoBtn:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
   }
   
-  input:checked + .slider:before {
-    -webkit-transform: translateX(55px);
-    -ms-transform: translateX(55px);
-    transform: translateX(55px);
+  #geoBtn:checked + .slider:after {
+    -webkit-transform: translateX(74px);
+    -ms-transform: translateX(74px);
+    transform: translateX(74px);
   }
   
   /*------ ADDED CSS ---------*/
-  .on
-  {
-    display: none;
-  }
+ 
   
-  .on, .off
+  .zip, .cty
   {
-    color: white;
+    color: #1A1A1A;
     position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-    font-size: 10px;
-    font-family: Verdana, sans-serif;
+    top: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 2;
+    -webkit-transition: all ease-in-out .2s;
+    transition: all ease-in-out .2s;
+    user-select: none;
+    /* font-family: aktiv-grotesk-extended; */
   }
-  
-  input:checked+ .slider .on
-  {display: block;}
-  
-  input:checked + .slider .off
-  {display: none;}
-  
-  /*--------- END --------*/
-  
+  #geoBtn:checked + .slider .cty{
+    color: #FFF7E277;
+  }
+  #geoBtn:not(:checked) + .slider .zip{
+    color: #FFF7E277;
+  }
+
+  .zip
+  {
+    right: 8px;
+  }
+  .cty{
+      left: 8px;
+  }  
   /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
+  /* .slider.round {
+    border-radius: 17px;
   }
   
-  .slider.round:before {
-    border-radius: 50%;}
+  .slider.round:after {
+    border-radius: 16px;
+} */
 
 
 

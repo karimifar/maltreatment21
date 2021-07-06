@@ -25,7 +25,7 @@ var legend = {
     2: {'name': '<10-20% above state rate', 'color':COLORS[1]},
     3: {'name': '<20-30% above state rate', 'color':COLORS[2]},
     4: {'name': '<30-40% above state rate', 'color':COLORS[3]},
-    5: {'name': '<40%-50% above state rate', 'color':COLORS[4]},
+    5: {'name': '<40-50% above state rate', 'color':COLORS[4]},
     6: {'name': '50% or more above state rate', 'color':COLORS[5]},
     7: {'name': 'Suppressed value', 'color':COLORS[6]},
     8: {'name': 'Unreliable value', 'color':COLORS[7]},
@@ -360,7 +360,7 @@ function switchGeo(){
     updateGeo();
 }
 
-$('#togBtn').on('click', switchGeo)
+
 function switchVisibility(a,b){
     map.setLayoutProperty(
         a,
