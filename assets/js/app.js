@@ -73,7 +73,57 @@ function createMap(){
         minZoom: 1,
         style: mapStyle
     })
+
+///START OF MAPBOX GL DRAW
+
+    var draw = new MapboxDraw({
+        displayControlsDefault: false,
+        controls: {
+            polygon: true,
+            trash: true
+        },
+        defaultMode: 'draw_polygon'
+    });
+    map.addControl(draw);
+
+    map.on('draw.create', updateArea);
+    map.on('draw.delete', updateArea);
+    map.on('draw.update', updateArea);
     
+    function updateArea(e) {
+        console.log(e)
+        if(e.features.length>0){
+            console.log(e.features.length)
+            var userPolygon = e.features[0]
+            var polygonBoundingBox = turf.bbox(userPolygon);
+    
+            var southWest = [polygonBoundingBox[0], polygonBoundingBox[1]];
+            var northEast = [polygonBoundingBox[2], polygonBoundingBox[3]];
+    
+            var northEastPointPixel = map.project(northEast);
+            var southWestPointPixel = map.project(southWest);
+            console.log(polygonBoundingBox)
+            console.log(northEastPointPixel,southWestPointPixel)
+            console.log(visible_layer)
+            var features = map.queryRenderedFeatures([southWestPointPixel, northEastPointPixel], { layers: [visible_layer] });
+            console.log(features.length, features)
+            var filter = features.reduce(
+                function (memo, feature) {
+                memo.push(feature.properties.zcta_int);
+                return memo;
+                },
+                ['in', 'zcta_int']
+            );
+                 
+            map.setFilter('highlighted_zip', filter);
+            console.log(filter)
+            console.log("UNIQ",[...new Set(filter)])
+        }
+        
+           
+    }
+    
+//END OF MAPBOX GL DRAW
 
     map.on('load', function () {
         var layers = map.getStyle().layers;
@@ -125,6 +175,19 @@ function createMap(){
                 ],
             }
         }, firstSymbolId);
+
+        map.addLayer({
+            'id': 'highlighted_zip',
+            'type': 'fill',
+            'source':'zips',
+            'paint':{
+                'fill-outline-color': '#222',
+                'fill-color': '#1A1A1A',
+                'fill-opacity': 0.2
+            },
+            'filter': ['in', 'zcta_int', '']
+        }, firstSymbolId);
+
 
         map.addLayer({
             'id': 'outline_cty',
