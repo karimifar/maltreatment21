@@ -76,52 +76,52 @@ function createMap(){
 
 ///START OF MAPBOX GL DRAW
 
-    var draw = new MapboxDraw({
-        displayControlsDefault: false,
-        controls: {
-            polygon: true,
-            trash: true
-        },
-        defaultMode: 'draw_polygon'
-    });
-    map.addControl(draw);
+    // var draw = new MapboxDraw({
+    //     displayControlsDefault: false,
+    //     controls: {
+    //         polygon: true,
+    //         trash: true
+    //     },
+    //     defaultMode: 'draw_polygon'
+    // });
+    // map.addControl(draw);
 
-    map.on('draw.create', updateArea);
-    map.on('draw.delete', updateArea);
-    map.on('draw.update', updateArea);
+    // map.on('draw.create', updateArea);
+    // map.on('draw.delete', updateArea);
+    // map.on('draw.update', updateArea);
     
-    function updateArea(e) {
-        console.log(e)
-        if(e.features.length>0){
-            console.log(e.features.length)
-            var userPolygon = e.features[0]
-            var polygonBoundingBox = turf.bbox(userPolygon);
+    // function updateArea(e) {
+    //     console.log(e)
+    //     if(e.features.length>0){
+    //         console.log(e.features.length)
+    //         var userPolygon = e.features[0]
+    //         var polygonBoundingBox = turf.bbox(userPolygon);
     
-            var southWest = [polygonBoundingBox[0], polygonBoundingBox[1]];
-            var northEast = [polygonBoundingBox[2], polygonBoundingBox[3]];
+    //         var southWest = [polygonBoundingBox[0], polygonBoundingBox[1]];
+    //         var northEast = [polygonBoundingBox[2], polygonBoundingBox[3]];
     
-            var northEastPointPixel = map.project(northEast);
-            var southWestPointPixel = map.project(southWest);
-            console.log(polygonBoundingBox)
-            console.log(northEastPointPixel,southWestPointPixel)
-            console.log(visible_layer)
-            var features = map.queryRenderedFeatures([southWestPointPixel, northEastPointPixel], { layers: [visible_layer] });
-            console.log(features.length, features)
-            var filter = features.reduce(
-                function (memo, feature) {
-                memo.push(feature.properties.zcta_int);
-                return memo;
-                },
-                ['in', 'zcta_int']
-            );
+    //         var northEastPointPixel = map.project(northEast);
+    //         var southWestPointPixel = map.project(southWest);
+    //         console.log(polygonBoundingBox)
+    //         console.log(northEastPointPixel,southWestPointPixel)
+    //         console.log(visible_layer)
+    //         var features = map.queryRenderedFeatures([southWestPointPixel, northEastPointPixel], { layers: [visible_layer] });
+    //         console.log(features.length, features)
+    //         var filter = features.reduce(
+    //             function (memo, feature) {
+    //             memo.push(feature.properties.zcta_int);
+    //             return memo;
+    //             },
+    //             ['in', 'zcta_int']
+    //         );
                  
-            map.setFilter('highlighted_zip', filter);
-            console.log(filter)
-            console.log("UNIQ",[...new Set(filter)])
-        }
+    //         map.setFilter('highlighted_zip', filter);
+    //         console.log(filter)
+    //         console.log("UNIQ",[...new Set(filter)])
+    //     }
         
            
-    }
+    // }
     
 //END OF MAPBOX GL DRAW
 
