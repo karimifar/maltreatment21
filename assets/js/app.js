@@ -21,16 +21,7 @@ var COLORS = [
 ]
 var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
 var legend = {
-    1: {'name': '<10% above state rate', 'color':COLORS[0]},
-    2: {'name': '<10-20% above state rate', 'color':COLORS[1]},
-    3: {'name': '<20-30% above state rate', 'color':COLORS[2]},
-    4: {'name': '<30-40% above state rate', 'color':COLORS[3]},
-    5: {'name': '<40-50% above state rate', 'color':COLORS[4]},
-    6: {'name': '50% or more above state rate', 'color':COLORS[5]},
-    7: {'name': 'Suppressed value', 'color':COLORS[6]},
-    8: {'name': 'Unreliable value', 'color':COLORS[7]},
-    9: {'name': 'Below state rate', 'color':COLORS[8]},
-
+    
 }
 var ageGroups = [
     {
@@ -437,3 +428,57 @@ function switchVisibility(a,b){
     )
     visible_layer = b;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function createChart(data){
+    $('#chart-test').append('<svg id="svg">')
+    var svg = d3.select('#svg')
+
+    var margin = {top: 10, right: 10, bottom: 50, left: 50};
+
+    var width = svg.attr('width') - margin.left - margin.right;
+    var height = svg.attr('height') - margin.top - margin.bottom;
+
+    svg.attr('viewBox', [0, 0, 300 ,200 ]);
+
+    var bar = svg.selectAll('rect')
+        .data(data)
+        bar.exit().transition().duration(500).attr('width', 0).remove();
+
+        console.log(bar)
+        bar.enter().append('rect')
+        .merge(bar)
+        .transition()
+        .duration(500)
+        // .attr('width', currentWidth)
+        .attr('fill', 'red')
+        .attr('x', 10)
+        .attr('y', (d,i) => i*10)
+        .attr('height', 10)
+        .transition()
+        .duration(1000)
+        .attr('width', d => (50*d))
+            
+    
+    
+
+}
+createChart([2,4,7]);

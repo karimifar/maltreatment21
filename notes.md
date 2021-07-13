@@ -6,12 +6,14 @@
 
 Data tables:
 
-variables-zip-older
-variables-zip-younger
+Maltreatment-var-zip-oldr
+Maltreatment-var-zip-yngr
 
-variables-cty-older
-variables-cty-younger
+Maltreatment-var-cty-oldr
+Maltreatment-var-cty-yngr
 
-rates-zip
-rates-cty
+Maltreatment-rates-zip-oldr
+Maltreatment-rates-zip-yngr
+Maltreatment-rates-cty-oldr
+Maltreatment-rates-cty-yngr
 
