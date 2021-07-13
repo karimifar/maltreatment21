@@ -20,9 +20,43 @@ var COLORS = [
     
 ]
 var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
-var legend = {
-    
-}
+var legend =[
+    {
+        'label': 'Among the lowest',
+        'range': [-1.5,-1],
+        'color': COLORS[1]
+    },
+    {
+        'label': 'Comparatively low',
+        'range': [-1,-0.5],
+        'color': COLORS[2]
+    },
+    {
+        'label': 'Below average',
+        'range': [-0.5,-0.25],
+        'color': COLORS[3]
+    },
+    {
+        'label': 'Average',
+        'range': [-0.25,0.25],
+        'color': COLORS[4]
+    },
+    {
+        'label': 'Above average',
+        'range': [0.25,0.5],
+        'color': COLORS[5]
+    },
+    {
+        'label': 'Comparatively high',
+        'range': [0.5,1],
+        'color': COLORS[6]
+    },
+    {
+        'label': 'Among the highest',
+        'range': [1,1.5],
+        'color': COLORS[7]
+    },
+]
 var ageGroups = [
     {
         'key':'inf',
@@ -433,6 +467,60 @@ function switchVisibility(a,b){
 
 
 
+function createLegend(){
+    var margin = {top: 20, right: 30, bottom: 20, left: 30},
+    width = 400,
+    height = 100;
+
+    var x = d3.scaleLinear()
+        .domain([legend[0].range[0], legend[legend.length-1].range[1]])
+        .range([margin.left, width - margin.right])
+        console.log([margin.left, width - margin.right])
+
+    var y = d3.scaleLinear()
+        .domain([0,1])
+        .range([height - margin.bottom, margin.top])
+        console.log([height - margin.bottom, margin.top])
+    
+    
+
+    var legendSvg = d3.select('#legend-wrap')
+        .append('svg')
+        .attr('viewBox', [0, 0, width ,height ])
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr('id','legend-svg')
+
+    var barH = 30;
+    var bars = legendSvg.selectAll('rect')
+        .data(legend)
+        .enter().append('rect')
+        .attr('fill', d => d.color)
+            .attr('x', d => x(d.range[0]))
+            .attr('y', height - margin.bottom - barH)
+            .attr('height', barH)
+            .transition()
+            .duration(1000)
+            .attr('width', d => x(d.range[1])-x(d.range[0]))
+            // console.log(d => x(d.range[1])-x(d.range[0]))
+
+    var xAxis = legendSvg.append('g')
+        .attr("transform", `translate(0,${height-margin.bottom})`)
+        .call(
+            d3.axisBottom(x)
+            .tickPadding(5)
+            .tickSize(0)
+            .tickValues([-1,-0.5,-0.25,0,0.25,0.5,1])
+            .tickFormat(d3.format(",.3"))    
+        )
+
+}
+
+createLegend();
+
+function updateLegend(data){
+    
+
+}
 
 
 
@@ -443,13 +531,9 @@ function switchVisibility(a,b){
 
 
 
-
-
-
-
-
+// $('#legend-wrap').append('<svg id="svg">')
 function createChart(data){
-    $('#chart-test').append('<svg id="svg">')
+
     var svg = d3.select('#svg')
 
     var margin = {top: 10, right: 10, bottom: 50, left: 50};
@@ -457,7 +541,8 @@ function createChart(data){
     var width = svg.attr('width') - margin.left - margin.right;
     var height = svg.attr('height') - margin.top - margin.bottom;
 
-    svg.attr('viewBox', [0, 0, 300 ,200 ]);
+    svg.attr('viewBox', [0, 0, 300 ,200 ])
+        .attr("preserveAspectRatio", "xMinYMin meet")
 
     var bar = svg.selectAll('rect')
         .data(data)
@@ -470,7 +555,7 @@ function createChart(data){
         .duration(500)
         // .attr('width', currentWidth)
         .attr('fill', 'red')
-        .attr('x', 10)
+        .attr('x', 0)
         .attr('y', (d,i) => i*10)
         .attr('height', 10)
         .transition()
@@ -481,4 +566,4 @@ function createChart(data){
     
 
 }
-createChart([2,4,7]);
+// createChart([2,4,7]);

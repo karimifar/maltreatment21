@@ -103,21 +103,79 @@
                     </div>
                 </div>
 
-                <div id="test">
+                <!-- <div id="test">
                     
-                </div>
+                </div> -->
             </div>
 
             <div id="mapwrap">
                 
                 <div id="map"></div>
-                <div id="legend"></div>
+                <!-- <div id="legend"></div> -->
             </div>
         </div>
 
         <div class="lower-content">
-            <div id="chart-test">
+            <div class="dashboard-layer" id="risk-guide">
+                <div class="layer-title">
+                    <p id="legend-title">Risk Level Guide:</p>
+                    <p class="tagline">(based on overall z-score)</p>
+                </div>
+                <div id="guide-chart">
+                    <div class="chart-wrap" id="legend-wrap">
+                    </div>
+                </div>
+                
             </div>
+            <div class="dashboard-layer bg-dyno-color" id="big-label">
+                <h1><span class='disp-geo'>78701</span> is <span>among the highest</span> risk zip codes</h1>
+            </div>
+            <div class="dashboard-layer" id="overall-score">
+                <div class="layer-title">
+                    <p>Overall Predictive <br> Z-score in <span class='disp-geo'>78701</span>:</p>
+                </div>
+                <h1 class="text-dyno-color">1.31</h1>
+            </div>
+            <div class="dashboard-layer" id="population">
+                <h2>Total <span class="disp-age">Infant</span> Population in <span class='disp-geo'>78701</span>: <span>273,876</span></h2>
+            </div>
+            <div class="dashboard-layer factor-layer" id="factor-head">
+                <div class="risk-factor">RISK FACTOR</div>
+                <div class="risk-level">RISK LEVEL</div>
+            </div>
+            <div class="dashboard-layer factor-layer" id="factor-1">
+                <div class="risk-factor">
+                    <div class="risk-title">
+                        
+                        <h3><a href="">Health & Disability:</a> <a href="">i</a></h3> 
+                        
+                    </div>
+                    <div class="risk-chart chart-wrap">
+
+                    </div>
+                </div>
+                <div class="risk-level">
+                    <div class="risk-color"></div>
+                    <p>Comparatively low</p>
+                </div>
+            </div>
+            <div class="dashboard-layer factor-layer" id="factor-2">
+                <div class="risk-factor">
+                    <div class="risk-title">
+                        
+                        <h3><a href="">Health & Disability:</a> <a href="">i</a></h3> 
+                        
+                    </div>
+                    <div class="risk-chart chart-wrap">
+
+                    </div>
+                </div>
+                <div class="risk-level">
+                    <div class="risk-color"></div>
+                    <p>Comparatively low</p>
+                </div>
+            </div>
+
         </div>
         
     </div>

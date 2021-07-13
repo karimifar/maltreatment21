@@ -10,7 +10,7 @@ h1{
 }
 #mapwrap{
     width: 50%;
-    height: 100vh;
+    /* height: 100vh; */
     position: relative;
 }
 #map{
@@ -18,17 +18,10 @@ h1{
     height: 100%;
     position: absolute;
 }
-#legend{
-    position: absolute;
-    z-index: 2;
-    bottom: 5px;
-    left: 5px;
-    min-width: 270px;
-    background-color: #ffffffee;
-    padding: 10px;
-}
+
 #home-left-col{
     width:50%;
+    padding: 20px 0;
 }
 
 .map-popup p{
@@ -82,17 +75,128 @@ h1{
 }
 
 
+.dashboard-layer{
+    display: flex;
+    padding: 30px 10%;
+    justify-content: center;
+}
+.bg-dyno-color{
+    background-color: #281C67;
+}
+.text-dyno-color{
+    color: #281C67;
+}
+.disp-geo, .disp-age{
+    font-weight: 700;
+}
+.layer-title{
+    padding: 5px;
+}
+.layer-title p{
+    margin-bottom: 0;
+    font-size: 24px;
+}
+
+#risk-guide .layer-title{
+    align-self: center;
+}
+#guide-chart{
+    width:70%;
+    max-width: 1000px;
+}
+#legend-title{
+    font-size: 36px;
+    line-height: 1.2;
+}
+.layer-title .tagline{
+    font-size: 18px;
+}
+
+#legend-wrap{
+    width:100%;
+    padding-bottom: 25%;
+    /* background-color: #eee; */
+    overflow: hidden;
+    position: relative;
+    /* padding: 20px; */
+}
+#legend-svg{
+    display: inline-block;
+    position: absolute;
+    top:0;
+    left:0;
+}
+
+#big-label{
+    text-align: center;
+    color: #fff;
+}
+#big-label h1{
+    font-size: 48px;
+    font-weight: 500;
+}
+#big-label h1 span{
+    font-weight: 900;
+}
+
+#overall-score .layer-title{
+    font-size: 24px;
+    align-self: center;
+}
+#overall-score .layer-title span{
+    font-weight: 700;
+}
+#overall-score h1{
+    margin-bottom: 0;
+    font-size: 56px;
+    align-self: center;
+    padding: 10px;
+    font-weight: 700;
+}
 
 
+#population{
+    background-color: #eee;
+}
+#population h2{
+    font-size: 24px;
+    margin-bottom: 0;
+    padding: 5px;
+    font-weight: 300;
+    text-align: center;
+}
+#population h2 span{
+    font-weight: 700;
+}
 
+.factor-layer{
+    padding: 0px 15%;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+.risk-factor{
+    width: 70%;
+    padding: 15px;
+    display: flex;
+}
+.risk-level{
+    width: 30%;
+    padding: 15px;
+    border-left: 1px solid #ddd;
+}
+#factor-head{
+    background-color: #1A1A1A;
+    color: #fff;
+}
+.risk-title{
+    width:40%;
+}
 
-
-
-
-
-
-
-
+.risk-chart{
+    height: 100px;
+    width: 60%;
+    background-color: #eee;
+}
 
 
 .switch {
