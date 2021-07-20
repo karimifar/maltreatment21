@@ -1,3 +1,4 @@
+var apiUrl = 'http://localhost:3306' //'https://texashealthdata.com
 var map;
 var firstSymbolId;
 var hoveredZipId;
@@ -6,6 +7,7 @@ var hoveredCtId;
 var geoIsZip = false;
 var geography= '_cty';
 var visible_layer;
+
 var COLORS = [
     
     '#eee',
@@ -23,7 +25,7 @@ var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
 var legend =[
     {
         'label': 'Among the lowest',
-        'range': [-1.5,-1],
+        'range': [-2,-1],
         'color': COLORS[1]
     },
     {
@@ -53,7 +55,7 @@ var legend =[
     },
     {
         'label': 'Among the highest',
-        'range': [1,1.5],
+        'range': [1,2],
         'color': COLORS[7]
     },
 ]
@@ -92,7 +94,7 @@ var popup;
 function createMap(){
     map = new mapboxgl.Map({
         container: 'map',
-        zoom: 5,
+        zoom: 4.7,
         center: [-100.000000, 31.000000],
         maxZoom: 10,
         minZoom: 1,
@@ -161,12 +163,17 @@ function createMap(){
 
         map.addSource("zips", {
             type: "geojson",
-            data: "https://texashealthdata.com/maltreatment/zip-map",
+            data: apiUrl+ "/maltreatment/zip-map",
             generateId: true,
         })
         map.addSource("counties", {
             type: "geojson",
-            data: "https://texashealthdata.com/maltreatment/cty-map",
+            data: apiUrl+ "/maltreatment/cty-map",
+            generateId: true,
+        })
+        map.addSource("highways", {
+            type: "geojson",
+            data: apiUrl+ "/Texas/highways",
             generateId: true,
         })
 
@@ -178,7 +185,19 @@ function createMap(){
             console.log (i)
         }
         
-
+        map.addLayer({
+            'id':'highways',
+            'type': 'line',
+            'source': 'highways',
+            'paint':{
+                'line-color': '#888',
+                'line-width': [
+                    "interpolate", ["linear"], ["zoom"],
+                    6,1,
+                    10,6
+                ]
+            }
+        },firstSymbolId)
         
         map.addLayer({
             'id': 'outline_zip',
@@ -193,10 +212,11 @@ function createMap(){
                     "#111",
                     "#999"
                 ],
-                "line-width": ["case",
+                "line-width": [
+                    "case",
                     ["boolean", ["feature-state", "hover"], false],
                     1.5,
-                    0.3
+                    0.3,
                 ],
             }
         }, firstSymbolId);
@@ -491,27 +511,68 @@ function createLegend(){
         .attr('id','legend-svg')
 
     var barH = 30;
-    var bars = legendSvg.selectAll('rect')
+    legendSvg.append('g').selectAll('rect')
         .data(legend)
         .enter().append('rect')
         .attr('fill', d => d.color)
             .attr('x', d => x(d.range[0]))
-            .attr('y', height - margin.bottom - barH)
-            .attr('height', barH)
+            .attr('y', height-margin.bottom)
+            .attr('width', d => x(d.range[1])-x(d.range[0]))
             .transition()
             .duration(1000)
-            .attr('width', d => x(d.range[1])-x(d.range[0]))
+            .attr('y', height - margin.bottom - barH)
+            .attr('height', barH)
             // console.log(d => x(d.range[1])-x(d.range[0]))
+    legendSvg.append('g').selectAll('.legend-label')
+        .data(legend)
+        .enter().append('g')
+        .attr('class', 'legend-label')
+        .attr('transform', d => `translate(${x(  d.range[0]+(d.range[1]-d.range[0])/2)}, ${height - margin.bottom - barH-2} )` )
+        .attr('font-size', 7)
+        
+        .append('text')
 
-    var xAxis = legendSvg.append('g')
+        .text(d => d.label)
+        .style('opacity', 0)
+        .attr('transform', 'rotate(-30)')
+        .transition()
+        .duration(500)
+        .delay(500)
+        .style('opacity', 1)
+        // .style("text-anchor", "middle")
+        
+        // .attr('transform-origin', '50% 50%')
+
+
+    var xAxisBottom = legendSvg.append('g')
         .attr("transform", `translate(0,${height-margin.bottom})`)
+        .classed('legend-axis',true)
         .call(
             d3.axisBottom(x)
-            .tickPadding(5)
-            .tickSize(0)
-            .tickValues([-1,-0.5,-0.25,0,0.25,0.5,1])
-            .tickFormat(d3.format(",.3"))    
+            .tickPadding(3)
+            .tickSize(3)
+            .tickSizeInner(3)
+            .tickValues([-1,-0.5,-.25,0,0.25,0.5,1])
+            .tickFormat(d3.format(10,"f"))
         )
+        .call(g => g.select(".domain").remove())
+        .attr('font-size', 7)
+        .style('font-family', 'aktiv-grotesk-condensed')
+
+    // var xAxisTop = legendSvg.append('g')
+    //     .attr("transform", `translate(0,${height-margin.bottom-barH/2})`)
+    //     .classed('legend-axis',true)
+    //     .call(
+    //         d3.axisBottom(x)
+    //         .tickPadding(-3)
+    //         .tickSize(0)
+    //         .tickValues([-0.25,0.25])
+    //         .tickFormat(d3.format(10,"f"))
+    //     )
+    //     .call(g => g.select(".domain").remove())
+    //     .attr('font-size', 7)
+
+        
 
 }
 
@@ -567,3 +628,12 @@ function createChart(data){
 
 }
 // createChart([2,4,7]);
+
+
+
+$.get(apiUrl+'/api/maltreatment/var/zip/yngr',function(data){
+    console.log(data)
+    for(var i=0; i<data.length; i++){
+        console.log(data[i].variable)
+    }
+})

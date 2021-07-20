@@ -4,6 +4,8 @@
 h1{
     font-family: aktiv-grotesk-extended, sans-serif;
     font-weight: 900;
+    font-size: 60px;
+    /* line-height: 1; */
 }
 .content-wrap{
     flex-wrap: wrap;
@@ -126,7 +128,13 @@ h1{
     top:0;
     left:0;
 }
-
+.legend-axis text{
+    font-family:  aktiv-grotesk-condensed, sans-serif;
+    font-weight: 300;
+}
+.tick line{
+    stroke-width: 0.5px;
+}
 #big-label{
     text-align: center;
     color: #fff;
