@@ -7,6 +7,7 @@ var hoveredCtId;
 var geoIsZip = false;
 var geography= '_cty';
 var visible_layer;
+var younger = true;
 
 var COLORS = [
     
@@ -96,8 +97,8 @@ function createMap(){
         container: 'map',
         zoom: 4.7,
         center: [-100.000000, 31.000000],
-        maxZoom: 10,
-        minZoom: 1,
+        maxZoom: 12,
+        minZoom: 4,
         style: mapStyle
     })
 
@@ -462,6 +463,11 @@ function switchAge(){
     if(popup){
         popup.remove()
     }
+    if(['10to14','15to17'].indexOf(selectedAge)<0){
+        younger = true;
+    }else{
+        younger = false;
+    }
 }
 function switchGeo(){
     geoIsZip = !geoIsZip
@@ -487,7 +493,7 @@ function switchVisibility(a,b){
 
 
 
-function createLegend(){
+function legend(data){
     var margin = {top: 20, right: 30, bottom: 20, left: 30},
     width = 400,
     height = 100;
@@ -576,10 +582,18 @@ function createLegend(){
 
 }
 
-createLegend();
+legend();
 
 function updateLegend(data){
-    
+    var legendSvg = d3.select('#legend-wrap')
+    legendSvg.append('g').selectAll('.arrow')
+        .data(data)
+        .enter().append('line')
+            .attr('x1', d => x(d))
+            .attr('x2', d => x(d))
+            .attr('y1', 100)
+            .attr('y1', 200)
+
 
 }
 
@@ -630,10 +644,75 @@ function createChart(data){
 // createChart([2,4,7]);
 
 
+function queryZip(zip){
+    
+    $.get(apiUrl+'/api/maltreatment/zip/'+zip,function(data){
+        console.log(data)
+        if(data[0]){
+            var ageFilter;
+            if(younger){
+                ageFilter = 1
+            }else{
+                ageFilter = 3
+            }
 
-$.get(apiUrl+'/api/maltreatment/var/zip/yngr',function(data){
-    console.log(data)
-    for(var i=0; i<data.length; i++){
-        console.log(data[i].variable)
-    }
-})
+            $('.disp-geo').text(zip);
+            for(var i=0; i<data.length; i++){
+                // console.log(data[i])
+                var age = data[i].var_info.age;
+                var label = data[i].lbl;
+                var value = data[i].value;
+                var var_name = data[i].var_name;
+
+                var factor = data[i].var_info.factor;
+                var disp_name = data[i].var_info.display_name;
+                var description = data[i].var_info.description
+                var max_zip = data[i].var_info.max_zip
+                var median_zip = data[i].var_info.median_zip
+                var min_zip = data[i].var_info.min_zip
+                var order = data[i].var_info.order
+                var right = data[i].var_info.right
+                
+                if(age==2 || age == ageFilter){
+                    if(factor == selectedAge){//overall score
+
+                        var overallClass= 'risk-'+getInitials(label)
+                        if(value){
+                            $('#overall-score').text(value)
+                            $('#overall-lbl').text(label)
+                            $('#content-wrap').attr('class', 'started ' + overallClass)
+                            setTimeout(()=>{map.resize()},201);
+                        }else{
+                            alert('data unavailable')
+                        }
+                        
+                        
+
+                    }
+                    // console.log(var_name)
+
+                    if(var_name == 'pop_'+selectedAge){
+                        $('#pop-desc').text(disp_name);
+                        $('#pop-value').text(Math.round(value));
+                    }
+                }
+
+            }
+        }else{//if no data is returned
+            alert('invalid zip')
+        }
+    })
+
+}
+
+
+
+function getInitials(str){
+    var matches = str.match(/\b(\w)/g)
+    if(matches){
+        var acronym = matches.join(''); 
+        return acronym;
+    } 
+}
+
+
