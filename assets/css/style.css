@@ -332,25 +332,20 @@ h1{
 }
 .risk-atl .bg-dyno-color{
     background-color: #e9ddee;
-    text-shadow: #1A1A1Aff 0 0 4px;
+    -webkit-text-stroke: 1px #1A1A1A88;
 }
 .risk-atl .text-dyno-color{
     color: #e9ddee;
-    text-shadow: #1A1A1Aff 0 0 4px;
+    -webkit-text-stroke: 1px #1A1A1A88;
 }
 
 .risk-cl .bg-dyno-color{
     background-color: #CFB5DB;
+    -webkit-text-stroke: 1px #1A1A1A88;
 }
 .risk-cl .text-dyno-color{
     color: #CFB5DB;
-}
-
-.risk-ba .bg-dyno-color{
-    background-color: #A88ED3;
-}
-.risk-ba .text-dyno-color{
-    color: #A88ED3;
+    -webkit-text-stroke: 1px #1A1A1A88;
 }
 
 .risk-ba .bg-dyno-color{
@@ -372,4 +367,18 @@ h1{
 }
 .risk-aa .text-dyno-color{
     color: #6335BA;
+}
+
+
+.risk-ch .bg-dyno-color{
+    background-color: #3D1B89;
+}
+.risk-ch .text-dyno-color{
+    color: #3D1B89;
+}
+.risk-ath .bg-dyno-color{
+    background-color: #281C67;
+}
+.risk-ath .text-dyno-color{
+    color: #281C67;
 }

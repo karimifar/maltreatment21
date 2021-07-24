@@ -58,7 +58,7 @@
                         <div id="geo-control">
                             <label class="control-head">Geography:</label>
                             <label class="switch">
-                                <input type="checkbox" id="geoBtn" onclick="switchGeo()">
+                                <input type="checkbox" id="geoBtn" onclick="switchGeo()" checked>
                                 <div class="slider round">
                                     <!--ADDED HTML -->
                                     <span class="zip">ZIP CODE</span>
@@ -70,7 +70,7 @@
                         </div>
                     </div>
 
-                    <div class="control-input search">
+                    <form class="control-input search">
                         <label class="control-head">Search by ZIP Code or county:</label>
                         <div id="search-tool" class="d-flex">
                             <div class="" id="search-bar">
@@ -78,7 +78,7 @@
                                     <input class="input control-element" id="main-input" type="text">
                                 </div>
                                 
-                                <div id="selector-dropdown">  
+                                <!-- <div id="selector-dropdown">  
                                     <button type="button" class="dropdown-toggle control-element" data-toggle="dropdown">  
                                         <i class="fas fa-mouse-pointer"></i>
                                     </button>  
@@ -87,7 +87,7 @@
                                         <a class="dropdown-item" href="#"> <i class="fas fa-draw-polygon"></i></a>  
                                         <a class="dropdown-item" href="#"> <i class="far fa-circle"></i></a>  
                                     </div>  
-                                </div> 
+                                </div>  -->
                                 
                                 <!-- <select name="search-tool" id="search-tool" onchange="">
                                     <option value="inf">Select <i class="fas fa-draw-polygon"></i></option>
@@ -97,10 +97,10 @@
                                     <option value="15to17">15 to 17 year olds</option>
                                 </select> -->
                             </div>
-                            <button class="control-element" id="submit">Search</button>
+                            <button class="control-element" type='submit' id="submit">Search</button>
                         </div>
                         
-                    </div>
+                    </form>
                 </div>
 
                 <!-- <div id="test">
@@ -143,7 +143,7 @@
                 <div class="risk-factor">RISK FACTOR</div>
                 <div class="risk-level">RISK LEVEL</div>
             </div>
-            <div class="dashboard-layer factor-layer" id="factor-1">
+            <!-- <div class="dashboard-layer factor-layer" id="factor-1">
                 <div class="risk-factor">
                     <div class="risk-title">
                         
@@ -174,7 +174,7 @@
                     <div class="risk-color"></div>
                     <p>Comparatively low</p>
                 </div>
-            </div>
+            </div> -->
 
         </div>
         

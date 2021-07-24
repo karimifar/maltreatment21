@@ -4,13 +4,14 @@ var firstSymbolId;
 var hoveredZipId;
 var selectedAge ='inf';
 var hoveredCtId;
-var geoIsZip = false;
-var geography= '_cty';
+var geoIsZip = true;
+var geography= '_zip';
 var visible_layer;
 var younger = true;
 
+// var COLORS = ["#eee","#edf8fb","#bfd3e6","#9ebcda","#8c96c6","#8c6bb1","#88419d","#6e016b"]
 var COLORS = [
-    
+
     '#eee',
     '#e9ddee',
     '#CFB5DB',
@@ -325,7 +326,7 @@ function addZipLayer(themap, key){
                 className: 'zip-pop map-popup'
             });
             // themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: true});
-            var popupHTML = '<p class="zip-name">'+zipcode+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p>'
+            var popupHTML = '<p class="zip-name">'+zipcode+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p><button class="zip-pop-btn" data-query="'+zipcode+'" onClick="queryZip('+zipcode+');">Learn more</button>';
             popup.setLngLat(coordinates).setHTML(popupHTML).addTo(themap);
         }
         
@@ -405,7 +406,7 @@ function addCtyLayer(themap, key){
                 className: 'cty-pop map-popup'
             });
             // themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: true});
-            var popupHTML = '<p class="zip-name">'+cty+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p>'
+            var popupHTML = '<p class="cty-name">'+cty+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p>'
             popup.setLngLat(coordinates).setHTML(popupHTML).addTo(themap);
         }
         
@@ -492,18 +493,20 @@ function switchVisibility(a,b){
 
 
 
+var legendX;
+var legendY;
 
-function legend(data){
+function createLegend(data){
     var margin = {top: 20, right: 30, bottom: 20, left: 30},
     width = 400,
     height = 100;
 
-    var x = d3.scaleLinear()
+    legendX = d3.scaleLinear()
         .domain([legend[0].range[0], legend[legend.length-1].range[1]])
         .range([margin.left, width - margin.right])
         console.log([margin.left, width - margin.right])
 
-    var y = d3.scaleLinear()
+    legendY = d3.scaleLinear()
         .domain([0,1])
         .range([height - margin.bottom, margin.top])
         console.log([height - margin.bottom, margin.top])
@@ -521,9 +524,9 @@ function legend(data){
         .data(legend)
         .enter().append('rect')
         .attr('fill', d => d.color)
-            .attr('x', d => x(d.range[0]))
+            .attr('x', d => legendX(d.range[0]))
             .attr('y', height-margin.bottom)
-            .attr('width', d => x(d.range[1])-x(d.range[0]))
+            .attr('width', d => legendX(d.range[1])-legendX(d.range[0]))
             .transition()
             .duration(1000)
             .attr('y', height - margin.bottom - barH)
@@ -533,7 +536,7 @@ function legend(data){
         .data(legend)
         .enter().append('g')
         .attr('class', 'legend-label')
-        .attr('transform', d => `translate(${x(  d.range[0]+(d.range[1]-d.range[0])/2)}, ${height - margin.bottom - barH-2} )` )
+        .attr('transform', d => `translate(${legendX(  d.range[0]+(d.range[1]-d.range[0])/2)}, ${height - margin.bottom - barH-2} )` )
         .attr('font-size', 7)
         
         .append('text')
@@ -554,7 +557,7 @@ function legend(data){
         .attr("transform", `translate(0,${height-margin.bottom})`)
         .classed('legend-axis',true)
         .call(
-            d3.axisBottom(x)
+            d3.axisBottom(legendX)
             .tickPadding(3)
             .tickSize(3)
             .tickSizeInner(3)
@@ -582,17 +585,18 @@ function legend(data){
 
 }
 
-legend();
+createLegend();
 
 function updateLegend(data){
-    var legendSvg = d3.select('#legend-wrap')
-    legendSvg.append('g').selectAll('.arrow')
+    var legendSvg = d3.select('#legend-wrap svg')
+    legendSvg.selectAll('.arrow')
         .data(data)
         .enter().append('line')
-            .attr('x1', d => x(d))
-            .attr('x2', d => x(d))
-            .attr('y1', 100)
-            .attr('y1', 200)
+            .attr('x1', d => legendX(d))
+            .attr('x2', d => legendX(d))
+            .attr('y1', legendY(-0.2))
+            .attr('y2', legendY(0))
+            .style('stroke', 'red')
 
 
 }
@@ -643,12 +647,13 @@ function createChart(data){
 }
 // createChart([2,4,7]);
 
-
+var mapPin = new mapboxgl.Marker();
 function queryZip(zip){
     
     $.get(apiUrl+'/api/maltreatment/zip/'+zip,function(data){
         console.log(data)
         if(data[0]){
+            
             var ageFilter;
             if(younger){
                 ageFilter = 1
@@ -679,9 +684,21 @@ function queryZip(zip){
                         var overallClass= 'risk-'+getInitials(label)
                         if(value){
                             $('#overall-score').text(value)
+                            updateLegend([value])
                             $('#overall-lbl').text(label)
                             $('#content-wrap').attr('class', 'started ' + overallClass)
-                            setTimeout(()=>{map.resize()},201);
+                            setTimeout(()=>{
+                                map.resize()
+                                var z_lat = data[0].zcta_geo.z_lat
+                                var z_lng = data[0].zcta_geo.z_lng
+                                map.flyTo({
+                                    center: [z_lng,z_lat],
+                                    zoom: 10
+                                })
+                                mapPin.setLngLat([z_lng,z_lat])
+                                    .addTo(map);
+                            },201);
+                            
                         }else{
                             alert('data unavailable')
                         }
@@ -715,4 +732,17 @@ function getInitials(str){
     } 
 }
 
+$('#submit').on('click', function(e){
+    e.preventDefault();
+    var query = $('#main-input').val();
+    
+    if (geoIsZip){
+        queryZip(query)
+    }
+})
 
+function zip_pop_query(){
+    var query = $(this).data('query');
+    console.log("yo",query)
+    queryZip(query)
+}
