@@ -8,6 +8,8 @@ var geoIsZip = true;
 var geography= '_zip';
 var visible_layer;
 var younger = true;
+var firstZipQuery = true;
+var firstCtyQuery = true;
 
 // var COLORS = ["#eee","#edf8fb","#bfd3e6","#9ebcda","#8c96c6","#8c6bb1","#88419d","#6e016b"]
 var COLORS = [
@@ -23,6 +25,7 @@ var COLORS = [
     // '#dcefeb',
     
 ]
+var arrowColor = '#1A1A1A'
 var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
 var legend =[
     {
@@ -497,9 +500,10 @@ var legendX;
 var legendY;
 
 function createLegend(data){
-    var margin = {top: 20, right: 30, bottom: 20, left: 30},
-    width = 400,
-    height = 100;
+    var margin = {top: 20, right: 20, bottom: 40, left: 20},
+    width = 500,
+    height = 150;
+    var barH = 40;
 
     legendX = d3.scaleLinear()
         .domain([legend[0].range[0], legend[legend.length-1].range[1]])
@@ -507,7 +511,7 @@ function createLegend(data){
         console.log([margin.left, width - margin.right])
 
     legendY = d3.scaleLinear()
-        .domain([0,1])
+        .domain([0,2])
         .range([height - margin.bottom, margin.top])
         console.log([height - margin.bottom, margin.top])
     
@@ -519,7 +523,6 @@ function createLegend(data){
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr('id','legend-svg')
 
-    var barH = 30;
     legendSvg.append('g').selectAll('rect')
         .data(legend)
         .enter().append('rect')
@@ -537,7 +540,7 @@ function createLegend(data){
         .enter().append('g')
         .attr('class', 'legend-label')
         .attr('transform', d => `translate(${legendX(  d.range[0]+(d.range[1]-d.range[0])/2)}, ${height - margin.bottom - barH-2} )` )
-        .attr('font-size', 7)
+        .attr('font-size', 9)
         
         .append('text')
 
@@ -565,39 +568,58 @@ function createLegend(data){
             .tickFormat(d3.format(10,"f"))
         )
         .call(g => g.select(".domain").remove())
-        .attr('font-size', 7)
+        .attr('font-size', 9)
         .style('font-family', 'aktiv-grotesk-condensed')
 
-    // var xAxisTop = legendSvg.append('g')
-    //     .attr("transform", `translate(0,${height-margin.bottom-barH/2})`)
-    //     .classed('legend-axis',true)
-    //     .call(
-    //         d3.axisBottom(x)
-    //         .tickPadding(-3)
-    //         .tickSize(0)
-    //         .tickValues([-0.25,0.25])
-    //         .tickFormat(d3.format(10,"f"))
-    //     )
-    //     .call(g => g.select(".domain").remove())
-    //     .attr('font-size', 7)
-
-        
-
+    //I'm 
+    var markerBoxWidth = 6
+    var markerBoxHeight = 10
+    var refX = 5;
+    var refY = 5;
+    var arrowPoints = [[1, 1], [5, 5], [1, 9],];
+    
+    legendSvg.append('defs')
+        .append('marker')
+        .attr('id', 'arrow')
+        .attr('viewBox', [0,0,markerBoxWidth,markerBoxHeight])
+        .attr('refX', refX)
+        .attr('refY', refY)
+        .attr('markerWidth', markerBoxWidth)
+        .attr('markerHeight', markerBoxHeight)
+        .attr('orient', 'auto-start-reverse')
+        .append('path')
+        .attr('d', d3.line()(arrowPoints))
+        .attr('stroke', arrowColor)  
+        .style('fill', 'none')  
+        // .style('stroke-width', 2);    
 }
 
 createLegend();
 
 function updateLegend(data){
     var legendSvg = d3.select('#legend-wrap svg')
-    legendSvg.selectAll('.arrow')
+    
+    var line = legendSvg.selectAll('line.arrow')
         .data(data)
-        .enter().append('line')
+        // .join()
+        // line.exit().remove()
+        line.enter().append('line')
+            .attr('x1', legendX(0))
+            .attr('x2', legendX(0))
+            .attr('y1', legendY(-1))
+            .attr('y2', legendY(-0.3))
+            .attr('marker-end', 'url(#arrow)')
+            // .style('stroke-width', '2px')
+        .merge(line)
+            .transition()
+            .ease(d3.easeExpInOut)
+            .duration(1000)
             .attr('x1', d => legendX(d))
             .attr('x2', d => legendX(d))
-            .attr('y1', legendY(-0.2))
-            .attr('y2', legendY(0))
-            .style('stroke', 'red')
-
+            .attr('y1', legendY(-1.25))
+            .attr('y2', legendY(-0.1))
+            .attr('class', 'arrow')
+            .style('stroke', arrowColor)
 
 }
 
@@ -652,14 +674,51 @@ function queryZip(zip){
     
     $.get(apiUrl+'/api/maltreatment/zip/'+zip,function(data){
         console.log(data)
+
+        
         if(data[0]){
-            
+            $('#risks-table').empty();
             var ageFilter;
             if(younger){
                 ageFilter = 1
             }else{
                 ageFilter = 3
             }
+
+            //test for filtering https://www.javascripttutorial.net/javascript-array-filter/
+            var agedData = data.filter(variable => variable.var_info.age ==2 ||variable.var_info.age == ageFilter)
+            var mainFactors = agedData.filter(variable => variable.var_info.factor == 'factor')
+                .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
+            mainFactors.map(v => {
+                var label = v.lbl;
+                var value = v.value;
+                var disp_name = v.var_info.display_name;
+                var description = v.var_info.description
+                var max_zip = v.var_info.max_zip
+                var median_zip = v.var_info.median_zip
+                var min_zip = v.var_info.min_zip
+                var order = v.var_info.order
+                var right = v.var_info.right
+                var id = 'factor-'+i;
+                var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+id+'">')
+                var factor_Info = $('<div class="risk-factor">')
+                var risk_title = $('<div class="risk-title">')
+                    .append('<h3><a href="">'+disp_name+': </a><a class="desc-tooltip" href="">i</a></h3>')
+                factor_Info.append(risk_title)
+                    .append('<div class="risk-chart chart-wrap">'+value+'</div>')
+                var risk_level = $('<div class="risk-level">')
+                    .append('<div class="risk-color">')
+                    .append('<p>'+label+'</p>')
+                
+                factor_wrap.append(factor_Info).append(risk_level)
+                $('#risks-table').append(factor_wrap)
+
+            })
+
+            //end of new method
+
+
+
 
             $('.disp-geo').text(zip);
             for(var i=0; i<data.length; i++){
@@ -706,6 +765,8 @@ function queryZip(zip){
                         
 
                     }
+
+
                     // console.log(var_name)
 
                     if(var_name == 'pop_'+selectedAge){

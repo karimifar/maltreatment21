@@ -40,6 +40,7 @@ h1{
 #home-left-col{
     width:50%;
     padding: 20px 0;
+    overflow: scroll;
 }
 
 .map-popup p{
@@ -115,7 +116,9 @@ h1{
     margin-bottom: 0;
     font-size: 24px;
 }
-
+#risk-guide{
+    padding: 15px 10%;
+}
 #risk-guide .layer-title{
     align-self: center;
 }
@@ -133,7 +136,7 @@ h1{
 
 #legend-wrap{
     width:100%;
-    padding-bottom: 25%;
+    padding-bottom: 30%;
     /* background-color: #eee; */
     overflow: hidden;
     position: relative;
@@ -144,6 +147,9 @@ h1{
     position: absolute;
     top:0;
     left:0;
+}
+line.arrow{
+    stroke-width: 1px;
 }
 .legend-axis text{
     font-family:  aktiv-grotesk-condensed, sans-serif;
