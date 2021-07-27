@@ -1,4 +1,4 @@
-var apiUrl = 'http://localhost:3306' //'https://texashealthdata.com
+var apiUrl = 'https://texashealthdata.com' //'http://localhost:3306'
 var map;
 var firstSymbolId;
 var hoveredZipId;
