@@ -824,7 +824,7 @@ $('#submit').on('click', function(e){
     }
 })
 
-// queryZip('78731')
+queryZip('78731')
 function createRiskChart(min,max){
     var id = 'pred_health'
     var margin = {top: 20, right: 20, bottom: 40, left: 20};
