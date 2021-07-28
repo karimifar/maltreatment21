@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="https://use.typekit.net/gjn3fft.css">
     <!-- BOOTSTRAP CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
     <!-- MAPBOX CDN -->
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
@@ -119,7 +121,7 @@
             <div class="dashboard-layer" id="risk-guide">
                 <div class="layer-title">
                     <p id="legend-title">Risk Level Guide:</p>
-                    <p class="tagline">(based on overall z-score)</p>
+                    <p class="tagline">(based on overall risk score)</p>
                 </div>
                 <div id="guide-chart">
                     <div class="chart-wrap" id="legend-wrap">
@@ -128,11 +130,11 @@
                 
             </div>
             <div class="dashboard-layer bg-dyno-color" id="big-label">
-                <h1><span class='disp-geo'>-</span> is <span id="overall-lbl">-</span> risk zip codes</h1>
+                <h1><span class='disp-geo'>-</span> is <span id="overall-lbl">-</span> risk for maltreatment</h1>
             </div>
             <div class="dashboard-layer" id="score">
                 <div class="layer-title">
-                    <p>Overall Predictive <br> Z-score in <span class='disp-geo'>-</span>:</p>
+                    <p>Overall predicted <br> risk score in <span class='disp-geo'>-</span>:</p>
                 </div>
                 <h1 id="overall-score" class="text-dyno-color">-</h1>
             </div>
@@ -180,9 +182,7 @@
         </div>
         
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+
     <script src= "./assets/js/app.js"></script>
 </body>
 </html>

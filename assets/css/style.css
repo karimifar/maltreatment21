@@ -203,7 +203,7 @@ line.arrow{
 }
 
 .factor-layer{
-    padding: 0px 15%;
+    padding: 0px 10%;
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
 }
@@ -237,13 +237,26 @@ line.arrow{
 .risk-title{
     width:40%;
 }
+.risk-title h3{
+    padding-right: 20px;
+}
 
 .risk-chart{
-    height: 100px;
+    /* height: 100px; */
     width: 60%;
     background-color: #eee;
 }
-
+.risk-svg-wrap{
+    width: 100%;
+    padding-bottom: 20%;
+    position: relative;
+    background-color: #ddd;
+}
+.risk-svg-wrap svg{
+    position: absolute;
+    top:0;
+    left: 0;
+}
 
 .switch {
     position: relative;
@@ -364,4 +377,12 @@ line.arrow{
 
 .modal-dialog{
     background-color: #fff;
+}
+.desc-tooltip{
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: 24px;
+}
+.desc-tooltip:hover{
+    opacity: 1;
 }

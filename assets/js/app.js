@@ -12,18 +12,23 @@ var firstZipQuery = true;
 var firstCtyQuery = true;
 var currentColor;
 
+function enableTooltips() {
+    $('[data-toggle="tooltip"]').tooltip()
+}
+enableTooltips();
+
 // var COLORS = ["#eee","#fde725","#90d743","#35b779","#21918c","#31688e","#443983","#440154"]
-var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
-// var COLORS = [
-//     '#eee',
-//     '#e9ddee',
-//     '#CFB5DB',
-//     '#A88ED3',
-//     '#894EC4',
-//     '#6335BA',
-//     '#3D1B89',
-//     '#281C67',
-// ]
+// var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
+var COLORS = [
+    '#eee',
+    '#e9ddee',
+    '#CFB5DB',
+    '#A88ED3',
+    '#894EC4',
+    '#6335BA',
+    '#3D1B89',
+    '#281C67',
+]
 var arrowColor = '#1A1A1A'
 var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
 var legend =[
@@ -722,14 +727,17 @@ function queryZip(zip){
                 }else{
                     var risk_name = $('<h3>'+disp_name+': </h3>')
                 }
-                risk_name.append('<a class="desc-tooltip" href="">i</a>')
+                risk_name.append('<span class="desc-tooltip" data-toggle="tooltip" data-html="true" title="'+description+'"><i class="fas fa-info-circle"></i></span>')
+                
                 
                 var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
                 var factor_Info = $('<div class="risk-factor">')
+                var risk_chart = $('<div class="risk-chart chart-wrap">'+value+'</div>')
+                    .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
                 var risk_title = $('<div class="risk-title">')
                     .append(risk_name)
                 factor_Info.append(risk_title)
-                    .append('<div class="risk-chart chart-wrap">'+value+'</div>')
+                    .append(risk_chart)
                 var risk_level = $('<div class="risk-level">')
                     .append('<div class="risk-color" style="background-color:'+color+'">')
                     .append('<p>'+label+'</p>')
@@ -738,6 +746,7 @@ function queryZip(zip){
                 $('#risks-table').append(factor_wrap)
 
             })
+            enableTooltips();
 
             //end of new method
             $('.disp-geo').text(zip);
@@ -815,8 +824,42 @@ $('#submit').on('click', function(e){
     }
 })
 
-function zip_pop_query(){
-    var query = $(this).data('query');
-    console.log("yo",query)
-    queryZip(query)
+// queryZip('78731')
+function createRiskChart(min,max){
+    var id = 'pred_health'
+    var margin = {top: 20, right: 20, bottom: 40, left: 20};
+    var width = 500;
+    var height = 100;
+
+    var X = d3.scaleLinear()
+        .domain([min,max])
+        .range([margin.left, width-margin.right])
+    var Y = d3.scaleLinear()
+        .domain([0,1])
+        .range([height-margin.bottom, margin.top])
+
+    var svg = d3.select('#'+id+'-svg-wrap')
+        .append('svg')
+        .attr('viewBox', [0,0,width,height])
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr('id',id + '-svg')
+
+    svg.append('g')
+        .attr("transform", `translate(0,${height-margin.bottom})`)
+        .classed('risk-axis',true)
+        .call(
+            d3.axisBottom(X)
+            .tickPadding(3)
+            .tickSize(3)
+            .tickSizeInner(3)
+            .tickFormat(d3.format(10,"f"))
+        )
+        .call(g => g.select(".domain").remove())
+        .attr('font-size', 9)
+        .style('font-family', 'aktiv-grotesk-condensed')
+    
+
 }
+
+
+
