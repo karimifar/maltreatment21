@@ -213,13 +213,26 @@ line.arrow{
     display: flex;
 }
 .risk-level{
+    display: flex;
     width: 30%;
-    padding: 15px;
+    /* padding: 15px; */
     border-left: 1px solid #ddd;
+}
+.risk-level p{
+    padding: 10px;
+    align-self: center;
+    margin-bottom: 0;
+}
+.risk-color{
+    width: 20px;
+    height: 100%;
 }
 #factor-head{
     background-color: #1A1A1A;
     color: #fff;
+}
+#factor-head .risk-level{
+    padding: 15px;
 }
 .risk-title{
     width:40%;
@@ -333,58 +346,22 @@ line.arrow{
     transition: all 0.2s ease-in-out;
     text-shadow: #1A1A1Acc 0 0 2px;
 }
-.text-dyno-color{
-    /* border: 1px solid #1A1A1A; */
-}
+
 .risk-atl .bg-dyno-color{
-    background-color: #e9ddee;
     -webkit-text-stroke: 1px #1A1A1A88;
 }
 .risk-atl .text-dyno-color{
-    color: #e9ddee;
     -webkit-text-stroke: 1px #1A1A1A88;
 }
 
 .risk-cl .bg-dyno-color{
-    background-color: #CFB5DB;
     -webkit-text-stroke: 1px #1A1A1A88;
 }
 .risk-cl .text-dyno-color{
-    color: #CFB5DB;
     -webkit-text-stroke: 1px #1A1A1A88;
 }
 
-.risk-ba .bg-dyno-color{
-    background-color: #A88ED3;
-}
-.risk-ba .text-dyno-color{
-    color: #A88ED3;
-}
 
-.risk-a .bg-dyno-color{
-    background-color: #894EC4;
-}
-.risk-a .text-dyno-color{
-    color: #894EC4;
-}
-
-.risk-aa .bg-dyno-color{
-    background-color: #6335BA;
-}
-.risk-aa .text-dyno-color{
-    color: #6335BA;
-}
-
-
-.risk-ch .bg-dyno-color{
-    background-color: #3D1B89;
-}
-.risk-ch .text-dyno-color{
-    color: #3D1B89;
-}
-.risk-ath .bg-dyno-color{
-    background-color: #281C67;
-}
-.risk-ath .text-dyno-color{
-    color: #281C67;
+.modal-dialog{
+    background-color: #fff;
 }

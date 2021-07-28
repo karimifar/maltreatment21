@@ -10,21 +10,20 @@ var visible_layer;
 var younger = true;
 var firstZipQuery = true;
 var firstCtyQuery = true;
+var currentColor;
 
-// var COLORS = ["#eee","#edf8fb","#bfd3e6","#9ebcda","#8c96c6","#8c6bb1","#88419d","#6e016b"]
-var COLORS = [
-
-    '#eee',
-    '#e9ddee',
-    '#CFB5DB',
-    '#A88ED3',
-    '#894EC4',
-    '#6335BA',
-    '#3D1B89',
-    '#281C67',
-    // '#dcefeb',
-    
-]
+// var COLORS = ["#eee","#fde725","#90d743","#35b779","#21918c","#31688e","#443983","#440154"]
+var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
+// var COLORS = [
+//     '#eee',
+//     '#e9ddee',
+//     '#CFB5DB',
+//     '#A88ED3',
+//     '#894EC4',
+//     '#6335BA',
+//     '#3D1B89',
+//     '#281C67',
+// ]
 var arrowColor = '#1A1A1A'
 var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
 var legend =[
@@ -623,7 +622,9 @@ function updateLegend(data){
 
 }
 
-
+function getColorbyLbl(lbl){
+    return legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())[0].color
+}
 
 
 
@@ -691,6 +692,9 @@ function queryZip(zip){
                 .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
             mainFactors.map(v => {
                 var label = v.lbl;
+                if(label){
+                    var color = getColorbyLbl(label);
+                }
                 var value = v.value;
                 var disp_name = v.var_info.display_name;
                 var description = v.var_info.description
@@ -699,15 +703,35 @@ function queryZip(zip){
                 var min_zip = v.var_info.min_zip
                 var order = v.var_info.order
                 var right = v.var_info.right
-                var id = 'factor-'+i;
-                var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+id+'">')
+                var var_name = v.var_name;
+                //getting underlying variables
+                var underlyingArr = agedData.filter(v => v.var_info.factor == var_name)
+                    .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
+
+                if(underlyingArr[0]){
+                    var modal_id = var_name+'-under'
+                    var modal_wrap = $('<div id="'+modal_id+'" class="modal fade">')
+                    var modal_dialog = $('<div class="modal-dialog">')
+                    underlyingArr.map( v =>
+
+                        modal_dialog.append('<p>'+v.var_info.display_name+' | '+v.value+'</p>')
+                    )
+                    var risk_name = $('<h3><a data-toggle="modal" data-target="#'+modal_id+'" href="" data-toggle="modal">'+disp_name+': </a></h3>')
+                    modal_wrap.append(modal_dialog)
+                    $('#risks-table').append(modal_wrap)
+                }else{
+                    var risk_name = $('<h3>'+disp_name+': </h3>')
+                }
+                risk_name.append('<a class="desc-tooltip" href="">i</a>')
+                
+                var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
                 var factor_Info = $('<div class="risk-factor">')
                 var risk_title = $('<div class="risk-title">')
-                    .append('<h3><a href="">'+disp_name+': </a><a class="desc-tooltip" href="">i</a></h3>')
+                    .append(risk_name)
                 factor_Info.append(risk_title)
                     .append('<div class="risk-chart chart-wrap">'+value+'</div>')
                 var risk_level = $('<div class="risk-level">')
-                    .append('<div class="risk-color">')
+                    .append('<div class="risk-color" style="background-color:'+color+'">')
                     .append('<p>'+label+'</p>')
                 
                 factor_wrap.append(factor_Info).append(risk_level)
@@ -716,66 +740,55 @@ function queryZip(zip){
             })
 
             //end of new method
-
-
-
-
             $('.disp-geo').text(zip);
-            for(var i=0; i<data.length; i++){
-                // console.log(data[i])
-                var age = data[i].var_info.age;
-                var label = data[i].lbl;
-                var value = data[i].value;
-                var var_name = data[i].var_name;
 
-                var factor = data[i].var_info.factor;
-                var disp_name = data[i].var_info.display_name;
-                var description = data[i].var_info.description
-                var max_zip = data[i].var_info.max_zip
-                var median_zip = data[i].var_info.median_zip
-                var min_zip = data[i].var_info.min_zip
-                var order = data[i].var_info.order
-                var right = data[i].var_info.right
+            
+            for(var i=0; i<agedData.length; i++){
+                var label = agedData[i].lbl;
+                var value = agedData[i].value;
+                if(label){
+                    var color = getColorbyLbl(label)
+                    $('.text-dyno-color').css('color', color)
+                    $('.bg-dyno-color').css('background-color', color)
+                }
+                var var_name = agedData[i].var_name;
+
+                var factor = agedData[i].var_info.factor;
+                var disp_name = agedData[i].var_info.display_name;
+
                 
-                if(age==2 || age == ageFilter){
-                    if(factor == selectedAge){//overall score
+                if(factor == selectedAge){//overall score
 
-                        var overallClass= 'risk-'+getInitials(label)
-                        if(value){
-                            $('#overall-score').text(value)
-                            updateLegend([value])
-                            $('#overall-lbl').text(label)
-                            $('#content-wrap').attr('class', 'started ' + overallClass)
-                            setTimeout(()=>{
-                                map.resize()
-                                var z_lat = data[0].zcta_geo.z_lat
-                                var z_lng = data[0].zcta_geo.z_lng
-                                map.flyTo({
-                                    center: [z_lng,z_lat],
-                                    zoom: 10
-                                })
-                                mapPin.setLngLat([z_lng,z_lat])
-                                    .addTo(map);
-                            },201);
-                            
-                        }else{
-                            alert('data unavailable')
-                        }
+                    var overallClass= 'risk-'+getInitials(label)
+                    if(value){
+                        $('#overall-score').text(value)
+                        updateLegend([value])
+                        $('#overall-lbl').text(label)
+                        $('#content-wrap').attr('class', 'started ' + overallClass)
+                        setTimeout(()=>{
+                            map.resize()
+                            var z_lat = data[0].zcta_geo.z_lat
+                            var z_lng = data[0].zcta_geo.z_lng
+                            map.flyTo({
+                                center: [z_lng,z_lat],
+                                zoom: 10
+                            })
+                            mapPin.setLngLat([z_lng,z_lat])
+                                .addTo(map);
+                        },201);
                         
-                        
-
+                    }else{
+                        alert('data unavailable')
                     }
-
-
-                    // console.log(var_name)
-
-                    if(var_name == 'pop_'+selectedAge){
-                        $('#pop-desc').text(disp_name);
-                        $('#pop-value').text(Math.round(value));
-                    }
+                    
                 }
 
+                if(var_name == 'pop_'+selectedAge){
+                    $('#pop-desc').text(disp_name);
+                    $('#pop-value').text(Math.round(value));
+                }
             }
+
         }else{//if no data is returned
             alert('invalid zip')
         }
