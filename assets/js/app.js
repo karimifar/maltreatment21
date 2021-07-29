@@ -1,4 +1,4 @@
-var apiUrl = 'https://texashealthdata.com' //'http://localhost:3306'
+var apiUrl =  'http://localhost:3306' //'https://texashealthdata.com'
 var map;
 var firstSymbolId;
 var hoveredZipId;
@@ -18,17 +18,17 @@ function enableTooltips() {
 enableTooltips();
 
 // var COLORS = ["#eee","#fde725","#90d743","#35b779","#21918c","#31688e","#443983","#440154"]
-// var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
-var COLORS = [
-    '#eee',
-    '#e9ddee',
-    '#CFB5DB',
-    '#A88ED3',
-    '#894EC4',
-    '#6335BA',
-    '#3D1B89',
-    '#281C67',
-]
+var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
+// var COLORS = [
+//     '#eee',
+//     '#e9ddee',
+//     '#CFB5DB',
+//     '#A88ED3',
+//     '#894EC4',
+//     '#6335BA',
+//     '#3D1B89',
+//     '#281C67',
+// ]
 var arrowColor = '#1A1A1A'
 var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
 var legend =[
@@ -185,6 +185,21 @@ function createMap(){
             data: apiUrl+ "/Texas/highways",
             generateId: true,
         })
+        map.addSource("rivers", {
+            type: "geojson",
+            data: apiUrl+ "/Texas/waters/rivers",
+            generateId: true,
+        })
+        map.addSource("lakes", {
+            type: "geojson",
+            data: apiUrl+ "/Texas/waters/lakes",
+            generateId: true,
+        })
+        map.addSource("bays", {
+            type: "geojson",
+            data: apiUrl+ "/Texas/waters/bays",
+            generateId: true,
+        })
 
         
         
@@ -205,6 +220,33 @@ function createMap(){
                     6,1,
                     10,6
                 ]
+            }
+        },firstSymbolId)
+        map.addLayer({
+            'id':'rivers',
+            'type': 'line',
+            'source': 'rivers',
+            'paint':{
+                'line-color': '#1A1A1A',
+                'line-width': 1
+            }
+        },firstSymbolId)
+        map.addLayer({
+            'id':'lakes',
+            'type': 'fill',
+            'source': 'lakes',
+            'paint':{
+                // 'line-color': 'red',
+                // 'line-width':1
+                'fill-color': '#1A1A1A'
+            }
+        },firstSymbolId)
+        map.addLayer({
+            'id':'bays',
+            'type': 'fill',
+            'source': 'bays',
+            'paint':{
+                'fill-color': '#1A1A1A'
             }
         },firstSymbolId)
         
@@ -684,6 +726,8 @@ function queryZip(zip){
         
         if(data[0]){
             $('#risks-table').empty();
+            // document.getElementById('risk-guide').scrollIntoView({behavior: 'smooth', block: 'start'})
+            // setTimeout( () =>document.getElementById('risk-guide').scrollIntoView({behavior: 'smooth', block: 'start'}), 1) 
             var ageFilter;
             if(younger){
                 ageFilter = 1
@@ -744,6 +788,7 @@ function queryZip(zip){
                 
                 factor_wrap.append(factor_Info).append(risk_level)
                 $('#risks-table').append(factor_wrap)
+                createRiskChart(min_zip,max_zip,median_zip,[value],var_name,color)
 
             })
             enableTooltips();
@@ -757,9 +802,8 @@ function queryZip(zip){
                 var value = agedData[i].value;
                 if(label){
                     var color = getColorbyLbl(label)
-                    $('.text-dyno-color').css('color', color)
-                    $('.bg-dyno-color').css('background-color', color)
                 }
+                
                 var var_name = agedData[i].var_name;
 
                 var factor = agedData[i].var_info.factor;
@@ -767,7 +811,9 @@ function queryZip(zip){
 
                 
                 if(factor == selectedAge){//overall score
-
+                    console.log(var_name,label)
+                    $('.text-dyno-color').css('color', color)
+                    $('.bg-dyno-color').css('background-color', color)
                     var overallClass= 'risk-'+getInitials(label)
                     if(value){
                         $('#overall-score').text(value)
@@ -825,12 +871,14 @@ $('#submit').on('click', function(e){
 })
 
 queryZip('78731')
-function createRiskChart(min,max){
-    var id = 'pred_health'
-    var margin = {top: 20, right: 20, bottom: 40, left: 20};
+function createRiskChart(min,max,median,val,divId,color){
+    var id = divId
+    var margin = {top: 20, right: 20, bottom: 30, left: 20};
     var width = 500;
     var height = 100;
-
+    var barH = 40;
+    var ticks = [min,max]
+    if(min<0){ticks.push(0)}
     var X = d3.scaleLinear()
         .domain([min,max])
         .range([margin.left, width-margin.right])
@@ -844,18 +892,46 @@ function createRiskChart(min,max){
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr('id',id + '-svg')
 
+    svg.append('g').selectAll('rect')
+        .data(val)
+        .enter().append('rect')
+            .attr('fill', color)
+            .attr('x',X(0))
+            .attr('y', height-margin.bottom-barH)
+            .attr('height', barH)
+            .transition()
+            .duration(1000)
+            .attr('width', d => Math.abs(X(d)-X(0)))
+            .attr('x', d=> {
+                if(d<0){
+                    return X(d)
+                }else if(min>0){
+                    return X(min)
+                }else{
+                    return X(0)
+            }})
+            
+
     svg.append('g')
-        .attr("transform", `translate(0,${height-margin.bottom})`)
+        .attr("transform", `translate(0,${height-margin.bottom-barH/2-5})`)
         .classed('risk-axis',true)
         .call(
             d3.axisBottom(X)
-            .tickPadding(3)
-            .tickSize(3)
-            .tickSizeInner(3)
+            .tickPadding(barH/2+5)
+            .tickSize(10)
+            .tickSizeOuter(0)
+            // .tickOffset(-3)
+            // .tickSizeInner(10)
+            .tickValues(ticks)
             .tickFormat(d3.format(10,"f"))
+            
         )
-        .call(g => g.select(".domain").remove())
-        .attr('font-size', 9)
+        
+        .call(g => g.select(".domain")
+            .attr('transform', 'translate(0,5)')
+        
+        )
+        .attr('font-size', 10)
         .style('font-family', 'aktiv-grotesk-condensed')
     
 
