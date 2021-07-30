@@ -16,9 +16,10 @@ function enableTooltips() {
     $('[data-toggle="tooltip"]').tooltip()
 }
 enableTooltips();
-
+// var COLORS = ["#eee","#5465d6","#2f96e0","#1ac7c2","#6e40aa","#df65b0","#ce1256","#91003f"]
 // var COLORS = ["#eee","#fde725","#90d743","#35b779","#21918c","#31688e","#443983","#440154"]
 var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
+// var COLORS = ["#eee","#d9c2df","#d579ba","#e24b9e","#dd2378","#c00e54","#93023d","#67001f"]
 // var COLORS = [
 //     '#eee',
 //     '#e9ddee',
@@ -30,7 +31,7 @@ var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6"
 //     '#281C67',
 // ]
 var arrowColor = '#1A1A1A'
-var breaksArr = [-900,-1,-0.5,-0.25,0.25,0.5,1]
+var breaksArr = [-900,-0.9999,-0.4999,-0.2499,0.2501,0.5001,1.001]
 var legend =[
     {
         'label': 'Among the lowest',
@@ -95,8 +96,9 @@ var ageGroups = [
 
 
 mapboxgl.accessToken = "pk.eyJ1Ijoia2FyaW1pZmFyIiwiYSI6ImNqOGtnaWp4OTBjemsyd211ZDV4bThkNmIifQ.Xg-Td2FFJso83Mmmc87NDA";
-var mapStyle = "mapbox://styles/karimifar/ck2ey2mad1rtp1cmppck4wq2d";
+var mapStyle = "mapbox://styles/karimifar/ckrqtzdew0wvp17s0pyz371ud";
 var mapStyle2 = "mapbox://styles/karimifar/ck2ey2mad1rtp1cmppck4wq2d";
+
 
 var popup;
 
@@ -206,7 +208,6 @@ function createMap(){
         for (var i=0; i<ageGroups.length; i++){
             addZipLayer(map,ageGroups[i].key)
             addCtyLayer(map,ageGroups[i].key)
-            console.log (i)
         }
         
         map.addLayer({
@@ -238,7 +239,8 @@ function createMap(){
             'paint':{
                 // 'line-color': 'red',
                 // 'line-width':1
-                'fill-color': '#1A1A1A'
+                'fill-color': '#1A1A1A',
+                'fill-opacity': 0.8   
             }
         },firstSymbolId)
         map.addLayer({
@@ -246,7 +248,8 @@ function createMap(){
             'type': 'fill',
             'source': 'bays',
             'paint':{
-                'fill-color': '#1A1A1A'
+                'fill-color': '#1A1A1A',
+                'fill-opacity': 0.8
             }
         },firstSymbolId)
         
@@ -375,7 +378,7 @@ function addZipLayer(themap, key){
                 className: 'zip-pop map-popup'
             });
             // themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: true});
-            var popupHTML = '<p class="zip-name">'+zipcode+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p><button class="zip-pop-btn" data-query="'+zipcode+'" onClick="queryZip('+zipcode+');">Learn more</button>';
+            var popupHTML = '<p class="zip-name">'+zipcode+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p><button class="zip-pop-btn" data-query="'+zipcode+'" onClick="queryZip('+zipcode+');">Search</button>';
             popup.setLngLat(coordinates).setHTML(popupHTML).addTo(themap);
         }
         
@@ -585,7 +588,7 @@ function createLegend(data){
         .data(legend)
         .enter().append('g')
         .attr('class', 'legend-label')
-        .attr('transform', d => `translate(${legendX(  d.range[0]+(d.range[1]-d.range[0])/2)}, ${height - margin.bottom - barH-2} )` )
+        .attr('transform', d => `translate(${legendX(  d.range[0]+(d.range[1]-d.range[0])/2)}, ${height - margin.bottom - barH-5} )` )
         .attr('font-size', 9)
         
         .append('text')
@@ -652,9 +655,9 @@ function updateLegend(data){
         line.enter().append('line')
             .attr('x1', legendX(0))
             .attr('x2', legendX(0))
-            .attr('y1', legendY(-1))
-            .attr('y2', legendY(-0.3))
-            .attr('marker-end', 'url(#arrow)')
+            .attr('y1', legendY(-0.8))
+            .attr('y2', legendY(0.95))
+            .attr('marker-start', 'url(#arrow)')
             // .style('stroke-width', '2px')
         .merge(line)
             .transition()
@@ -662,8 +665,8 @@ function updateLegend(data){
             .duration(1000)
             .attr('x1', d => legendX(d))
             .attr('x2', d => legendX(d))
-            .attr('y1', legendY(-1.25))
-            .attr('y2', legendY(-0.1))
+            .attr('y1', legendY(-0.8))
+            .attr('y2', legendY(0.95))
             .attr('class', 'arrow')
             .style('stroke', arrowColor)
 
@@ -776,7 +779,7 @@ function queryZip(zip){
                 
                 var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
                 var factor_Info = $('<div class="risk-factor">')
-                var risk_chart = $('<div class="risk-chart chart-wrap">'+value+'</div>')
+                var risk_chart = $('<div class="risk-chart chart-wrap">')
                     .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
                 var risk_title = $('<div class="risk-title">')
                     .append(risk_name)
@@ -788,7 +791,7 @@ function queryZip(zip){
                 
                 factor_wrap.append(factor_Info).append(risk_level)
                 $('#risks-table').append(factor_wrap)
-                createRiskChart(min_zip,max_zip,median_zip,[value],var_name,color)
+                createRiskChart(min_zip,max_zip,median_zip,[value],var_name,color,right)
 
             })
             enableTooltips();
@@ -871,21 +874,32 @@ $('#submit').on('click', function(e){
 })
 
 queryZip('78731')
-function createRiskChart(min,max,median,val,divId,color){
+function createRiskChart(min,max,median,val,divId,color,right){
     var id = divId
-    var margin = {top: 20, right: 20, bottom: 30, left: 20};
+    var margin = {top: 10, right: 30, bottom: 35, left: 30};
     var width = 500;
     var height = 100;
-    var barH = 40;
+    var barH = 30;
+    var startX;
+    var domain = [min,max]
+    if(right == 'min'){
+        domain=[max,min]
+    }
     var ticks = [min,max]
     if(min<0){ticks.push(0)}
     var X = d3.scaleLinear()
-        .domain([min,max])
+        .domain(domain)
         .range([margin.left, width-margin.right])
     var Y = d3.scaleLinear()
         .domain([0,1])
         .range([height-margin.bottom, margin.top])
-
+    if(val[0]<0 || right=='min'){
+        startX = X(val[0])
+    }else if(min>0){
+        startX = X(min)
+    }else{
+        startX = X(0)
+    }
     var svg = d3.select('#'+id+'-svg-wrap')
         .append('svg')
         .attr('viewBox', [0,0,width,height])
@@ -902,22 +916,63 @@ function createRiskChart(min,max,median,val,divId,color){
             .transition()
             .duration(1000)
             .attr('width', d => Math.abs(X(d)-X(0)))
-            .attr('x', d=> {
-                if(d<0){
-                    return X(d)
-                }else if(min>0){
-                    return X(min)
-                }else{
-                    return X(0)
-            }})
+            .attr('x', startX)
+    
+    svg.selectAll('.median-mark')
+        .data([median]).enter()
+        .append('g')
+        .attr('class', 'median-mark')
+        .append('line')
+        
+        .attr('y1', height-margin.bottom-barH-2)
+        .attr('y2', height-18)
+        .attr('x1', X(median))
+        .attr('x2', X(median))
+        .style('stroke', '#222')
+        .style('stroke-width', 0.5)
+        
+    svg.selectAll('.median-mark')
+        .append('text')
+        .text('STATE MEDIAN')
+        .attr('x', X(median))
+        .attr('y', height-12)
+        .attr("text-anchor", "middle")
+        .style('font-size', 7)
+
+    svg.selectAll('.median-mark')
+        .append('g')
+        .attr('class', 'state-med-rate')
+        .append('text')
+        .text(median)
+        
+        .attr('x', X(median))
+        .attr('y', height-1)
+        .style('font-size', 10)
+        .attr("text-anchor", "middle")
+        // .style('display', 'none')
+        
             
+    svg.append('g').selectAll('.rate-label')
+        .data(val).enter()
+        .append('g').attr('class', 'rate-label')
+        .append('text')
+        .text(d => d)
+        .attr("text-anchor", "middle")
+        .style('opacity', 0)
+        .style('font-family', 'aktiv-grotesk-condensed, sans-serif')
+        .attr('transform', d =>`translate(${startX + Math.abs(X(d)-X(0))/2},${height-margin.bottom-barH-5})`)
+        .transition()
+        .duration(1000)
+        
+        .style('opacity', 1)
+        
 
     svg.append('g')
         .attr("transform", `translate(0,${height-margin.bottom-barH/2-5})`)
         .classed('risk-axis',true)
         .call(
             d3.axisBottom(X)
-            .tickPadding(barH/2+5)
+            .tickPadding(barH/2-1)
             .tickSize(10)
             .tickSizeOuter(0)
             // .tickOffset(-3)
@@ -929,6 +984,8 @@ function createRiskChart(min,max,median,val,divId,color){
         
         .call(g => g.select(".domain")
             .attr('transform', 'translate(0,5)')
+            .style('stroke', '#666')
+            .style('stroke-width', 0.5)
         
         )
         .attr('font-size', 10)

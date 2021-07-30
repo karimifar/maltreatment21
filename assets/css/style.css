@@ -248,6 +248,17 @@ line.arrow{
     width: 60%;
     /* background-color: #eee; */
 }
+.rate-label{
+    font-weight: 500;
+    color: #1A1A1A;
+}
+.state-med-rate{
+    opacity:0;
+    transition: all 0.2 ease-in-out;
+}
+.median-mark:hover .state-med-rate{
+    opacity: 1;
+}
 .risk-svg-wrap{
     width: 100%;
     padding-bottom: 20%;
