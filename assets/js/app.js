@@ -888,7 +888,7 @@ $('#submit').on('click', function(e){
     }
 })
 
-// queryZip('78731')
+queryZip('78731')
 function createRiskChart(min,max,median,val,divId,color,right){
     var id = divId
     var margin = {top: 10, right: 30, bottom: 35, left: 30};
@@ -999,7 +999,7 @@ function createRiskChart(min,max,median,val,divId,color,right){
         
         .call(g => g.select(".domain")
             .attr('transform', 'translate(0,5)')
-            .style('stroke', '#666')
+            .style('stroke', '#ccc')
             .style('stroke-width', 0.5)
         
         )

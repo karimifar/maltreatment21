@@ -270,6 +270,9 @@ line.arrow{
     top:0;
     left: 0;
 }
+.risk-svg-wrap .tick line{
+    stroke: #ccc;
+}
 
 .switch {
     position: relative;
