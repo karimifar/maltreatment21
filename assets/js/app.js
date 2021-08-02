@@ -870,7 +870,6 @@ function queryZip(zip){
 }
 
 
-
 function getInitials(str){
     var matches = str.match(/\b(\w)/g)
     if(matches){
