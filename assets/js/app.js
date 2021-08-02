@@ -210,19 +210,7 @@ function createMap(){
             addCtyLayer(map,ageGroups[i].key)
         }
         
-        map.addLayer({
-            'id':'highways',
-            'type': 'line',
-            'source': 'highways',
-            'paint':{
-                'line-color': '#888',
-                'line-width': [
-                    "interpolate", ["linear"], ["zoom"],
-                    6,1,
-                    10,6
-                ]
-            }
-        },firstSymbolId)
+        
         map.addLayer({
             'id':'rivers',
             'type': 'line',
@@ -251,6 +239,33 @@ function createMap(){
                 'fill-color': '#1A1A1A',
                 'fill-opacity': 0.8
             }
+        },firstSymbolId)
+
+        map.addLayer({
+            'id':'highways_minor',
+            'type': 'line',
+            'source': 'highways',
+            'minzoom': 8,
+            'paint':{
+                'line-color': '#aaa',
+                'line-width': 2
+            },
+            'filter': ['in', 'interstate', 0]
+        },firstSymbolId)
+        
+        map.addLayer({
+            'id':'highways',
+            'type': 'line',
+            'source': 'highways',
+            'paint':{
+                'line-color': '#888',
+                'line-width': [
+                    "interpolate", ["linear"], ["zoom"],
+                    6,1,
+                    10,6
+                ]
+            },
+            'filter': ['in', 'interstate', 1]
         },firstSymbolId)
         
         map.addLayer({
@@ -873,7 +888,7 @@ $('#submit').on('click', function(e){
     }
 })
 
-queryZip('78731')
+// queryZip('78731')
 function createRiskChart(min,max,median,val,divId,color,right){
     var id = divId
     var margin = {top: 10, right: 30, bottom: 35, left: 30};
