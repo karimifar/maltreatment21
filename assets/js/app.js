@@ -1,4 +1,4 @@
-var apiUrl =  'http://localhost:3306' //'https://texashealthdata.com'
+var apiUrl =  'https://texashealthdata.com' //'http://localhost:3306'
 var map;
 var firstSymbolId;
 var hoveredZipId;
@@ -921,6 +921,26 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr('id',id + '-svg')
 
+    var markerBoxWidth = 6
+    var markerBoxHeight = 10
+    var refX = 5;
+    var refY = 5;
+    var arrowPoints = [[1, 1], [5, 5], [1, 9],];
+    
+    svg.append('defs')
+        .append('marker')
+        .attr('id', 'med-arrow')
+        .attr('viewBox', [0,0,markerBoxWidth,markerBoxHeight])
+        .attr('refX', refX)
+        .attr('refY', refY)
+        .attr('markerWidth', markerBoxWidth)
+        .attr('markerHeight', markerBoxHeight)
+        .attr('orient', 'auto-start-reverse')
+        .append('path')
+        .attr('d', d3.line()(arrowPoints))
+        .attr('stroke', '#999')  
+        .style('fill', 'none')  
+
     svg.append('g').selectAll('rect')
         .data(val)
         .enter().append('rect')
@@ -939,12 +959,13 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('class', 'median-mark')
         .append('line')
         
-        .attr('y1', height-margin.bottom-barH-2)
+        .attr('y1', height-margin.bottom-barH/2+2)
         .attr('y2', height-18)
         .attr('x1', X(median))
         .attr('x2', X(median))
-        .style('stroke', '#222')
+        .style('stroke', '#999')
         .style('stroke-width', 0.5)
+        .attr('marker-start', 'url(#med-arrow)')
         
     svg.selectAll('.median-mark')
         .append('text')
@@ -953,6 +974,7 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('y', height-12)
         .attr("text-anchor", "middle")
         .style('font-size', 7)
+        .style('fill', '#999')
 
     svg.selectAll('.median-mark')
         .append('g')
