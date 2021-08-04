@@ -294,9 +294,9 @@ line.arrow{
     display: inline-block;
     width: 150px;
     height: 40px;
-  }
+}
   
-  .switch input {display:none;}
+.switch input {display:none;}
   
   .slider {
     position: absolute;
