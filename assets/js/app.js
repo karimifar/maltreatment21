@@ -1,4 +1,4 @@
-var apiUrl =   'http://localhost:3306' //'https://texashealthdata.com'
+var apiUrl =   'https://texashealthdata.com' //'http://localhost:3306' //
 var map;
 var firstSymbolId;
 var hoveredZipId;
@@ -787,25 +787,22 @@ function queryZip(zip){
                     .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
                 
                 
-                var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
+                var factor_layer = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
                 var factor_Info = $('<div class="risk-factor">')
                 var risk_chart = $('<div class="risk-chart chart-wrap">')
                     .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
 
                 if(underlyingArr[0]){
-                    var modal_id = var_name+'-under'
-                    var modal_wrap = $('<div id="'+modal_id+'" class="modal fade">')
-                    var modal_dialog = $('<div class="modal-dialog">')
-                    underlyingArr.map( v =>
-
-                        modal_dialog.append('<p>'+v.var_info.display_name+' | '+v.value+'</p>')
-                    )
-                    var risk_name = $('<h3><a data-toggle="modal" data-target="#'+modal_id+'" href="" data-toggle="modal">'+disp_name+': </a></h3>')
-                    modal_wrap.append(modal_dialog)
-                    factor_wrap.append(modal_wrap)
+                    var drop_id = var_name+'-under'
+                    var drop_layer = $('<div id="'+drop_id+'" class="collapse drop-wrap">')
+                    var risk_name = $('<h3><i class="fas fa-caret-right"></i> '+disp_name+': </h3>')
+                    var factor_wrap = $('<div class="factor-wrap factor_drop " data-toggle="collapse" data-target="#'+drop_id+'" aria-expanded="false" aria-controls="'+drop_id+'" title="Click to see underlying variables">')
+                    // factor_layer.append(drop_layer)
                 }else{
-                    var risk_name = $('<h3>'+disp_name+': </h3>')
+                    var factor_wrap = $('<div class="factor-wrap factor_drop ">')
+                    var risk_name = $('<h3>'+disp_name+': </h3>')   
                 }
+                
                 risk_name.append('<span class="desc-tooltip" data-toggle="tooltip" data-html="true" title="'+description+'"><i class="fas fa-info-circle"></i></span>')
 
                 var risk_title = $('<div class="risk-title">')
@@ -815,9 +812,52 @@ function queryZip(zip){
                 var risk_level = $('<div class="risk-level">')
                     .append('<div class="risk-color" style="background-color:'+color+'">')
                     .append('<p>'+label+'</p>')
-                
                 factor_wrap.append(factor_Info).append(risk_level)
-                $('#risks-table').append(factor_wrap)
+                factor_layer.append(factor_wrap)
+                $('#risks-table').append(factor_layer)
+                if(drop_layer){
+                    factor_layer.append(drop_layer)
+                }
+                underlyingArr.map( v => {
+
+                    var label = v.lbl;
+                    var value = v.value;
+                    var disp_name = v.var_info.display_name;
+                    var description = v.var_info.description
+                    var max_zip = v.var_info.max_zip
+                    var median_zip = v.var_info.median_zip
+                    var min_zip = v.var_info.min_zip
+                    var order = v.var_info.order
+                    var right = v.var_info.right
+                    var var_name = v.var_name;
+                    //getting underlying variables
+                    if(label){
+                        var color = getColorbyLbl(label,right);
+                    }
+                    var drop_wrap = $('<div class="factor-wrap">');
+                    var drop_info = $('<div class="risk-factor">')
+                    var risk_chart = $('<div class="risk-chart chart-wrap">')
+                        .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
+                    var risk_name = $('<h3>'+disp_name+': </h3>')
+                        .append('<span class="desc-tooltip" data-toggle="tooltip" data-html="true" title="'+description+'"><i class="fas fa-info-circle"></i></span>')
+                    var risk_title = $('<div class="risk-title">')
+                        .append(risk_name)
+                    drop_info.append(risk_title)
+                        .append(risk_chart)
+                    var risk_level = $('<div class="risk-level">')
+                        .append('<div class="risk-color" style="background-color:'+color+'">')
+                        .append('<p>'+label+'</p>')
+                    drop_wrap.append(drop_info).append(risk_level)
+                    drop_layer.append(drop_wrap)
+                    if(value){
+                        console.log(disp_name, value)
+                        createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right)
+                    }else{
+                        console.log(disp_name, value)
+                        $('#'+var_name+'-svg-wrap').append('<p style="position: absolute;font-size: 10px; padding:0 5%;">data not available</p>')
+                    }
+                })
+                
                 createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right)
 
             })
@@ -960,6 +1000,29 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('stroke', '#666')  
         .style('fill', 'none')  
 
+    svg.append('g')
+        .attr("transform", `translate(0,${height-margin.bottom-barH/2-5})`)
+        .classed('risk-axis',true)
+        .call(
+            d3.axisBottom(X)
+            .tickPadding(barH/2-1)
+            .tickSize(10)
+            .tickSizeOuter(0)
+            .tickValues(ticks)
+            .tickFormat(d3.format(10,"f"))
+            
+        )
+        
+        .call(g => g.select(".domain")
+            .attr('transform', 'translate(0,5)')
+            .style('stroke', '#ccc')
+            .style('stroke-width', 0.5)
+        
+        )
+        .attr('font-size', 8)
+        .style('font-family', 'aktiv-grotesk-condensed')
+        .style('fill', '#666')
+
     svg.append('g').selectAll('rect')
         .data(val)
         .enter().append('rect')
@@ -978,13 +1041,21 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('class', 'median-mark')
         .append('line')
         
-        .attr('y1', height-margin.bottom-barH/2+2)
-        .attr('y2', height-18)
+        .attr('y1', height-margin.bottom+6)
+        .attr('y2', height-19)
         .attr('x1', X(median))
         .attr('x2', X(median))
         .style('stroke', '#666')
         .style('stroke-width', 0.5)
         .attr('marker-start', 'url(#med-arrow)')
+
+    svg.selectAll('.median-mark')
+        .append('line')
+        .attr('y1', height-margin.bottom-barH-2)
+        .attr('y2', height-margin.bottom+2)
+        .attr('x1', X(median))
+        .attr('x2', X(median))
+        .style('stroke', '#000')
         
     svg.selectAll('.median-mark')
         .append('text')
@@ -1002,13 +1073,13 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .text(median)
         
         .attr('x', X(median))
-        .attr('y', height-1)
+        .attr('y', height-2)
         .style('font-size', 8)
         .attr("text-anchor", "middle")
         // .style('display', 'none')
         
             
-    svg.append('g').selectAll('.rate-label')
+    svg.selectAll('.rate-label')
         .data(val).enter()
         .append('g').attr('class', 'rate-label')
         .append('text')
@@ -1020,34 +1091,22 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('transform', d =>`translate(${X(d)},${height-margin.bottom-barH-5})`)
         .transition()
         .duration(1000)
-        
+        .style('opacity', 1)
+    svg.selectAll('.rate-label')
+        .append('line')
+        .attr('y1', height-margin.bottom-barH-3)
+        .attr('y2', height-margin.bottom-barH/2)
+        .attr('x1', d=>X(d))
+        .attr('x2', d=>X(d))
+        .style('stroke', '#aaa')
+        .style('stroke-width', 0.5)
+        .style('opacity', 0)
+        .transition()
+        .duration(1000)
         .style('opacity', 1)
         
 
-    svg.append('g')
-        .attr("transform", `translate(0,${height-margin.bottom-barH/2-5})`)
-        .classed('risk-axis',true)
-        .call(
-            d3.axisBottom(X)
-            .tickPadding(barH/2-1)
-            .tickSize(10)
-            .tickSizeOuter(0)
-            // .tickOffset(-3)
-            // .tickSizeInner(10)
-            .tickValues(ticks)
-            .tickFormat(d3.format(10,"f"))
-            
-        )
-        
-        .call(g => g.select(".domain")
-            .attr('transform', 'translate(0,5)')
-            .style('stroke', '#ccc')
-            .style('stroke-width', 0.5)
-        
-        )
-        .attr('font-size', 8)
-        .style('font-family', 'aktiv-grotesk-condensed')
-        .style('fill', '#666')
+    
     
 
 }
