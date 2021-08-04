@@ -227,6 +227,17 @@ line.arrow{
     width: 100%;
     display: flex;
 }
+.factor_drop{
+    cursor: pointer;
+}
+.factor-wrap .risk-title .fa-caret-right{
+    transition: all 0.2s ease-in-out;
+    transform: rotate(90deg)
+}
+.factor-wrap.collapsed .risk-title .fa-caret-right{
+    transition: all 0.2s ease-in-out;
+    transform: rotate(0)
+}
 .factor-layer:nth-child(even){
     background-color: rgba(244, 244, 244, 0.5);
 }
@@ -270,7 +281,7 @@ line.arrow{
     margin-bottom: 0;
 }
 .drop-wrap .risk-title{
-    width:40%;
+    /* width:40%; */
 }
 .drop-wrap h3{
     font-size: 14px;
@@ -292,7 +303,7 @@ line.arrow{
     width: 70%;
 }
 .drop-wrap .risk-chart{
-    width:60%;
+    /* width:60%; */
     padding: 0 5%;
 }
 .drop-wrap .risk-color{

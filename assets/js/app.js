@@ -796,10 +796,10 @@ function queryZip(zip){
                     var drop_id = var_name+'-under'
                     var drop_layer = $('<div id="'+drop_id+'" class="collapse drop-wrap">')
                     var risk_name = $('<h3><i class="fas fa-caret-right"></i> '+disp_name+': </h3>')
-                    var factor_wrap = $('<div class="factor-wrap factor_drop " data-toggle="collapse" data-target="#'+drop_id+'" aria-expanded="false" aria-controls="'+drop_id+'" title="Click to see underlying variables">')
+                    var factor_wrap = $('<div class="factor-wrap factor_drop collapsed" data-toggle="collapse" data-target="#'+drop_id+'" aria-expanded="false" aria-controls="'+drop_id+'" title="Click to see underlying variables">')
                     // factor_layer.append(drop_layer)
                 }else{
-                    var factor_wrap = $('<div class="factor-wrap factor_drop ">')
+                    var factor_wrap = $('<div class="factor-wrap">')
                     var risk_name = $('<h3>'+disp_name+': </h3>')   
                 }
                 
@@ -851,14 +851,14 @@ function queryZip(zip){
                     drop_layer.append(drop_wrap)
                     if(value){
                         console.log(disp_name, value)
-                        createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right)
+                        createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right,7)
                     }else{
                         console.log(disp_name, value)
                         $('#'+var_name+'-svg-wrap').append('<p style="position: absolute;font-size: 10px; padding:0 5%;">data not available</p>')
                     }
                 })
                 
-                createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right)
+                createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right,15)
 
             })
             enableTooltips();
@@ -941,12 +941,12 @@ $('#submit').on('click', function(e){
 })
 
 queryZip('78721')
-function createRiskChart(min,max,median,val,divId,color,right){
+function createRiskChart(min,max,median,val,divId,color,right,barH){
     var id = divId
     var margin = {top: 10, right: 30, bottom: 35, left: 30};
     var width = 500;
     var height = 75;
-    var barH = 15;
+    // var barH = 15;
     var startX;
     var domain = [min,max]
     if(right == 'min'){
