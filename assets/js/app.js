@@ -1,4 +1,4 @@
-var apiUrl =  'https://texashealthdata.com' //'http://localhost:3306'
+var apiUrl =   'http://localhost:3306' //'https://texashealthdata.com'
 var map;
 var firstSymbolId;
 var hoveredZipId;
@@ -10,7 +10,7 @@ var visible_layer;
 var younger = true;
 var firstZipQuery = true;
 var firstCtyQuery = true;
-var currentColor;
+// var currentColor;
 
 function enableTooltips() {
     $('[data-toggle="tooltip"]').tooltip()
@@ -36,37 +36,44 @@ var legend =[
     {
         'label': 'Among the lowest',
         'range': [-2,-1],
-        'color': COLORS[1]
+        'color': COLORS[1],
+        'reColor':COLORS[7]
     },
     {
         'label': 'Comparatively low',
         'range': [-1,-0.5],
-        'color': COLORS[2]
+        'color': COLORS[2],
+        'reColor':COLORS[6]
     },
     {
         'label': 'Below average',
         'range': [-0.5,-0.25],
-        'color': COLORS[3]
+        'color': COLORS[3],
+        'reColor':COLORS[5]
     },
     {
         'label': 'Average',
         'range': [-0.25,0.25],
-        'color': COLORS[4]
+        'color': COLORS[4],
+        'reColor':COLORS[4]
     },
     {
         'label': 'Above average',
         'range': [0.25,0.5],
-        'color': COLORS[5]
+        'color': COLORS[5],
+        'reColor':COLORS[3]
     },
     {
         'label': 'Comparatively high',
         'range': [0.5,1],
-        'color': COLORS[6]
+        'color': COLORS[6],
+        'reColor':COLORS[2]
     },
     {
         'label': 'Among the highest',
         'range': [1,2],
-        'color': COLORS[7]
+        'color': COLORS[7],
+        'reColor':COLORS[1]
     },
 ]
 var ageGroups = [
@@ -687,8 +694,12 @@ function updateLegend(data){
 
 }
 
-function getColorbyLbl(lbl){
-    return legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())[0].color
+function getColorbyLbl(lbl,right){
+    if(right =='max'){
+        return legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())[0].color  
+    }else{
+        return legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())[0].reColor
+    }
 }
 
 
@@ -720,7 +731,6 @@ function createChart(data){
         .merge(bar)
         .transition()
         .duration(500)
-        // .attr('width', currentWidth)
         .attr('fill', 'red')
         .attr('x', 0)
         .attr('y', (d,i) => i*10)
@@ -759,9 +769,7 @@ function queryZip(zip){
                 .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
             mainFactors.map(v => {
                 var label = v.lbl;
-                if(label){
-                    var color = getColorbyLbl(label);
-                }
+                
                 var value = v.value;
                 var disp_name = v.var_info.display_name;
                 var description = v.var_info.description
@@ -772,8 +780,17 @@ function queryZip(zip){
                 var right = v.var_info.right
                 var var_name = v.var_name;
                 //getting underlying variables
+                if(label){
+                    var color = getColorbyLbl(label,right);
+                }
                 var underlyingArr = agedData.filter(v => v.var_info.factor == var_name)
                     .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
+                
+                
+                var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
+                var factor_Info = $('<div class="risk-factor">')
+                var risk_chart = $('<div class="risk-chart chart-wrap">')
+                    .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
 
                 if(underlyingArr[0]){
                     var modal_id = var_name+'-under'
@@ -785,17 +802,12 @@ function queryZip(zip){
                     )
                     var risk_name = $('<h3><a data-toggle="modal" data-target="#'+modal_id+'" href="" data-toggle="modal">'+disp_name+': </a></h3>')
                     modal_wrap.append(modal_dialog)
-                    $('#risks-table').append(modal_wrap)
+                    factor_wrap.append(modal_wrap)
                 }else{
                     var risk_name = $('<h3>'+disp_name+': </h3>')
                 }
                 risk_name.append('<span class="desc-tooltip" data-toggle="tooltip" data-html="true" title="'+description+'"><i class="fas fa-info-circle"></i></span>')
-                
-                
-                var factor_wrap = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
-                var factor_Info = $('<div class="risk-factor">')
-                var risk_chart = $('<div class="risk-chart chart-wrap">')
-                    .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
+
                 var risk_title = $('<div class="risk-title">')
                     .append(risk_name)
                 factor_Info.append(risk_title)
@@ -806,7 +818,7 @@ function queryZip(zip){
                 
                 factor_wrap.append(factor_Info).append(risk_level)
                 $('#risks-table').append(factor_wrap)
-                createRiskChart(min_zip,max_zip,median_zip,[value],var_name,color,right)
+                createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right)
 
             })
             enableTooltips();
@@ -817,9 +829,10 @@ function queryZip(zip){
             
             for(var i=0; i<agedData.length; i++){
                 var label = agedData[i].lbl;
+                var right = agedData[i].var_info.right
                 var value = agedData[i].value;
                 if(label){
-                    var color = getColorbyLbl(label)
+                    var color = getColorbyLbl(label, right)
                 }
                 
                 var var_name = agedData[i].var_name;
@@ -887,33 +900,40 @@ $('#submit').on('click', function(e){
     }
 })
 
-queryZip('78731')
+queryZip('78721')
 function createRiskChart(min,max,median,val,divId,color,right){
     var id = divId
     var margin = {top: 10, right: 30, bottom: 35, left: 30};
     var width = 500;
-    var height = 100;
-    var barH = 30;
+    var height = 75;
+    var barH = 15;
     var startX;
     var domain = [min,max]
     if(right == 'min'){
         domain=[max,min]
     }
     var ticks = [min,max]
-    if(min<0){ticks.push(0)}
+    // if(min<0){ticks.push(0)}
     var X = d3.scaleLinear()
         .domain(domain)
         .range([margin.left, width-margin.right])
     var Y = d3.scaleLinear()
         .domain([0,1])
         .range([height-margin.bottom, margin.top])
-    if(val[0]<0 || right=='min'){
+    if(val[0]<median && right == 'max'){
         startX = X(val[0])
-    }else if(min>0){
-        startX = X(min)
-    }else{
-        startX = X(0)
     }
+    if(val[0]<median && right == 'min'){
+        startX = X(median)
+    }
+    if(val[0]>median && right == 'min'){
+        startX = X(val[0])
+    }
+    if(val[0]>median && right == 'max'){
+        startX = X(median)
+    }
+
+    console.log(val[0],median)
     var svg = d3.select('#'+id+'-svg-wrap')
         .append('svg')
         .attr('viewBox', [0,0,width,height])
@@ -937,19 +957,19 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('orient', 'auto-start-reverse')
         .append('path')
         .attr('d', d3.line()(arrowPoints))
-        .attr('stroke', '#999')  
+        .attr('stroke', '#666')  
         .style('fill', 'none')  
 
     svg.append('g').selectAll('rect')
         .data(val)
         .enter().append('rect')
             .attr('fill', color)
-            .attr('x',X(0))
+            .attr('x',X(median))
             .attr('y', height-margin.bottom-barH)
             .attr('height', barH)
             .transition()
             .duration(1000)
-            .attr('width', d => Math.abs(X(d)-X(0)))
+            .attr('width', d => Math.abs(X(d)-X(median)))
             .attr('x', startX)
     
     svg.selectAll('.median-mark')
@@ -962,7 +982,7 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('y2', height-18)
         .attr('x1', X(median))
         .attr('x2', X(median))
-        .style('stroke', '#999')
+        .style('stroke', '#666')
         .style('stroke-width', 0.5)
         .attr('marker-start', 'url(#med-arrow)')
         
@@ -972,8 +992,8 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr('x', X(median))
         .attr('y', height-12)
         .attr("text-anchor", "middle")
-        .style('font-size', 7)
-        .style('fill', '#999')
+        .style('font-size', 6)
+        .style('fill', '#666')
 
     svg.selectAll('.median-mark')
         .append('g')
@@ -983,7 +1003,7 @@ function createRiskChart(min,max,median,val,divId,color,right){
         
         .attr('x', X(median))
         .attr('y', height-1)
-        .style('font-size', 10)
+        .style('font-size', 8)
         .attr("text-anchor", "middle")
         // .style('display', 'none')
         
@@ -996,7 +1016,8 @@ function createRiskChart(min,max,median,val,divId,color,right){
         .attr("text-anchor", "middle")
         .style('opacity', 0)
         .style('font-family', 'aktiv-grotesk-condensed, sans-serif')
-        .attr('transform', d =>`translate(${startX + Math.abs(X(d)-X(0))/2},${height-margin.bottom-barH-5})`)
+        .style('font-size', 12)
+        .attr('transform', d =>`translate(${X(d)},${height-margin.bottom-barH-5})`)
         .transition()
         .duration(1000)
         
@@ -1024,8 +1045,9 @@ function createRiskChart(min,max,median,val,divId,color,right){
             .style('stroke-width', 0.5)
         
         )
-        .attr('font-size', 10)
+        .attr('font-size', 8)
         .style('font-family', 'aktiv-grotesk-condensed')
+        .style('fill', '#666')
     
 
 }

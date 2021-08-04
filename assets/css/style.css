@@ -203,9 +203,12 @@ line.arrow{
 }
 
 .factor-layer{
-    padding: 0px 10%;
+    padding: 0px 5%;
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
+}
+.factor-layer:nth-child(even){
+    background-color: rgba(244, 244, 244, 0.5);
 }
 .risk-factor{
     width: 80%;
@@ -235,17 +238,26 @@ line.arrow{
     padding: 15px;
 }
 .risk-title{
-    width:40%;
+    width:30%;
     align-self: center;
 }
 .risk-title h3{
+    font-size: 18px;
     padding-right: 20px;
     margin-bottom: 0;
+}
+.desc-tooltip{
+    opacity: 0.7;
+    cursor: pointer;
+    font-size: 18px;
+}
+.desc-tooltip:hover{
+    opacity: 1;
 }
 
 .risk-chart{
     /* height: 100px; */
-    width: 60%;
+    width: 70%;
     /* background-color: #eee; */
 }
 .rate-label{
@@ -261,7 +273,7 @@ line.arrow{
 }
 .risk-svg-wrap{
     width: 100%;
-    padding-bottom: 20%;
+    padding-bottom: 15%;
     position: relative;
     /* background-color: #ddd; */
 }
@@ -272,6 +284,9 @@ line.arrow{
 }
 .risk-svg-wrap .tick line{
     stroke: #ccc;
+}
+.risk-svg-wrap .tick text{
+    fill: #666;
 }
 
 .switch {
@@ -393,12 +408,4 @@ line.arrow{
 
 .modal-dialog{
     background-color: #fff;
-}
-.desc-tooltip{
-    opacity: 0.7;
-    cursor: pointer;
-    font-size: 24px;
-}
-.desc-tooltip:hover{
-    opacity: 1;
 }
