@@ -7,20 +7,25 @@ h1{
     font-size: 60px;
     /* line-height: 1; */
 }
+button:focus{
+    outline:none;
+}
 #content-wrap{
     flex-wrap: wrap;
 }
-#content-wrap #mapwrap{
+#mapwrap{
     width: 50%;
     height: 100%;
     position: relative;
     transition: all 0.2s ease-in-out;
+    border-left: 2px solid #F4E9E6;
 }
 #upper-content{
     height: 100vh;
     min-height: 500px;
     display: flex;
     transition: all 0.2s ease-in-out;
+    border-bottom: 2px solid #1A1A1A;
 }
 #lower-content{
     display: none;
@@ -29,7 +34,7 @@ h1{
     display: block;
 }
 #content-wrap.started #upper-content{
-    height: 60vh;
+    height: 70vh;
 }
 #map{
     width:100%;
@@ -39,21 +44,126 @@ h1{
 
 #home-left-col{
     width:50%;
-    padding: 20px 0;
+    /* padding: 20px 0; */
     overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    background-color: #1A1A1A;
 }
-
-.map-popup p{
-    margin-bottom: 0;
+.map-popup{
+    text-align: center;
+    min-width: 100px;
+    max-width: 150px !important;
+    /* color: #fff; */
+}
+.mapboxgl-popup-content{
+    background-color: #fffffff5;
+    box-shadow: #1A1A1A88 0 0 2px;
+}
+.mapboxgl-popup-tip{
+    border-top-color: #fffffff5 !important;
+}
+.map-popup .name{
+    font-weight: 500;
+    font-family: aktiv-grotesk-extended, sans-serif;
+    border-bottom: 1px solid #F4E9E6;
+}
+.map-popup .label{
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 2px;
+    text-shadow: #fff 0 0 5px;
+    font-family: aktiv-grotesk-condensed, sans-serif;
+}
+.map-popup .pop-submit{
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-family: aktiv-grotesk-extended, sans-serif;
+}
+.map-popup .pop-submit:hover{
+    background-color: #1A1A1A;
+    color: #F4E9E6;
 }
 .map-popup p{
-    text-transform: capitalize;
+    margin-bottom: 5px;
 }
 
 #intro, #controls-wrap{
-    padding: 20px;
+    padding:8% 30px 15px;
+}
+.started #intro, .started #controls-wrap{
+    padding: 30px 15px;
+}
+#logo-bar{
+    display: flex;
+    background-color: #1A1A1A;
+    padding: 0 20px;
+}
+.logo-wrap{
+    width:30%;
+    max-width: 200px;
+    padding: 10px;
+    align-self: center;
+}
+#uts-logo{
+    width: 40%;
+    max-width: 260px;
+}
+.logo-wrap img{
+    width:100%;
 }
 
+#controls-container{
+    flex-grow: 1;
+}
+#controls-wrap{
+    background-color: #1A1A1A;
+    color:#fff;
+    
+    transition: all 0.5s ease-in-out;
+    position: relative;
+}
+.scrolled #controls-wrap{
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    padding: 10px 10px 5px;
+    display: flex;
+    top:0;
+    left:0;
+    border-bottom: 1px solid #F4E9E6;
+    opacity: 0.85;
+}
+.scrolled #controls-wrap:hover{
+    opacity: 1;
+}
+.scrolled form.search{
+    flex-grow: 1;
+}
+.scrolled .control-element{
+    height: 30px;
+    padding: 3px 6px;
+    font-size: 12px;
+}
+.scrolled .switch{
+    height: 30px;
+}
+.scrolled .switch .zip, .scrolled .switch .cty{
+    top: 6px;
+}
+.scrolled .slider:after{
+    height: 28px;
+}
+.scrolled .control-head{
+    font-size: 10px;
+}
+#intro{
+    background-color: #F4E9E6;
+    /* max-width:700px */
+}
 
 
 .dropdown-menu{
@@ -65,6 +175,9 @@ h1{
 
 .control-input{
     margin-bottom: 20px;
+}
+.scrolled .control-input{
+    margin-bottom: 0px;
 }
 .control-head{
     display: block;
@@ -81,18 +194,103 @@ h1{
     position: relative;
     margin-right: 20px;
 }
-#search-input input{
+#main-input{
     width:100%;
+    border-radius: 10px;
 }
 #selector-dropdown{
     position: absolute;
     right: 0;
     top:0;
 }
-#age-control{
+#submit{
+    background-color: #F4E9E6;
+    border-radius: 20px;
+    font-family: aktiv-grotesk-extended, sans-serif;
+    border: 1px solid #fff;
+    padding: 0 30px;
+}
+#age-control, #geo-control{
     margin-right: 20px;
+
+}
+#ageGroups{
+    border-radius: 10px;
 }
 
+
+/* Geography switch styles */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 40px;
+}
+.switch input {display:none;}
+  
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1A1A1A;
+    border: 1px solid #ddd
+}
+  
+.slider:after {
+    position: absolute;
+    content: "";
+    height: 38px;
+    width: 50%;
+    background-color: #F4E9E6;
+    -webkit-transition: all cubic-bezier(.19,.69,0,1) 0.6s;
+    transition: all cubic-bezier(.19,.69,0,1) 0.6s;
+}
+#geoBtn:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}  
+#geoBtn:checked + .slider:after {
+    -webkit-transform: translateX(74px);
+    -ms-transform: translateX(74px);
+    transform: translateX(74px);
+} 
+  
+.zip, .cty{
+    color: #1A1A1A;
+    position: absolute;
+    top: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 2;
+    -webkit-transition: all ease-in-out .2s;
+    transition: all ease-in-out .2s;
+    user-select: none;
+    /* font-family: aktiv-grotesk-extended; */
+}
+#geoBtn:checked + .slider .cty{
+    color: #F4E9E677;
+}
+#geoBtn:not(:checked) + .slider .zip{
+    color: #F4E9E677;
+}
+
+.zip{
+    right: 8px;
+}
+.cty{
+    left: 8px;
+}  
+/* Rounded sliders */
+.slider.round {
+    border-radius: 10px;
+}
+
+.slider.round:after {
+    border-radius: 9px;
+}
+/* Geography switch styles END */
 
 .dashboard-layer{
     display: flex;
@@ -117,7 +315,7 @@ h1{
     font-size: 24px;
 }
 #risk-guide{
-    padding: 15px 10%;
+    padding: 5px 10%;
 }
 #risk-guide .layer-title{
     align-self: center;
@@ -205,8 +403,20 @@ line.arrow{
 .factor-layer{
     padding: 0px 5%;
     justify-content: space-between;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 1px solid rgba(221, 221, 221, 0);
+    border-top: 1px solid rgba(221, 221, 221, 0);
     flex-wrap: wrap;
+    transition: all 0.2s ease-in-out;
+}
+.factor-layer:hover{
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+.factor-layer-drop:hover{
+    box-shadow: #1A1A1A55 0 0 3px;
+}
+.factor_drop:hover .risk-title{
+    text-decoration: underline;
 }
 
 .drop-wrap{
@@ -218,6 +428,10 @@ line.arrow{
 }
 .drop-wrap .factor-wrap{
     border-top: 1px solid #eee;
+    transition: all 0.2s ease-in-out;
+}
+.drop-wrap .factor-wrap:hover{
+    background-color: rgba(244, 244, 244, 1);
 
 }
 /* .drop-wrap .factor-wrap:first-child{
@@ -327,6 +541,13 @@ line.arrow{
     position: relative;
     /* background-color: #ddd; */
 }
+p.nodata-chart{
+    position: absolute;
+    top: 40%;
+    left:5%;
+    margin-bottom: 0;
+    font-size: 12px;
+}
 .risk-svg-wrap svg{
     position: absolute;
     top:0;
@@ -339,90 +560,7 @@ line.arrow{
     fill: #666;
 }
 
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 150px;
-    height: 40px;
-}
-  
-.switch input {display:none;}
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #1A1A1A;
-    /* -webkit-transition: .4s;
-    transition: all cubic-bezier(.19,.69,0,1) 0.4s; */
-    border: 1px solid #1A1A1A
-  }
-  
-  .slider:after {
-    position: absolute;
-    content: "";
-    height: 38px;
-    width: 50%;
-    /* left: 4px;
-    bottom: 4px; */
-    background-color: #FFF7E2;
-    -webkit-transition: all cubic-bezier(.19,.69,0,1) 0.6s;
-    transition: all cubic-bezier(.19,.69,0,1) 0.6s;
-  }
-  
 
-  
-  #geoBtn:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-  
-  #geoBtn:checked + .slider:after {
-    -webkit-transform: translateX(74px);
-    -ms-transform: translateX(74px);
-    transform: translateX(74px);
-  }
-  
-  /*------ ADDED CSS ---------*/
- 
-  
-  .zip, .cty
-  {
-    color: #1A1A1A;
-    position: absolute;
-    top: 10px;
-    font-size: 12px;
-    font-weight: 500;
-    z-index: 2;
-    -webkit-transition: all ease-in-out .2s;
-    transition: all ease-in-out .2s;
-    user-select: none;
-    /* font-family: aktiv-grotesk-extended; */
-  }
-  #geoBtn:checked + .slider .cty{
-    color: #FFF7E277;
-  }
-  #geoBtn:not(:checked) + .slider .zip{
-    color: #FFF7E277;
-  }
-
-  .zip
-  {
-    right: 8px;
-  }
-  .cty{
-      left: 8px;
-  }  
-  /* Rounded sliders */
-  /* .slider.round {
-    border-radius: 17px;
-  }
-  
-  .slider.round:after {
-    border-radius: 16px;
-} */
 
 
 

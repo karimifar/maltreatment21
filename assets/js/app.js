@@ -4,12 +4,13 @@ var firstSymbolId;
 var hoveredZipId;
 var selectedAge ='inf';
 var hoveredCtId;
-var geoIsZip = true;
+var geoIsZip = false;
 var geography= '_zip';
 var visible_layer;
 var younger = true;
 var firstZipQuery = true;
 var firstCtyQuery = true;
+var query;
 // var currentColor;
 
 function enableTooltips() {
@@ -19,7 +20,14 @@ enableTooltips();
 // var COLORS = ["#eee","#5465d6","#2f96e0","#1ac7c2","#6e40aa","#df65b0","#ce1256","#91003f"]
 // var COLORS = ["#eee","#fde725","#90d743","#35b779","#21918c","#31688e","#443983","#440154"]
 var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
-// var COLORS = ["#eee","#d9c2df","#d579ba","#e24b9e","#dd2378","#c00e54","#93023d","#67001f"]
+
+// var COLORS = ["#eee",'#003eab','#00a3ea','#7faded','#9263d9','#e04584','#ce003b','#91003f']
+// #00ffaa|#17a67d|#237a60|#403c35|#783737|#b02626|#ff0000
+var COLORS = ["#eee","#00ffaa", "#17a67d", "#237a60", "#403c35", "#783737", "#b02626", "#ff0000"];
+// // #2799ff|#3070aa|#345b80|#423a3a|#783737|#a53636|#ff3333
+// var COLORS = ["#eee","#2799ff", "#3070aa", "#345b80", "#423a3a", "#783737", "#a53636", "#ff3333"];
+// // #00ff64|#17a64f|#237a45|#423940|#733568|#a3248d|#ff00d2
+// var COLORS = ["#eee","#00ff64", "#17a64f", "#237a45", "#423940", "#733568", "#a3248d", "#ff00d2"];
 // var COLORS = [
 //     '#eee',
 //     '#e9ddee',
@@ -112,10 +120,10 @@ var popup;
 function createMap(){
     map = new mapboxgl.Map({
         container: 'map',
-        zoom: 4.7,
+        zoom: 5,
         center: [-100.000000, 31.000000],
         maxZoom: 12,
-        minZoom: 4,
+        minZoom: 5,
         style: mapStyle
     })
 
@@ -345,11 +353,32 @@ function createMap(){
 }
 
 
-
-
-
-
 createMap();
+
+function updateControlPos(){
+    controlsPos = $('#controls-wrap').offset().top + $('#controls-wrap').outerHeight() -100;
+}
+updateControlPos();
+window.addEventListener('resize', function(event) {
+    console.log('resize')
+    if(!$('#content-wrap').hasClass('scrolled')){
+        updateControlPos();
+    }
+    setTimeout(()=>{
+        map.resize()
+    },250);
+}, true);
+
+$(window).scroll(function(){
+    if(controlsPos){
+        if ($(window).scrollTop()>controlsPos){
+            $('#content-wrap').addClass('scrolled')
+        }else{
+            $('#content-wrap').removeClass('scrolled')
+        }
+    }
+    
+})
 
 function addZipLayer(themap, key){
     var id = 'pred_' + key;
@@ -388,7 +417,13 @@ function addZipLayer(themap, key){
             // hoveredZipId = e.features[0].id;
             var zipcode = e.features[0].properties.zcta_int;
             var labelKey = 'lbl_'+id;
-            var label = e.features[0].properties[labelKey];
+            var label = capitalizeFirstLetter(e.features[0].properties[labelKey]) ;
+            if(label){
+                var color = getColorbyLbl(label,'max')
+            }else{
+                var color = '#fff'
+            }
+            
             var zscore = e.features[0].properties[id];
             // var causeName = KEYS[cause_id].name;
             var coordinates = [e.lngLat.lng, e.lngLat.lat];
@@ -400,8 +435,8 @@ function addZipLayer(themap, key){
                 className: 'zip-pop map-popup'
             });
             // themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: true});
-            var popupHTML = '<p class="zip-name">'+zipcode+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p><button class="zip-pop-btn" data-query="'+zipcode+'" onClick="queryZip('+zipcode+');">Search</button>';
-            popup.setLngLat(coordinates).setHTML(popupHTML).addTo(themap);
+            var F4E9E6ML = '<p class="name">'+zipcode+'</p>' + '<p class="label" style="color:'+color+';">'+ label + '</p>' + '<button class="zip-pop-btn pop-submit" data-query="'+zipcode+'" onClick="queryZip('+zipcode+');">Search</button>';
+            popup.setLngLat(coordinates).setHTML(F4E9E6ML).addTo(themap);
         }
         
         
@@ -468,7 +503,12 @@ function addCtyLayer(themap, key){
             // hoveredZipId = e.features[0].id;
             var cty = e.features[0].properties.NAME10;
             var labelKey = 'lbl_'+id;
-            var label = e.features[0].properties[labelKey];
+            var label = capitalizeFirstLetter(e.features[0].properties[labelKey]);
+            if(label){
+                var color = getColorbyLbl(label,'max')
+            }else{
+                var color = '#fff'
+            }
             var zscore = e.features[0].properties[id];
             // var causeName = KEYS[cause_id].name;
             var coordinates = [e.lngLat.lng, e.lngLat.lat];
@@ -480,8 +520,12 @@ function addCtyLayer(themap, key){
                 className: 'cty-pop map-popup'
             });
             // themap.setFeatureState({source: 'zips', id: hoveredZipId}, { hover: true});
-            var popupHTML = '<p class="cty-name">'+cty+'</p>' + '<p class="label">Risk level: '+'<span>'+ label + '</span></p>' + '<p class="score"><span>' + zscore + '</span></p>'
+            var popupHTML = '<p class="name">'+cty+'</p>' + '<p class="label" style="color:'+color+';">'+ label + '</p>' + '<button class="cty-pop-btn pop-submit" data-query="'+cty+'">Search</button>'
             popup.setLngLat(coordinates).setHTML(popupHTML).addTo(themap);
+            $('.cty-pop-btn').on('click', function(){
+                query = $(this).data('query');
+                queryCty(query)
+            })
         }
         
         
@@ -530,6 +574,7 @@ function updateGeo(){
         'visibility',
         'visible'
     )
+    
 
 }
 function switchAge(){
@@ -546,7 +591,11 @@ function switchAge(){
 }
 function switchGeo(){
     geoIsZip = !geoIsZip
+    
     updateGeo();
+    // map.flyTo({
+    //     zoom: 6
+    // })
 }
 
 
@@ -562,6 +611,16 @@ function switchVisibility(a,b){
         'visible'
     )
     visible_layer = b;
+    $('#content-wrap').removeClass('started')
+    
+    setTimeout(()=>{
+        map.resize()
+        // mapPin.remove()
+        if(popup){
+            popup.remove()
+        }
+        
+    },250)
 }
 
 
@@ -696,9 +755,15 @@ function updateLegend(data){
 
 function getColorbyLbl(lbl,right){
     if(right =='max'){
-        return legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())[0].color  
+        var legendItems =  legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())
+        if(legendItems[0]){
+            return legendItems[0].color;
+        }
     }else{
-        return legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())[0].reColor
+        var legendItems = legend.filter(legend => legend.label.toLowerCase() == lbl.toLowerCase())
+        if(legendItems[0]){
+            return legendItems[0].reColor;
+        }
     }
 }
 
@@ -746,181 +811,8 @@ function createChart(data){
 // createChart([2,4,7]);
 
 var mapPin = new mapboxgl.Marker();
-function queryZip(zip){
-    
-    $.get(apiUrl+'/api/maltreatment/zip/'+zip,function(data){
-        console.log(data)
 
-        
-        if(data[0]){
-            $('#risks-table').empty();
-            // document.getElementById('risk-guide').scrollIntoView({behavior: 'smooth', block: 'start'})
-            // setTimeout( () =>document.getElementById('risk-guide').scrollIntoView({behavior: 'smooth', block: 'start'}), 1) 
-            var ageFilter;
-            if(younger){
-                ageFilter = 1
-            }else{
-                ageFilter = 3
-            }
 
-            //test for filtering https://www.javascripttutorial.net/javascript-array-filter/
-            var agedData = data.filter(variable => variable.var_info.age ==2 ||variable.var_info.age == ageFilter)
-            var mainFactors = agedData.filter(variable => variable.var_info.factor == 'factor')
-                .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
-            mainFactors.map(v => {
-                var label = v.lbl;
-                
-                var value = v.value;
-                var disp_name = v.var_info.display_name;
-                var description = v.var_info.description
-                var max_zip = v.var_info.max_zip
-                var median_zip = v.var_info.median_zip
-                var min_zip = v.var_info.min_zip
-                var order = v.var_info.order
-                var right = v.var_info.right
-                var var_name = v.var_name;
-                //getting underlying variables
-                if(label){
-                    var color = getColorbyLbl(label,right);
-                }
-                var underlyingArr = agedData.filter(v => v.var_info.factor == var_name)
-                    .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
-                
-                
-                var factor_layer = $('<div class="dashboard-layer factor-layer" id="'+var_name+'">')
-                var factor_Info = $('<div class="risk-factor">')
-                var risk_chart = $('<div class="risk-chart chart-wrap">')
-                    .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
-
-                if(underlyingArr[0]){
-                    var drop_id = var_name+'-under'
-                    var drop_layer = $('<div id="'+drop_id+'" class="collapse drop-wrap">')
-                    var risk_name = $('<h3><i class="fas fa-caret-right"></i> '+disp_name+': </h3>')
-                    var factor_wrap = $('<div class="factor-wrap factor_drop collapsed" data-toggle="collapse" data-target="#'+drop_id+'" aria-expanded="false" aria-controls="'+drop_id+'" title="Click to see underlying variables">')
-                    // factor_layer.append(drop_layer)
-                }else{
-                    var factor_wrap = $('<div class="factor-wrap">')
-                    var risk_name = $('<h3>'+disp_name+': </h3>')   
-                }
-                
-                risk_name.append('<span class="desc-tooltip" data-toggle="tooltip" data-html="true" title="'+description+'"><i class="fas fa-info-circle"></i></span>')
-
-                var risk_title = $('<div class="risk-title">')
-                    .append(risk_name)
-                factor_Info.append(risk_title)
-                    .append(risk_chart)
-                var risk_level = $('<div class="risk-level">')
-                    .append('<div class="risk-color" style="background-color:'+color+'">')
-                    .append('<p>'+label+'</p>')
-                factor_wrap.append(factor_Info).append(risk_level)
-                factor_layer.append(factor_wrap)
-                $('#risks-table').append(factor_layer)
-                if(drop_layer){
-                    factor_layer.append(drop_layer)
-                }
-                underlyingArr.map( v => {
-
-                    var label = v.lbl;
-                    var value = v.value;
-                    var disp_name = v.var_info.display_name;
-                    var description = v.var_info.description
-                    var max_zip = v.var_info.max_zip
-                    var median_zip = v.var_info.median_zip
-                    var min_zip = v.var_info.min_zip
-                    var order = v.var_info.order
-                    var right = v.var_info.right
-                    var var_name = v.var_name;
-                    //getting underlying variables
-                    if(label){
-                        var color = getColorbyLbl(label,right);
-                    }
-                    var drop_wrap = $('<div class="factor-wrap">');
-                    var drop_info = $('<div class="risk-factor">')
-                    var risk_chart = $('<div class="risk-chart chart-wrap">')
-                        .append('<div class="risk-svg-wrap" id="'+var_name+'-svg-wrap">')
-                    var risk_name = $('<h3>'+disp_name+': </h3>')
-                        .append('<span class="desc-tooltip" data-toggle="tooltip" data-html="true" title="'+description+'"><i class="fas fa-info-circle"></i></span>')
-                    var risk_title = $('<div class="risk-title">')
-                        .append(risk_name)
-                    drop_info.append(risk_title)
-                        .append(risk_chart)
-                    var risk_level = $('<div class="risk-level">')
-                        .append('<div class="risk-color" style="background-color:'+color+'">')
-                        .append('<p>'+label+'</p>')
-                    drop_wrap.append(drop_info).append(risk_level)
-                    drop_layer.append(drop_wrap)
-                    if(value){
-                        console.log(disp_name, value)
-                        createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right,7)
-                    }else{
-                        console.log(disp_name, value)
-                        $('#'+var_name+'-svg-wrap').append('<p style="position: absolute;font-size: 10px; padding:0 5%;">data not available</p>')
-                    }
-                })
-                
-                createRiskChart(parseFloat(min_zip),parseFloat(max_zip),parseFloat(median_zip),[parseFloat(value)],var_name,color,right,15)
-
-            })
-            enableTooltips();
-
-            //end of new method
-            $('.disp-geo').text(zip);
-
-            
-            for(var i=0; i<agedData.length; i++){
-                var label = agedData[i].lbl;
-                var right = agedData[i].var_info.right
-                var value = agedData[i].value;
-                if(label){
-                    var color = getColorbyLbl(label, right)
-                }
-                
-                var var_name = agedData[i].var_name;
-
-                var factor = agedData[i].var_info.factor;
-                var disp_name = agedData[i].var_info.display_name;
-
-                
-                if(factor == selectedAge){//overall score
-                    console.log(var_name,label)
-                    $('.text-dyno-color').css('color', color)
-                    $('.bg-dyno-color').css('background-color', color)
-                    var overallClass= 'risk-'+getInitials(label)
-                    if(value){
-                        $('#overall-score').text(value)
-                        updateLegend([value])
-                        $('#overall-lbl').text(label)
-                        $('#content-wrap').attr('class', 'started ' + overallClass)
-                        setTimeout(()=>{
-                            map.resize()
-                            var z_lat = data[0].zcta_geo.z_lat
-                            var z_lng = data[0].zcta_geo.z_lng
-                            map.flyTo({
-                                center: [z_lng,z_lat],
-                                zoom: 10
-                            })
-                            mapPin.setLngLat([z_lng,z_lat])
-                                .addTo(map);
-                        },201);
-                        
-                    }else{
-                        alert('data unavailable')
-                    }
-                    
-                }
-
-                if(var_name == 'pop_'+selectedAge){
-                    $('#pop-desc').text(disp_name);
-                    $('#pop-value').text(Math.round(value));
-                }
-            }
-
-        }else{//if no data is returned
-            alert('invalid zip')
-        }
-    })
-
-}
 
 
 function getInitials(str){
@@ -931,16 +823,20 @@ function getInitials(str){
     } 
 }
 
+
 $('#submit').on('click', function(e){
     e.preventDefault();
-    var query = $('#main-input').val();
+    query = $('#main-input').val();
     
     if (geoIsZip){
         queryZip(query)
+    }else{
+        queryCty(query)
     }
 })
 
-queryZip('78721')
+
+// queryZip('78721')
 function createRiskChart(min,max,median,val,divId,color,right,barH){
     var id = divId
     var margin = {top: 10, right: 30, bottom: 35, left: 30};
@@ -1104,12 +1000,13 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
         .transition()
         .duration(1000)
         .style('opacity', 1)
-        
-
-    
-    
-
 }
 
 
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+//TO TOGGLE THE DROPDOWNS OPEN AND COLLAPSE:
+//$('.drop-wrap').collapse('toggle')

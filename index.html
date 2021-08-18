@@ -37,7 +37,7 @@
         <div id="upper-content">
             <div id="home-left-col">
                 <div id="intro">
-                    <h1>Maltreatment Risk</h1>
+                    <h1>Maltreatment <br>Risk</h1>
                     <p>
                         Data presented in these maps are the estimated risk of maltreatment in communities across Texas. Data are not presented for communities with small child populations as these estimates are not reliable. 
                     </p>
@@ -45,66 +45,72 @@
                         You can learn more about how these estimates were produced here. You can learn more about a community’s maltreatment risk by selecting it on the map and clicking “learn more” or by typing in the ZIP Code in the search bar
                     </p>
                 </div>
-                <div id="controls-wrap">
-                    <div class="control-input switches d-flex">
-                        <div id="age-control">
-                            <label class="control-head">Age group:</label>
-                            <select class="control-element" name="age-groups" id="ageGroups" onchange="switchAge()">
-                                <option value="inf">Infants</option>
-                                <option value="1to4">1 to 4 year olds</option>
-                                <option value="5to9">5 to 9 year olds</option>
-                                <option value="10to14">10 to 14 year olds</option>
-                                <option value="15to17">15 to 17 year olds</option>
-                            </select>
-                        </div>
-                        <div id="geo-control">
-                            <label class="control-head">Geography:</label>
-                            <label class="switch">
-                                <input type="checkbox" id="geoBtn" onclick="switchGeo()" checked>
-                                <div class="slider round">
-                                    <!--ADDED HTML -->
-                                    <span class="zip">ZIP CODE</span>
-                                    <span class="cty">COUNTY</span>
-                                    
-                                    <!--END-->
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <form class="control-input search">
-                        <label class="control-head">Search by ZIP Code or county:</label>
-                        <div id="search-tool" class="d-flex">
-                            <div class="" id="search-bar">
-                                <div id="search-input">
-                                    <input class="input control-element" id="main-input" type="text">
-                                </div>
-                                
-                                <!-- <div id="selector-dropdown">  
-                                    <button type="button" class="dropdown-toggle control-element" data-toggle="dropdown">  
-                                        <i class="fas fa-mouse-pointer"></i>
-                                    </button>  
-                                    <div class="dropdown-menu">  
-                                        <a class="dropdown-item" href="#"><i class="fas fa-vector-square"></i></a>  
-                                        <a class="dropdown-item" href="#"> <i class="fas fa-draw-polygon"></i></a>  
-                                        <a class="dropdown-item" href="#"> <i class="far fa-circle"></i></a>  
-                                    </div>  
-                                </div>  -->
-                                
-                                <!-- <select name="search-tool" id="search-tool" onchange="">
-                                    <option value="inf">Select <i class="fas fa-draw-polygon"></i></option>
-                                    <option value="1to4"><i class="fas fa-mouse-pointer"></i></option>
-                                    <option value="5to9"><i class="fas fa-draw-polygon"></i></option>
+                <div id="controls-container">
+                    <div id="controls-wrap">
+                        <div class="control-input switches d-flex">
+                            <div id="age-control">
+                                <label class="control-head">Age group:</label>
+                                <select class="control-element" name="age-groups" id="ageGroups" onchange="switchAge()">
+                                    <option value="inf">Infants</option>
+                                    <option value="1to4">1 to 4 year olds</option>
+                                    <option value="5to9">5 to 9 year olds</option>
                                     <option value="10to14">10 to 14 year olds</option>
                                     <option value="15to17">15 to 17 year olds</option>
-                                </select> -->
+                                </select>
                             </div>
-                            <button class="control-element" type='submit' id="submit">Search</button>
+                            <div id="geo-control">
+                                <label class="control-head">Geography:</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="geoBtn" onclick="switchGeo()">
+                                    <div class="slider round">
+                                        <!--ADDED HTML -->
+                                        <span class="zip">ZIP CODE</span>
+                                        <span class="cty">COUNTY</span>
+                                        
+                                        <!--END-->
+                                    </div>
+                                </label>
+                            </div>
                         </div>
-                        
-                    </form>
+    
+                        <form class="control-input search">
+                            <label class="control-head">Search by ZIP Code or county:</label>
+                            <div id="search-tool" class="d-flex">
+                                <div class="" id="search-bar">
+                                    <div id="search-input">
+                                        <input class="input control-element" id="main-input" type="text">
+                                    </div>
+                                    
+                                    <!-- <div id="selector-dropdown">  
+                                        <button type="button" class="dropdown-toggle control-element" data-toggle="dropdown">  
+                                            <i class="fas fa-mouse-pointer"></i>
+                                        </button>  
+                                        <div class="dropdown-menu">  
+                                            <a class="dropdown-item" href="#"><i class="fas fa-vector-square"></i></a>  
+                                            <a class="dropdown-item" href="#"> <i class="fas fa-draw-polygon"></i></a>  
+                                            <a class="dropdown-item" href="#"> <i class="far fa-circle"></i></a>  
+                                        </div>  
+                                    </div>  -->
+                                    
+                                </div>
+                                <button class="control-element" type='submit' id="submit">Search</button>
+                            </div>
+                            
+                        </form>
+                    </div>
                 </div>
-
+                
+                <div id="logo-bar">
+                    <div class="logo-wrap" id="uthct-logo">
+                        <img src="./assets/img/uthct-w.png" alt="">
+                    </div>
+                    <div class="logo-wrap" id="uts-logo">
+                        <img src="./assets/img/uts-w.png" alt="">
+                    </div>
+                    <div class="logo-wrap" id="dfps-logo">
+                        <img src="./assets/img/DFPS_Logo_w.png" alt="">
+                    </div>
+                </div>
                 <!-- <div id="test">
                     
                 </div> -->
@@ -184,6 +190,8 @@
     </div>
 
     <script src= "./assets/js/app.js"></script>
+    <script src= "./assets/js/zip.js"></script>
+    <script src= "./assets/js/cty.js"></script>
 </body>
 </html>
 
