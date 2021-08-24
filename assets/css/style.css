@@ -18,7 +18,7 @@ button:focus{
     height: 100%;
     position: relative;
     transition: all 0.2s ease-in-out;
-    border-left: 2px solid #F4E9E6;
+    border-left: 2px solid #f0e1da;
 }
 #upper-content{
     height: 100vh;
@@ -61,12 +61,12 @@ button:focus{
     box-shadow: #1A1A1A88 0 0 2px;
 }
 .mapboxgl-popup-tip{
-    border-top-color: #fffffff5 !important;
+    /* border-top-color: #fffffff5 !important; */
 }
 .map-popup .name{
     font-weight: 500;
     font-family: aktiv-grotesk-extended, sans-serif;
-    border-bottom: 1px solid #F4E9E6;
+    border-bottom: 1px solid #f0e1da;
 }
 .map-popup .label{
     font-weight: 700;
@@ -85,7 +85,7 @@ button:focus{
 }
 .map-popup .pop-submit:hover{
     background-color: #1A1A1A;
-    color: #F4E9E6;
+    color: #f0e1da;
 }
 .map-popup p{
     margin-bottom: 5px;
@@ -134,7 +134,7 @@ button:focus{
     display: flex;
     top:0;
     left:0;
-    border-bottom: 1px solid #F4E9E6;
+    border-bottom: 1px solid #f0e1da;
     opacity: 0.85;
 }
 .scrolled #controls-wrap:hover{
@@ -161,7 +161,7 @@ button:focus{
     font-size: 10px;
 }
 #intro{
-    background-color: #F4E9E6;
+    background-color: #f0e1da;
     /* max-width:700px */
 }
 
@@ -204,7 +204,7 @@ button:focus{
     top:0;
 }
 #submit{
-    background-color: #F4E9E6;
+    background-color: #f0e1da;
     border-radius: 20px;
     font-family: aktiv-grotesk-extended, sans-serif;
     border: 1px solid #fff;
@@ -244,7 +244,7 @@ button:focus{
     content: "";
     height: 38px;
     width: 50%;
-    background-color: #F4E9E6;
+    background-color: #f0e1da;
     -webkit-transition: all cubic-bezier(.19,.69,0,1) 0.6s;
     transition: all cubic-bezier(.19,.69,0,1) 0.6s;
 }
@@ -270,10 +270,10 @@ button:focus{
     /* font-family: aktiv-grotesk-extended; */
 }
 #geoBtn:checked + .slider .cty{
-    color: #F4E9E677;
+    color: #f0e1da77;
 }
 #geoBtn:not(:checked) + .slider .zip{
-    color: #F4E9E677;
+    color: #f0e1da77;
 }
 
 .zip{
@@ -421,7 +421,7 @@ line.arrow{
 
 .drop-wrap{
     width: 100%;
-    padding-left: 20px
+    /* padding-left: 20px */
 }
 .drop-wrap .factor-wrap:last-child .risk-factor{
     padding-bottom: 40px;
@@ -475,7 +475,7 @@ line.arrow{
     margin-bottom: 0;
 }
 .risk-color{
-    width: 10px;
+    width: 6px;
     height: 100%;
 }
 #factor-head{
@@ -495,7 +495,7 @@ line.arrow{
     margin-bottom: 0;
 }
 .drop-wrap .risk-title{
-    /* width:40%; */
+    padding-left: 15px;
 }
 .drop-wrap h3{
     font-size: 14px;
@@ -521,7 +521,7 @@ line.arrow{
     padding: 0 5%;
 }
 .drop-wrap .risk-color{
-    width: 5px;
+    width: 3px;
     border-top:1px solid #ddd;
 }
 .rate-label{
@@ -535,6 +535,7 @@ line.arrow{
 .median-mark:hover .state-med-rate{
     opacity: 1;
 }
+
 .risk-svg-wrap{
     width: 100%;
     padding-bottom: 15%;
@@ -554,7 +555,7 @@ p.nodata-chart{
     left: 0;
 }
 .risk-svg-wrap .tick line{
-    stroke: #ccc;
+    stroke: #888;
 }
 .risk-svg-wrap .tick text{
     fill: #666;
@@ -562,17 +563,25 @@ p.nodata-chart{
 
 
 
-
-
-#chart-test{
-    width:50%;
-    height: 200px;
+#main-input-ac-list{
+    color: #fff;
+    position: absolute
+}
+#main-input-ac-list div{
+    padding: 5px 10px;
+    background-color: #f0e1da0f;
+}
+#main-input-ac-list div:hover, #main-input-ac-list .autocomplete-active{
+    background-color: #f0e1da2f;
 }
 
-#chart-test svg{
-    width: 100%;
-    height: 100%;
+.scrolled #main-input-ac-list div{
+    background-color: #1A1A1Ad1;
 }
+.scrolled #main-input-ac-list div:hover, .scrolled #main-input-ac-list .autocomplete-active{
+    background-color: #1A1A1Af1;
+}
+
 
 .bg-dyno-color, .text-dyno-color{
     transition: all 0.2s ease-in-out;
@@ -592,11 +601,3 @@ p.nodata-chart{
 .risk-cl .text-dyno-color{
     -webkit-text-stroke: 1px #1A1A1A88;
 }
-
-
-.modal-dialog{
-    background-color: #fff;
-}
-
-
-/* put these in the right place */

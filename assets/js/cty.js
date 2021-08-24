@@ -1,10 +1,10 @@
 function queryCty(cty){
-    query = cty;
-    $('#main-input').val(query)
+    $('#main-input').val(cty)
     $.get(apiUrl+'/api/maltreatment/cty/'+cty,function(data){
         console.log(data)        
         if(data[0]){
-            
+            cty = data[0].county
+            query=cty
             if(!$('#content-wrap').hasClass('scrolled')){
                 updateControlPos();
             }

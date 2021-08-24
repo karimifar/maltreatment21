@@ -5,29 +5,28 @@ var hoveredZipId;
 var selectedAge ='inf';
 var hoveredCtId;
 var geoIsZip = false;
-var geography= '_zip';
+var geography= '_cty';
 var visible_layer;
 var younger = true;
 var firstZipQuery = true;
 var firstCtyQuery = true;
 var query;
-// var currentColor;
-
+var input = document.getElementById("main-input");
+var keydownFunc;
+var inputFunc;
+var acList;
+$.get(apiUrl+"/api/alltxcounties", function(data){
+    acList = data;
+})
 function enableTooltips() {
     $('[data-toggle="tooltip"]').tooltip()
 }
 enableTooltips();
-// var COLORS = ["#eee","#5465d6","#2f96e0","#1ac7c2","#6e40aa","#df65b0","#ce1256","#91003f"]
-// var COLORS = ["#eee","#fde725","#90d743","#35b779","#21918c","#31688e","#443983","#440154"]
-var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
-
-// var COLORS = ["#eee",'#003eab','#00a3ea','#7faded','#9263d9','#e04584','#ce003b','#91003f']
-// #00ffaa|#17a67d|#237a60|#403c35|#783737|#b02626|#ff0000
-var COLORS = ["#eee","#00ffaa", "#17a67d", "#237a60", "#403c35", "#783737", "#b02626", "#ff0000"];
-// // #2799ff|#3070aa|#345b80|#423a3a|#783737|#a53636|#ff3333
-// var COLORS = ["#eee","#2799ff", "#3070aa", "#345b80", "#423a3a", "#783737", "#a53636", "#ff3333"];
-// // #00ff64|#17a64f|#237a45|#423940|#733568|#a3248d|#ff00d2
+// var COLORS = ["#eee","#aff05b","#60f760","#28ea8d","#1ac7c2","#2f96e0","#5465d6","#6e40aa"]
 // var COLORS = ["#eee","#00ff64", "#17a64f", "#237a45", "#423940", "#733568", "#a3248d", "#ff00d2"];
+// var COLORS = ["#eee","#00ffaa", "#17a67d", "#237a60", "#403c35", "#783737", "#b02626", "#ff0000"];
+
+// var COLORS = ["#eee","#2799ff", "#3070aa", "#345b80", "#423a3a", "#783737", "#a53636", "#ff3333"];
 // var COLORS = [
 //     '#eee',
 //     '#e9ddee',
@@ -38,6 +37,16 @@ var COLORS = ["#eee","#00ffaa", "#17a67d", "#237a60", "#403c35", "#783737", "#b0
 //     '#3D1B89',
 //     '#281C67',
 // ]
+// var COLORS = ["#fff", "#547a99", "#84a7c4", "#9cbdd9", "#d6cdcd", "#eb9b6a", "#e48043","#bf5b1d"];
+// var COLORS = ["#eee","#65a5ff", "#5485e1", "#4366c4", "#5b2e73", "#735200", "#b98600", "#ffb900"];
+// var COLORS = ["#EEE","#0080ff", "#006dd9", "#005bb2", "#472459", "#800000", "#c40f0f", "#ff4d4d"];
+// var COLORS = ["#eee", "#ffc800", "#92781c", "#5c502a", "#45343e", "#80265b", "#aa1970","#ff0099"];
+var COLORS  = ["#EEE","#9952ff", "#8337f2", "#6c1be6", "#590e47", "#803800", "#c05600", "#ff7300"];
+//edited:
+var COLORS  = ["#EEE","#9474f7", "#8337f2", "#5c10ad", "#590e47", "#803800", "#c05600", "#ff7300"];
+// var COLORS = ["#eee","#fffcd4", "#ecb29e", "#d86868", "#9b3557", "#872351", "#5e0146", "#420239"];
+
+
 var arrowColor = '#1A1A1A'
 var breaksArr = [-900,-0.9999,-0.4999,-0.2499,0.2501,0.5001,1.001]
 var legend =[
@@ -564,9 +573,11 @@ function updateGeo(){
     )
     if(geoIsZip){
         geography='_zip';
+        input.removeEventListener("input", inputFunc);   
         
     }else{
-        geography = '_cty'
+        geography = '_cty';
+        autocomplete(input, acList);
     }
     switchVisibility (visible_layer, 'pred_'+selectedAge+geography)
     map.setLayoutProperty(
@@ -670,7 +681,7 @@ function createLegend(data){
         .enter().append('g')
         .attr('class', 'legend-label')
         .attr('transform', d => `translate(${legendX(  d.range[0]+(d.range[1]-d.range[0])/2)}, ${height - margin.bottom - barH-5} )` )
-        .attr('font-size', 9)
+        .attr('font-size', '9px')
         
         .append('text')
 
@@ -698,7 +709,7 @@ function createLegend(data){
             .tickFormat(d3.format(10,"f"))
         )
         .call(g => g.select(".domain").remove())
-        .attr('font-size', 9)
+        .attr('font-size', '9px')
         .style('font-family', 'aktiv-grotesk-condensed')
 
     //I'm 
@@ -844,9 +855,22 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
     var height = 75;
     // var barH = 15;
     var startX;
-    var domain = [min,max]
+
+    var upperDev = max-median;
+    var lowerDev = median-min;
+    var diff = Math.abs(upperDev-lowerDev)
+    var dMin=min;
+    var dMax=max;
+    if(upperDev>lowerDev){
+        dMin = min-diff;
+    }else{
+        dMax = max+diff
+    }
+
+
+    var domain = [dMin,dMax]
     if(right == 'min'){
-        domain=[max,min]
+        domain=[dMax,dMin]
     }
     var ticks = [min,max]
     // if(min<0){ticks.push(0)}
@@ -896,6 +920,8 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
         .attr('stroke', '#666')  
         .style('fill', 'none')  
 
+    
+
     svg.append('g')
         .attr("transform", `translate(0,${height-margin.bottom-barH/2-5})`)
         .classed('risk-axis',true)
@@ -906,19 +932,31 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
             .tickSizeOuter(0)
             .tickValues(ticks)
             .tickFormat(d3.format(10,"f"))
-            
         )
         
         .call(g => g.select(".domain")
             .attr('transform', 'translate(0,5)')
-            .style('stroke', '#ccc')
+            .style('stroke', '#ddd')
             .style('stroke-width', 0.5)
-        
         )
-        .attr('font-size', 8)
+        .call(g => g.select(".domain")
+            
+        )
+        .attr('font-size', '8px')
         .style('font-family', 'aktiv-grotesk-condensed')
         .style('fill', '#666')
 
+    svg.append('g')
+        .append('line')
+        .attr('x1', X(min))
+        .attr('x2', X(max))
+        .attr('y1', height-margin.bottom-barH/2)
+        .attr('y2', height-margin.bottom-barH/2)
+        .attr('class', 'axis-line')
+        .style('stroke-width',0.5)
+        .style('stroke', '#888')
+    
+        
     svg.append('g').selectAll('rect')
         .data(val)
         .enter().append('rect')
@@ -959,7 +997,7 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
         .attr('x', X(median))
         .attr('y', height-12)
         .attr("text-anchor", "middle")
-        .style('font-size', 6)
+        .style('font-size', '6px')
         .style('fill', '#666')
 
     svg.selectAll('.median-mark')
@@ -970,7 +1008,7 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
         
         .attr('x', X(median))
         .attr('y', height-2)
-        .style('font-size', 8)
+        .style('font-size', '8px')
         .attr("text-anchor", "middle")
         // .style('display', 'none')
         
@@ -983,7 +1021,7 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
         .attr("text-anchor", "middle")
         .style('opacity', 0)
         .style('font-family', 'aktiv-grotesk-condensed, sans-serif')
-        .style('font-size', 12)
+        .style('font-size', '12px')
         .attr('transform', d =>`translate(${X(d)},${height-margin.bottom-barH-5})`)
         .transition()
         .duration(1000)
