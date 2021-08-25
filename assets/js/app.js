@@ -19,6 +19,10 @@ var allZips;
 $.get(apiUrl+"/api/alltxcounties", function(data){
     acList = data;
 })
+$.get(apiUrl+"/api/alltxzips", function(data){
+    allZips = data;
+    console.log(allZips)
+})
 function enableTooltips() {
     $('[data-toggle="tooltip"]').tooltip()
 }
