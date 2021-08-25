@@ -92,7 +92,7 @@ button:focus{
 }
 
 #intro, #controls-wrap{
-    padding:8% 30px 15px;
+    padding:5% 30px 15px;
 }
 .started #intro, .started #controls-wrap{
     padding: 30px 15px;
@@ -527,6 +527,11 @@ line.arrow{
 .rate-label{
     font-weight: 500;
     color: #1A1A1A;
+}
+.outside-text{
+    font-size: 8px;
+    font-weight: 300;
+    font-family: aktiv-grotesk-condensed, sans-serif;
 }
 .state-med-rate{
     opacity:0;

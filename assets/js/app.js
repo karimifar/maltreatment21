@@ -15,6 +15,7 @@ var input = document.getElementById("main-input");
 var keydownFunc;
 var inputFunc;
 var acList;
+var allZips;
 $.get(apiUrl+"/api/alltxcounties", function(data){
     acList = data;
 })
@@ -190,11 +191,13 @@ function createMap(){
     map.on('load', function () {
         var layers = map.getStyle().layers;
         for (var i = 0; i < layers.length; i++) {
+            console.log(layers[i].id)
             if (layers[i].type === 'symbol') {
                 firstSymbolId = layers[i].id;
                 break;
             }
         }
+        firstSymbolId = 'waterway';
 
         map.addSource("zips", {
             type: "geojson",
@@ -240,30 +243,30 @@ function createMap(){
             'type': 'line',
             'source': 'rivers',
             'paint':{
-                'line-color': '#1A1A1A',
+                'line-color': '#4e4141',
                 'line-width': 1
             }
         },firstSymbolId)
-        map.addLayer({
-            'id':'lakes',
-            'type': 'fill',
-            'source': 'lakes',
-            'paint':{
-                // 'line-color': 'red',
-                // 'line-width':1
-                'fill-color': '#1A1A1A',
-                'fill-opacity': 0.8   
-            }
-        },firstSymbolId)
-        map.addLayer({
-            'id':'bays',
-            'type': 'fill',
-            'source': 'bays',
-            'paint':{
-                'fill-color': '#1A1A1A',
-                'fill-opacity': 0.8
-            }
-        },firstSymbolId)
+        // map.addLayer({
+        //     'id':'lakes',
+        //     'type': 'fill',
+        //     'source': 'lakes',
+        //     'paint':{
+        //         // 'line-color': 'red',
+        //         // 'line-width':1
+        //         'fill-color': '#1A1A1A',
+        //         'fill-opacity': 0.8   
+        //     }
+        // },firstSymbolId)
+        // map.addLayer({
+        //     'id':'bays',
+        //     'type': 'fill',
+        //     'source': 'bays',
+        //     'paint':{
+        //         'fill-color': '#1A1A1A',
+        //         'fill-opacity': 0.8
+        //     }
+        // },firstSymbolId)
 
         map.addLayer({
             'id':'highways_minor',
@@ -365,7 +368,7 @@ function createMap(){
 createMap();
 
 function updateControlPos(){
-    controlsPos = $('#controls-wrap').offset().top + $('#controls-wrap').outerHeight() -100;
+    controlsPos = $('#controls-wrap').offset().top + $('#controls-wrap').outerHeight() +100;
 }
 updateControlPos();
 window.addEventListener('resize', function(event) {
@@ -892,6 +895,9 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
     if(val[0]>median && right == 'max'){
         startX = X(median)
     }
+    if(val[0]<min){
+        startX = X(min)
+    }
 
     console.log(val[0],median)
     var svg = d3.select('#'+id+'-svg-wrap')
@@ -966,7 +972,13 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
             .attr('height', barH)
             .transition()
             .duration(1000)
-            .attr('width', d => Math.abs(X(d)-X(median)))
+            .attr('width', d => {
+                if(d>max){
+                    return Math.abs(X(max)-X(median))
+                }
+                return Math.abs(X(d)-X(median))
+                
+            })
             .attr('x', startX)
     
     svg.selectAll('.median-mark')
@@ -1017,15 +1029,41 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
         .data(val).enter()
         .append('g').attr('class', 'rate-label')
         .append('text')
-        .text(d => d)
         .attr("text-anchor", "middle")
+        .text(d => {
+            if(d>max || d<min){
+                svg.selectAll('.rate-label').append('text')
+                    .text('(outside 99 percentile)')
+                    .attr('transform',d =>{
+                        if(d>max){
+                            return `translate(${X(max)-5},${height-margin.bottom-barH-5})`
+                        }else if(d<min){
+                            return `translate(${X(min)+5},${height-margin.bottom-barH-5})`
+                        }
+                    })
+                    .attr('class','outside-text')
+                    .attr("text-anchor", "middle")
+            }
+            return d;
+        })
+        
         .style('opacity', 0)
         .style('font-family', 'aktiv-grotesk-condensed, sans-serif')
         .style('font-size', '12px')
-        .attr('transform', d =>`translate(${X(d)},${height-margin.bottom-barH-5})`)
+        .attr('transform', d =>{
+            if (d>max){
+                return `translate(${X(max)},${height-margin.bottom-barH-15})`
+            }else if(d<min){
+                return `translate(${X(min)},${height-margin.bottom-barH-15})`
+            }else{
+                return `translate(${X(d)},${height-margin.bottom-barH-5})`
+            }
+        })
+        
         .transition()
         .duration(1000)
         .style('opacity', 1)
+    
     svg.selectAll('.rate-label')
         .append('line')
         .attr('y1', height-margin.bottom-barH-3)
