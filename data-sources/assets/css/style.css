@@ -1,0 +1,125 @@
+*{
+    font-family: aktiv-grotesk, sans-serif;
+}
+h1{
+    font-family: aktiv-grotesk-extended, sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    /* line-height: 1; */
+}
+h1 span{
+    font-weight: 500;
+}
+header{
+    padding: 20px 10% 5px;
+    background-color:#f0e1da;
+}
+.content-wrap{
+    background-color: #1A1A1A;
+    min-height: 90vh;
+    padding: 20px 10% 10%;
+    
+}
+
+#table-wrap{
+    color: #fff;
+    margin-top: 50px
+}
+
+.tbl-row{
+    display: flex;
+}
+.tbl-row:nth-child(odd){
+    background-color: #6f6f6f20;
+}
+.tbl-row:hover .tbl-col-src{
+    /* box-shadow: #f0e1da 0 0 10px; */
+    border-left: 3px solid #f0e1da;
+}
+.tbl-head{
+    background-color: #f0e1da !important;
+    color: #1A1A1A;
+    font-weight: 700;
+}
+.tbl-col{
+    padding: 10px 20px 15px;
+}
+.tbl-col-src{
+    width:60%;
+    border: 1px solid #484848;
+    transition: border-left 0.2s ease-in-out;
+}
+.tbl-col-var{
+    width:40%;
+    border: 1px solid #484848;
+}
+
+.tbl-head .tbl-col{
+    padding: 5px 20px 3px;
+}
+.tbl-col-src h3{
+    font-size: 18px;
+    font-weight: 700;
+}
+.tbl-col-cnss h3{
+    font-weight: 400;
+    font-size: 16px;
+}
+.tbl-col-src p{
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+.src-btn{
+    /* background-color: #f0e1da; */
+    border-radius: 5px;
+    font-family: aktiv-grotesk-extended, sans-serif;
+    border: 1px solid #f0e1da;
+    font-size: 14px;
+    padding: 2px 8px;
+    color: #f0e1da;
+}
+.src-btn:hover{
+    background-color: #f0e1da;
+    color: #1A1A1A
+}
+
+.tbl-col-var ul{
+    padding-inline-start: 15px;
+    list-style-type: '–  ';
+}
+.tbl-col-var li{
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 5px;
+}
+
+#row-4{
+    flex-wrap: wrap;
+    border: 1px solid #484848;
+}
+#row-4 .tbl-col-src{
+    width: 100%;
+    border:none;
+}
+.tbl-col-cnss{
+    width: 60%;
+    display: flex;
+}
+.row4-tbl-head{
+    background-color: #f0e1da4a;
+    color:#fff;
+}
+.tbl-col-cnss .tbl-col{
+    padding: 10px 20px 15px;
+    border: 1px solid #484848;
+}
+.cnss-table-name{
+    width:80%;
+}
+.cnss-table-no{
+    width:20%;
+}
+.row4-tbl-head .cnss-table-name, .row4-tbl-head .cnss-table-no{
+    padding: 5px 20px 3px;
+}
