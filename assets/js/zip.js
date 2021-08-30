@@ -171,7 +171,7 @@ function queryZip(zip){
 
 
         }else{//if no data is returned
-            alert('invalid zip')
+            alert('Risk not calculated for '+zip)
         }
     })
 
