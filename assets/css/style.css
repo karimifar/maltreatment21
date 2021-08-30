@@ -627,3 +627,16 @@ p.nodata-chart{
 .risk-cl .text-dyno-color{
     -webkit-text-stroke: 1px #1A1A1A88;
 }
+
+
+.mapboxgl-ctrl-bottom-right{
+    display: none;
+}
+.mapboxgl-marker path{
+    fill: #1A1A1A;
+    stroke: #f0e1da;
+    stroke-width: 1;
+}
+.mapboxgl-marker circle{
+    fill: #f0e1da
+}

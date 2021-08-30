@@ -354,6 +354,21 @@ function createMap(){
 
 
 createMap();
+map.addControl(
+    new mapboxgl.GeolocateControl({
+        positionOptions: {
+            enableHighAccuracy: true,
+        },
+        fitBoundsOptions: {
+            maxZoom: 12
+        },
+        showUserLocation: false
+    })
+);
+const nav = new mapboxgl.NavigationControl({});
+map.addControl(nav, 'top-right');
+
+
 
 function updateControlPos(){
     controlsH =  $('#controls-wrap').outerHeight();
