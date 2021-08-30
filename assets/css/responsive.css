@@ -1,5 +1,31 @@
+@media only screen and (max-width: 1440px){
+    
+}
+@media only screen and (max-width: 1199px){
+   
+}
 @media only screen and (max-width: 991px){
-    #mapwrap, #dashboard{
+    #upper-content{
+        flex-wrap: wrap;
+        height: auto;
+    }
+    #content-wrap.started #upper-content{
+        height: fit-content;
+    }
+    #mapwrap, #home-left-col{
         width: 100%;
     }
+    #mapwrap{
+        border-left: none;
+    }
+    #map, #mapwrap{
+        height: 60vh;
+    }
+
+}
+@media only screen and (max-width: 768px){
+
+}
+@media only screen and (max-width: 575px){
+    
 }

@@ -1,14 +1,22 @@
 *{
     font-family: aktiv-grotesk, sans-serif;
 }
-h1{
+h1, h1 a{
     font-family: aktiv-grotesk-extended, sans-serif;
     font-weight: 900;
     font-size: 36px;
+    color: #1A1A1A;
     /* line-height: 1; */
+}
+h1 a:hover{
+    color: unset;
+    opacity: 0.8;
+    text-decoration: none;
+
 }
 h1 span{
     font-weight: 500;
+    font-family: aktiv-grotesk-extended, sans-serif;
 }
 header{
     padding: 20px 10% 5px;
@@ -34,7 +42,8 @@ header{
 }
 .tbl-row:hover .tbl-col-src{
     /* box-shadow: #f0e1da 0 0 10px; */
-    border-left: 3px solid #f0e1da;
+    border-left: 2px solid #f0e1da;
+    padding-left: 19px;
 }
 .tbl-head{
     background-color: #f0e1da !important;
@@ -47,7 +56,7 @@ header{
 .tbl-col-src{
     width:60%;
     border: 1px solid #484848;
-    transition: border-left 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 .tbl-col-var{
     width:40%;

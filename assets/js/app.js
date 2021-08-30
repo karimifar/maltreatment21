@@ -16,9 +16,9 @@ var keydownFunc;
 var inputFunc;
 var acList;
 var allZips;
-$.get(apiUrl+"/api/alltxcounties", function(data){
-    acList = data;
-})
+var controlsPos;
+var controlsH;
+
 $.get(apiUrl+"/api/alltxzips", function(data){
     allZips = data;
     console.log(allZips)
@@ -223,16 +223,16 @@ function createMap(){
             data: apiUrl+ "/Texas/waters/rivers",
             generateId: true,
         })
-        map.addSource("lakes", {
-            type: "geojson",
-            data: apiUrl+ "/Texas/waters/lakes",
-            generateId: true,
-        })
-        map.addSource("bays", {
-            type: "geojson",
-            data: apiUrl+ "/Texas/waters/bays",
-            generateId: true,
-        })
+        // map.addSource("lakes", {
+        //     type: "geojson",
+        //     data: apiUrl+ "/Texas/waters/lakes",
+        //     generateId: true,
+        // })
+        // map.addSource("bays", {
+        //     type: "geojson",
+        //     data: apiUrl+ "/Texas/waters/bays",
+        //     generateId: true,
+        // })
 
         
         
@@ -251,26 +251,6 @@ function createMap(){
                 'line-width': 1
             }
         },firstSymbolId)
-        // map.addLayer({
-        //     'id':'lakes',
-        //     'type': 'fill',
-        //     'source': 'lakes',
-        //     'paint':{
-        //         // 'line-color': 'red',
-        //         // 'line-width':1
-        //         'fill-color': '#1A1A1A',
-        //         'fill-opacity': 0.8   
-        //     }
-        // },firstSymbolId)
-        // map.addLayer({
-        //     'id':'bays',
-        //     'type': 'fill',
-        //     'source': 'bays',
-        //     'paint':{
-        //         'fill-color': '#1A1A1A',
-        //         'fill-opacity': 0.8
-        //     }
-        // },firstSymbolId)
 
         map.addLayer({
             'id':'highways_minor',
@@ -362,7 +342,11 @@ function createMap(){
             'visibility',
             'visible'
         )
-        updateGeo();
+        $.get(apiUrl+"/api/alltxcounties", function(data){
+            acList = data;
+            updateGeo();
+        })
+        
         
         
     })
@@ -372,7 +356,8 @@ function createMap(){
 createMap();
 
 function updateControlPos(){
-    controlsPos = $('#controls-wrap').offset().top + $('#controls-wrap').outerHeight() +100;
+    controlsH =  $('#controls-wrap').outerHeight();
+    controlsPos = $('#controls-wrap').offset().top + controlsH +50;
 }
 updateControlPos();
 window.addEventListener('resize', function(event) {
@@ -389,6 +374,7 @@ $(window).scroll(function(){
     if(controlsPos){
         if ($(window).scrollTop()>controlsPos){
             $('#content-wrap').addClass('scrolled')
+            $('#controls-container').css('height', controlsH)
         }else{
             $('#content-wrap').removeClass('scrolled')
         }

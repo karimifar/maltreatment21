@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.typekit.net/gjn3fft.css">
+    <!-- BOOTSTRAP CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <!-- D3 -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script type="module">
+        import * as d3 from "https://cdn.skypack.dev/d3@7";
+    </script>
+
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <title>Maltreatment Risks | Variable Definitions</title>
+</head>
+<body>
+    <header>
+        <h1> <a href="../">Maltreatment Risk</a><br><span>Variable Definitions</span></h1>
+    </header>
+    <div class="content-wrap">
+        <div class="tbl-group" id="yng-tables">
+            <div class="table-wrap" id="table-1">
+                <div class="tbl-row tbl-row-head factor-head collapsed" id="hea-tgl" data-toggle="collapse" data-target="#hea-drop-wrap" aria-expanded="false" aria-controls="hea-drop-wrap">
+                    <div class="tbl-col tbl-col-nm">
+                        <div class="triangle">
+                            <i class="fas fa-caret-right"></i>
+                        </div>
+                        <div class="name-content">
+                            <h3>Health and Disability</h3>
+                            <p>Community's overall health factor risk score</p>
+                        </div>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            This factor is the main driver of our risk models for children younger than 10. We find that these risks, are highly correlate and present in many communities with economic disadvantage. However, when these indicators are low for a community, it tends to be low risk for maltreatment, even if the community is high in economic disadvantage.
+                        </p>
+                    </div>
+                </div>
+                <div id="hea-drop-wrap" class="collapse">
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Disability benefits
+                            </h3>
+                            <p>
+                                Percent of adults 35 to 64 who are receiving SSN benefits for a qualifying disability
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Having a relatively large proportion of adults receiving disability benefits can be driven by two processes. The first process is that adults in the community tend to be employed in jobs and sectors with high rates of injury. The second process is that the community has a high percent of adults with debilitating mental health disorders or substance use disorders. To help understand these two processes in a community, we recommend looking at this variable in conjunction with other data. In particular, if a community is in the high range of this variable, we recommend looking at the community’s prenatal drug exposure rate. If both are high, it is likely that the community may also suffer from high rates of substance use and poor access to mental health/substance use treatment.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Father named on birth certificate
+                            </h3>
+                            <p>
+                                Percent of babies with the father named on the birth certificate
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Positive father involvement during pregnancy and after are a major protective factor for a variety of family outcomes. Research shows that when the father is named on the birth certificate, even when the parents are not married, it is an indication of involvement during pregnancy. In communities with low rates of father’s not being named on the birth certificate, consideration needs to be given towards supporting and encouraging positive father involvement, but also recognizing that mothers without a positive partner need more support during pregnancy and after to help mitigate the stress of this time. 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Breastfed in hospital
+                            </h3>
+                            <p>
+                                Percent of infants breastfed in the hospital
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Breastfeeding before discharge from the hospital is an important metric for breastfeeding continuation. The health benefits of breastfeeding are well established. In addition, early breastfeeding can also help encourage bonding between the parent and baby. 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-2">
+                <div class="tbl-row tbl-row-head factor-head collapsed" id="income-tgl" data-toggle="collapse" data-target="#income-drop-wrap" aria-expanded="false" aria-controls="income-drop-wrap">
+                    <div class="tbl-col tbl-col-nm">
+                        <div class="triangle">
+                            <i class="fas fa-caret-right"></i>
+                        </div>
+                        <div class="name-content">
+                            <h3>Low Income</h3>
+                            <p>Community's overall low-income risk score</p>
+                        </div>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Communities with a high concentration of families that are low-income are not necessarily communities with a high concentration of poverty. Communities with high scores on the Low Income factor are those with a high concentration of families that may fall outside of the income requirements for many safety net services that have low income requirement, but still could benefit from some help.  
+                        </p>
+                    </div>
+                </div>
+                <div id="income-drop-wrap" class="collapse">
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Management positions
+                            </h3>
+                            <p>
+                                Percent of workers employed in a management position
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Employment sector positions were divided into service sector and management sector jobs to estimate wage potential in the community. Service sector positions tend to lower paying than managerial sector jobs. Communities that are identified as Low Income have lower employment in management positions. 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Less than a high school education
+                            </h3>
+                            <p>
+                                Percent of Population 25 and older with less that a high school diploma
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Concentration of population with low education can also reflect the wage-earning potential of the community. These data were estimated for those over the age of 25 to correct for the time it takes a part-time student to complete a college education. Communities that are identified as Low Income tend to have higher concentrations of adults with low education attainment.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Some college
+                            </h3>
+                            <p>
+                                Percent of population 25 and older at least some college
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Concentration of population with higher education can also reflect the wage-earning potential of the community. These data were estimated for those over the age of 25 to correct for the time it takes a part-time student to complete a college education.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Median home value
+                            </h3>
+                            <p>
+                                Median home value of owner-occupied homes
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Median home value for owner-occupied homes can reflect both the income of the community and the affordability of the community. We encourage organizations to take a deeper dive into this data point to understand it in the communities they serve.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Adult insurance coverage
+                            </h3>
+                            <p>
+                                Percent of 19- to 44-year-olds with health insurance
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                This variable reflects the adult population without health insurance. Given that this is an indicator of low-income communities, coupled with the high percentage of working adults in service sector jobs, it is important to recognize that many uninsured adults are working.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                WIC use at birth
+                            </h3>
+                            <p>
+                                Percent of babies born to a mother receiving WIC benefits
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                The Women Infant and Children supplemental nutrition plan is an asset to families. Use of WIC at birth is considered positive and WIC use has been tied to several positive outcomes for families in economically disadvantaged situations.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Deliveries to a teen mother
+                            </h3>
+                            <p>
+                                Ratio of all hospital-based deliveries that were to a mother younger than 18 years old
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                We estimate the percent of births in the community to a teen mother two ways. This measure is used in the models and is estimated from the total number of hospital-based births to a teen. Due to limitations of the hospital data, this measure is not as precise as when teen births are estimated from the birth vital records data.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-3">
+                <div class="tbl-row tbl-row-head factor-head collapsed" id="poverty-tgl" data-toggle="collapse" data-target="#poverty-drop-wrap" aria-expanded="false" aria-controls="poverty-drop-wrap">
+                    <div class="tbl-col tbl-col-nm">
+                        <div class="triangle">
+                            <i class="fas fa-caret-right"></i>
+                        </div>
+                        <div class="name-content">
+                            <h3>Family Poverty</h3>
+                            <p>Community's overall poverty risk score</p>
+                        </div>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Families in Poverty factor reflects a concentration of children and families that have incomes at or below the federal poverty level. These communities have a high concentration of families that would be eligible for most income-based aid.
+                        </p>
+                    </div>
+                </div>
+                <div id="poverty-drop-wrap" class="collapse">
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Children in poverty
+                            </h3>
+                            <p>
+                                Percent of population younger than 18 living at or below federal poverty level
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Children in poverty is the percentage of children in the population who live in a household whose income is less than the federal poverty level. It is important to point out that this percent is less than the percent of children that would be eligible for many safety nets services as these services have income eligibility levels above this level.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Families in poverty
+                            </h3>
+                            <p>
+                                Percent of families with at least one child living at or below the federal poverty level
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Families with at least one child and below the federal poverty level. This data points reflects households with children, not individual children.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                SNAP use
+                            </h3>
+                            <p>
+                                Percent of children living in a family who received SNAP benefits
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                As with children in poverty, this measure represents the precent of children whose family has received SNAP in the past year. SNAP, like several other programs, can have a profound protective impact on the family. When viewing and interpreting this data point it is also important to also consider poverty, WIC use, and employment metrics to understand how these metrics are interacting in the community.
+                            </p>
+                        </div>
+                    </div>
+                                    
+                </div>
+            </div>
+            <div class="table-wrap" id="table-4">
+                <div class="tbl-row tbl-row-head factor-head collapsed" id="safety-tgl" data-toggle="collapse" data-target="#safety-drop-wrap" aria-expanded="false" aria-controls="safety-drop-wrap">
+                    <div class="tbl-col tbl-col-nm">
+                        <div class="triangle">
+                            <i class="fas fa-caret-right"></i>
+                        </div>
+                        <div class="name-content">
+                            <h3>Safety</h3>
+                            <p>Community's overall safety risk score</p>
+                        </div>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Safety factor reflects a culture of safety in the community. Childhood injury is a multifactor problem that can reflect health literacy, risk taking, or parental monitoring. In all communities in Texas, the local trauma hospital is responsible for reducing injury in the community. We recommend that local coalitions and individual maltreatment reduction programs partner with these injury prevention teams for resources and to help address injury concerns in the community. 
+                        </p>
+                    </div>
+                </div>
+                <div id="safety-drop-wrap" class="collapse">
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Fall related injuries
+                            </h3>
+                            <p>
+                                Ratio of emergency department visits or hospitalization for a fall per 10,000 children 0- to 17-years old
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Falls are the leading cause of injury for children younger than the age of 5 and the second leading cause for children older than 5. 
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Transportation related injuries
+                            </h3>
+                            <p>
+                                Ratio of emergency department visits or hospitalization for a transportation related injury per 10,000 children 0- to 17-years old
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Transportation incidences are the leading cause of injury for children older than the age of 5.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tbl-row">
+                        <div class="tbl-col tbl-col-nm">
+                            <h3>
+                                Infant emergency department visits
+                            </h3>
+                            <p>
+                                Ratio of infants with any emergency department visit per 10,000 infants in population
+                            </p>
+                            
+                        </div>
+                        <div class="tbl-col tbl-col-def">
+                            <p>
+                                Infant emergency department visits are not just injuries, but also sick visits. Infant ED visits have been seen as an important metric for community health. This metric can be reflective of health literacy in the community or access to primary care.  
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-5">
+                <div class="tbl-row tbl-row-head" id="childcare-tgl">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Enrolled in childcare</h3>
+                        <p>Percent of 3- and 4-year-olds enrolled in formal childcare</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            These data reflect the percent of children in a formal preschool or daycare setting. These data do not necessarily reflect children in informal daycare situations. For communities with a high percent of children enrolled, we see better access to formal childcare including Head Start. For these communities, we emphasis how childcare access is an asset. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-6">
+                <div class="tbl-row tbl-row-head" id="edu-tgl">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Enrolled in formal education</h3>
+                        <p>Percent of 18- and 19-year-olds enrolled in some sort of education</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Low percentages of 18- to 19-year-olds enrolled in formal school reflects two processes in the community. One these data might reflect a high dropout rate among teens. The second issue is that these data may reflect a poor high school to college/technical school pipeline in the community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-7">
+                <div class="tbl-row tbl-row-head" id="assults-tgl">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Assaults resulting in medical care</h3>
+                        <p>Ratio of emergency department visits or hospitalization due to assaults per 10,000 15-to 44-year-olds</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            This metric reflects the level of violent crime involvement in the community. Unlike other crime statistics, this metric reflects where the individual involved lived, not where the incident took place. However, this metric only includes those incidences severe enough that medical attention was required. A low ratio on this metric does not necessarily reflect a low crime rate in the community, as petty crime and larceny is not included. However, a high rate does indicate a high level of violent criminal involvement in the community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-8">
+                <div class="tbl-row tbl-row-head" id="imr-tgl">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Infant mortality</h3>
+                        <p>Rate of infant death per 1,000 live births</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Infant mortality, like infant maltreatment is a multifaceted problem with no one clear cause or approach to prevent it. However, we do see that infant mortality and infant maltreatment tend to be correlated in communities. This indicates that there are shared underlying factors contributing to both, outside of the ones named here. For communities with high infant mortality rate, we recommend that they partner with local Health Texas Babies coalitions and other local infant mortality reduction programs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tbl-group" id="old-tables">
+            <h2>Metrics specific to maltreatment risk among children 10 to 17 years old</h2>
+            <div class="table-wrap" id="table-9">
+                <div class="tbl-row tbl-row-head" id="old-1">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Unintentional injuries resulting in hospital visit per 10,000 10- to 17-year-olds</h3>
+                        <p>Ratio of emergency department visits or hospitalization due to unintentional injuries per 10,000 10- to 17-year-olds</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            As with other injury metrics, unintentional injuries (those not caused by another person, or self-inflicted) can reflect a multifaceted problem from health literacy to access to primary care to low parental monitoring. As with other injury metrics, we recommend partnering with injury prevention programs in the area to gain a better understanding of the underlying drivers of this metric in your community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-10">
+                <div class="tbl-row tbl-row-head" id="old-2">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Prenatal drug exposure per 1,000 births</h3>
+                        <p>Ratio of babies born with an indication of prenatal drug exposure per 1,000 babies born in a hospital</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Communities with high prenatal drug exposure tend to also have high substance use rates among adults generally. Rates of prenatal drug exposure reflect general drug use in the community.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-11">
+                <div class="tbl-row tbl-row-head" id="old-3">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Assaults per 10,000 adults (18-44 yrs old) resulting in medical care</h3>
+                        <p>Ratio of emergency department visits or hospitalization due to assaults to 10,000 18- to 44-year-olds</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            This metric reflects the level of violent crime involvement in the community among adults. Unlike other crime statistics, this metric reflects where the individual involved lived, not where the incident took place. This adult metric is important for both 10-14 year old and 15-17 year old maltreatment risk.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-12">
+                <div class="tbl-row tbl-row-head" id="old-4">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Assaults per 10,000 adolescents resulting in medical care</h3>
+                        <p>Ratio of emergency department visits or hospitalization due to assaults per 10,000 15- to 17-year-olds</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            This metric reflects the level of violent crime involvement in the community among teens. This teen metric is primarily important for 15-17 year old maltreatment risk.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-13">
+                <div class="tbl-row tbl-row-head" id="old-5">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Substance use related hospital visits per 10,000 18- to 44-year olds</h3>
+                        <p>Ratio of emergency department visits or hospitalization that involved substance use per 10,000 18- to 44-year olds</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            This metric reflects severe drug usage that resulted in an overdose, a short hospitalization for de-toxification, or admission to a hospital-based substance use program among adults.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-14">
+                <div class="tbl-row tbl-row-head" id="old-6">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Employed in service sector positions</h3>
+                        <p>Percent of workers employed in a service sector position</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Employment sector positions were divided into service sector and management sector jobs to estimate wage potential in the community. Service sector positions tend to lower paying than managerial sector jobs.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-15">
+                <div class="tbl-row tbl-row-head" id="old-7">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Vacant housing units</h3>
+                        <p>Percent of housing units that were vacant</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            A high concentration of vacant housing units reflects economic decline in the community and a decrease in population. High concentrations of vacant housing has also been tied to poor health in the community and other indications of poor well-being.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-16">
+                <div class="tbl-row tbl-row-head" id="old-8">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Only high school education</h3>
+                        <p>Percent of population 25 and older with only a high school diploma or equivalent</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Concentration of population with low education can also reflect the wage-earning potential of the community. These data were estimated for those over the age of 25 to correct for the time it takes a part-time student to complete a college education.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap" id="table-17">
+                <div class="tbl-row tbl-row-head" id="old-9">
+                    <div class="tbl-col tbl-col-nm">
+                        <h3>Maltreatment risk for 10- to 14-year-olds</h3>
+                        <p>Community's predicted maltreatment risk score for 10- to 14-year-olds</p>
+                    </div>
+                    <div class="tbl-col tbl-col-def">
+                        <p>
+                            Maltreatment risk across age groups is such that the further apart in age, the lower the correlation. For 15 to 17 year olds, they share maltreatment risk with 10 to 14 year olds, but not with younger children. This means that the same underlying risk for maltreatment that we see with 10 to 14 year olds, applies to 15 to 17 year olds. These relationships across ages also means that if an organization want to reduce maltreatment across all age groups, their approach and which communities are targeted may be different for younger and older age groups.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src= ""></script>
+</body>
+</html>
+
+

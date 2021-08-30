@@ -97,6 +97,22 @@ button:focus{
 .started #intro, .started #controls-wrap{
     padding: 30px 15px;
 }
+#intro{
+    background-color: #f0e1da;
+    /* max-width:700px */
+}
+#intro a{
+    color:unset;
+    text-decoration: underline;
+    border-radius: 2px;
+    padding: 1px;
+    font-style: italic;
+    /* font-weight: 700; */
+}
+#intro a:hover{
+    background-color: #1A1A1Af1;
+    color: #f0e1da
+}
 #logo-bar{
     display: flex;
     background-color: #1A1A1A;
@@ -160,10 +176,7 @@ button:focus{
 .scrolled .control-head{
     font-size: 10px;
 }
-#intro{
-    background-color: #f0e1da;
-    /* max-width:700px */
-}
+
 
 
 .dropdown-menu{
@@ -373,6 +386,8 @@ line.arrow{
     font-size: 24px;
     align-self: center;
     padding: 0 20px;
+    max-width: 330px;
+    text-align: right;
 }
 #score .layer-title span{
     font-weight: 700;
@@ -398,6 +413,12 @@ line.arrow{
 }
 #population h2 span{
     font-weight: 700;
+}
+#pop-value{
+    color:#eee;
+    background-color: #1A1A1A;
+    padding: 3px 6px;
+    border-radius: 4px;
 }
 
 .factor-layer{

@@ -167,7 +167,7 @@ function queryCty(cty){
                 $('#content-wrap').addClass('scrolled')
             }
             //end of new method
-            $('.disp-geo').text(cty);
+            $('.disp-geo').text(query+' county');
 
         }else{//if no data is returned
             alert('Risk is not calculated for '+cty)
