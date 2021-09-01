@@ -903,6 +903,9 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
     if(val[0]<min){
         startX = X(min)
     }
+    if(val[0]>max && right=='min'){
+        startX = X(max)
+    }
 
     console.log(val[0],median)
     var svg = d3.select('#'+id+'-svg-wrap')
@@ -1041,7 +1044,12 @@ function createRiskChart(min,max,median,val,divId,color,right,barH){
                     .text('(outside 99 percentile)')
                     .attr('transform',d =>{
                         if(d>max){
-                            return `translate(${X(max)-5},${height-margin.bottom-barH-5})`
+                            if(right =='max'){
+                                return `translate(${X(max)-5},${height-margin.bottom-barH-5})`
+                            }else if(right=='min'){
+                                return `translate(${X(max)+5},${height-margin.bottom-barH-5})`
+                            }
+                            
                         }else if(d<min){
                             return `translate(${X(min)+5},${height-margin.bottom-barH-5})`
                         }
