@@ -2,7 +2,12 @@
     
 }
 @media only screen and (max-width: 1199px){
-   
+    h1{
+        font-size: 40px;
+    }
+   #intro p{
+       font-size: 14px;
+   }
 }
 @media only screen and (max-width: 991px){
     #upper-content{
@@ -22,10 +27,111 @@
         height: 60vh;
     }
 
+    .control-element{
+        height: 35px;
+        padding: 3px 6px;
+        /* font-size: 12px; */
+    }
+    #submit{
+        padding: 0 20px;
+    }
+    .switch{
+        height: 35px;
+    }
+    .switch .zip, .switch .cty{
+        top: 8px;
+    }
+    .slider:after{
+        height: 33px;
+    }
+    .dashboard-layer{
+        padding:20px;
+    }
+    #risk-guide{
+        padding: 5px 20px;
+    }
+    .factor-layer{
+        padding: 0 10px;
+    }
+    .risk-factor{
+        padding: 15px 5px;
+    }
+    #big-label h1{
+        font-size: 32px;
+    }
+    #legend-title{
+        font-size: 28px;
+    }
+    .risk-level p{
+        font-size: 14px;
+    }
 }
 @media only screen and (max-width: 768px){
+    .dashboard-layer{
+        padding:10px;
+    }
+    .factor-layer{
+        padding: 0 10px;
+    }
+    #risk-guide{
+        padding: 5px 10px;
+        flex-wrap: wrap;
+    }
+    #guide-chart{
+        width: 100%;
+    }
+    h1{
+        font-size: 36px;
+    }
+    #intro, #controls-wrap{
+        padding:20px 10px 10px;
+    }
+    .started #intro, .started #controls-wrap{
+        padding:20px 10px 10px;
+    }
+    #logo-bar{
+        padding: 0 10px;
+    }
+    #legend-title{
+        font-size: 20px;
+    }
+    .layer-title p{
+        font-size: 20px;
+    }
+    #population h2{
+        font-size: 20px;
+    }
+    #pop-value{
+        padding: 1px 4px;
+    }
+    .layer-title .tagline{
+        font-size: 12px;
+    }
+    #big-label h1{
+        font-size: 24px;
+    }
+    .risk-factor{
+        flex-wrap: wrap;
+    }
+    .risk-title{
+        width:100%;
+        margin-bottom: 10px;
+    }
+    .risk-chart{
+        width: 100%;
+    }
+    .risk-level p{
+        font-size: 12px;
+        padding: 5px;
+    }
+    #score h1{
+        font-size: 36px;
+    }
 
 }
 @media only screen and (max-width: 575px){
+    .control-head{
+        font-size: 10px;
+    }
     
 }
