@@ -59,8 +59,9 @@
     .tbl-col-cnss h3{
         font-size: 14px;
     }
-    .cnss-table-no{
-        font-size: 12px;
+    .cnss-table-no.tbl-col{
+        font-size: 10px;
+        padding: 10px 3px 15px;
     }
 
 }
