@@ -490,6 +490,7 @@ line.arrow{
     width: 20%;
     /* padding: 15px; */
     border-left: 1px solid #ddd;
+    overflow: hidden;
 }
 .risk-level p{
     padding: 10px;

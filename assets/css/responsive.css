@@ -85,9 +85,18 @@
     }
     #intro, #controls-wrap{
         padding:20px 10px 10px;
+        flex-wrap: wrap;
+    }
+    .scrolled form.search{
+        width: 100%;
+        margin-bottom: 10px;
     }
     .started #intro, .started #controls-wrap{
         padding:20px 10px 10px;
+    }
+    .scrolled #controls-wrap{
+        padding: 10px 10px 5px;
+        opacity: 1;
     }
     #logo-bar{
         padding: 0 10px;
@@ -126,6 +135,15 @@
     }
     #score h1{
         font-size: 36px;
+    }
+    .risk-title h3{
+        font-size: 14px;
+    }
+    .drop-wrap .risk-title{
+        padding-left: 10px;
+    }
+    .drop-wrap .risk-factor{
+        padding: 15px 0;
     }
 
 }
