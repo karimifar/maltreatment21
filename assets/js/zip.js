@@ -66,8 +66,13 @@ function queryZip(zip){
                 }
             }
 
-            var mainFactors = agedData.filter(variable => variable.var_info.factor == 'factor')
+            if(younger){
+                var mainFactors = agedData.filter(variable => variable.var_info.factor == 'factor')
                 .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
+            }else{
+                var mainFactors = agedData.filter(variable => older_variables.indexOf(variable.var_info.factor)>=0)
+                .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
+            }
             mainFactors.map(v => {
                 var label = capitalizeFirstLetter(v.lbl);
                 

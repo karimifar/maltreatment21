@@ -18,7 +18,7 @@ function queryCty(cty){
 
             //test for filtering https://www.javascripttutorial.net/javascript-array-filter/
             var agedData = data.filter(variable => variable.var_info.age ==2 ||variable.var_info.age == ageFilter)
-
+            console.log(agedData)
             for(var i=0; i<agedData.length; i++){
                 var label = agedData[i].lbl;
                 var right = agedData[i].var_info.right
@@ -66,8 +66,14 @@ function queryCty(cty){
                     $('#pop-value').text(Math.round(value));
                 }
             }
-            var mainFactors = agedData.filter(variable => variable.var_info.factor == 'factor')
+            if(younger){
+                var mainFactors = agedData.filter(variable => variable.var_info.factor == 'factor')
                 .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
+            }else{
+                var mainFactors = agedData.filter(variable => older_variables.indexOf(variable.var_info.factor)>=0)
+                .sort((v1,v2) => v1.var_info.order - v2.var_info.order)
+            }
+            
             mainFactors.map(v => {
                 var label = capitalizeFirstLetter(v.lbl);
                 

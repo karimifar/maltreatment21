@@ -19,6 +19,8 @@ var allZips;
 var controlsPos;
 var controlsH;
 
+var older_variables = ['factor', 'pred_lowincome', 'pred_health']
+
 $.get(apiUrl+"/api/alltxzips", function(data){
     allZips = data;
     console.log(allZips)
