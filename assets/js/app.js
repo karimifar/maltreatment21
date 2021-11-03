@@ -140,7 +140,8 @@ function createMap(){
         center: [-100.000000, 31.000000],
         maxZoom: 12,
         minZoom: 5,
-        style: mapStyle
+        style: mapStyle,
+        preserveDrawingBuffer: true
     })
 
 ///START OF MAPBOX GL DRAW

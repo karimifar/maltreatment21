@@ -175,6 +175,11 @@ function queryCty(cty){
             //end of new method
             $('.disp-geo').text(query+' county');
 
+            $('#lower-content .button-group').empty()
+            var buttonGroup = $('#lower-content .button-group')
+            buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/cty/'+query+'"><i class="fas fa-table"></i> Download data for '+query+' county</a></button>')
+            buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
+
         }else{//if no data is returned
             alert('Risk is not calculated for '+cty)
         }

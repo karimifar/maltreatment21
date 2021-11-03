@@ -9,13 +9,84 @@
        font-size: 14px;
    }
 }
-@media only screen and (max-width: 991px){
+
+@media print{
+    #upper-content{
+        flex-wrap: wrap;
+        height: auto;
+    }
+    .scrolled #controls-wrap{
+        position: relative;
+        display: block;
+        border-bottom: none;
+        opacity: 1;
+        padding: 10px;
+    }
+    .scrolled .control-input{
+        margin-bottom: 20px;
+    }
+    #content-wrap.started #upper-content{
+        height: fit-content;
+        height: -moz-fit-content;
+    }
+    #mapwrap, #home-left-col{
+        width: 100%;
+    }
+    #mapwrap{
+        border-left: none;
+    }
+    #map, #mapwrap{
+        height: 60vh;
+    }
+
+    .control-element{
+        height: 35px;
+        padding: 3px 6px;
+        /* font-size: 12px; */
+    }
+    #submit{
+        padding: 0 20px;
+    }
+    .switch{
+        height: 35px;
+    }
+    .switch .zip, .switch .cty{
+        top: 8px;
+    }
+    .slider:after{
+        height: 33px;
+    }
+    .dashboard-layer{
+        padding:20px;
+    }
+    #risk-guide{
+        padding: 5px 20px;
+    }
+    .factor-layer{
+        padding: 0 10px;
+    }
+    .risk-factor{
+        padding: 15px 5px;
+    }
+    #big-label h1{
+        font-size: 32px;
+    }
+    #legend-title{
+        font-size: 28px;
+    }
+    .risk-level p{
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 991px){
     #upper-content{
         flex-wrap: wrap;
         height: auto;
     }
     #content-wrap.started #upper-content{
         height: fit-content;
+        height: -moz-fit-content;
     }
     #mapwrap, #home-left-col{
         width: 100%;

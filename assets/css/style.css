@@ -108,17 +108,38 @@ button:focus{
     background-color: #f0e1da;
     /* max-width:700px */
 }
-#intro a{
-    color:unset;
-    text-decoration: underline;
-    border-radius: 2px;
-    padding: 1px;
-    font-style: italic;
-    /* font-weight: 700; */
+#intro .button-group{
+    display: flex;
+    /* justify-content: center; */
+    margin-bottom: 1em;
 }
-#intro a:hover{
-    background-color: #1A1A1Af1;
-    color: #f0e1da
+.button-group button{
+
+    margin: 0 5px;
+    background-color: #f0e1da;
+    border-radius: 5px;
+    border: 2px solid #1A1A1A;
+    font-size: 14px;
+    padding: 2px 8px;
+    color: #1A1A1A;
+}
+.button-group button:hover{
+    background-color: #1A1A1A;
+    /* border: 2px solid #1A1A1A; */
+    color: #f0e1da;
+}
+.button-group a{
+    color:unset;
+    font-family: aktiv-grotesk-extended, sans-serif;
+    text-decoration: none;
+}
+.button-group a:hover{
+    text-decoration: none;
+    /* color: #f0e1da */
+}
+#intro p a{
+    color: unset;
+    text-decoration: underline;
 }
 #logo-bar{
     display: flex;
@@ -649,4 +670,16 @@ p.nodata-chart{
 }
 .mapboxgl-marker circle{
     fill: #f0e1da
+}
+
+#lower-content .button-group{
+    padding: 20px 5% 80px;
+    display: flex;
+    justify-content: center;
+    background-color: #f0e1da;
+    border-top: 1px solid #1A1A1A;
+    
+}
+#lower-content .button-group button{
+    font-size: 19px;
 }
