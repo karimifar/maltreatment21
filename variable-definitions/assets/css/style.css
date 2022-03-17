@@ -1,36 +1,4 @@
-*{
-    font-family: aktiv-grotesk, sans-serif;
-}
-h1, h1 a{
-    font-family: aktiv-grotesk-extended, sans-serif;
-    font-weight: 900;
-    font-size: 36px;
-    color: #1A1A1A;
-    /* line-height: 1; */
-}
-h1 a:hover{
-    color: unset;
-    opacity: 0.8;
-    text-decoration: none;
 
-}
-h1 span{
-    font-weight: 500;
-    font-family: aktiv-grotesk-extended, sans-serif;
-}
-header{
-    padding: 20px 10% 5px;
-    background-color:#f0e1da;
-}
-.content-wrap{
-    background-color: #1A1A1A;
-    min-height: 90vh;
-    padding: 20px 10% 10%;
-    
-}
-p{
-    margin-bottom: 0;
-}
 #yng-tables{
     margin-top: 50px;
 }

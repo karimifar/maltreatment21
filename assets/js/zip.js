@@ -1,7 +1,7 @@
 function queryZip(zip){
     query = zip;
     $('#main-input').val(query)
-    $.get(apiUrl+'/api/maltreatment/zip/'+zip,function(data){
+    $.get(apiUrl+'/api/maltreatment/'+year+'/zip/'+zip,function(data){
         console.log(data)        
         if(data[0]){
             $('#risks-table').empty();
@@ -17,8 +17,13 @@ function queryZip(zip){
 
             //test for filtering https://www.javascripttutorial.net/javascript-array-filter/
             var agedData = data.filter(variable => variable.var_info.age ==2 ||variable.var_info.age == ageFilter)
+            var agedState = stateValues.filter(variable => variable.var_info.age ==2 ||variable.var_info.age == ageFilter)
+            // console.log(stateValues,agedState,agedData)
+
 
             for(var i=0; i<agedData.length; i++){
+                agedData[i].state = agedState[i]
+                // console.log(agedData[i])
                 var label = agedData[i].lbl;
                 var right = agedData[i].var_info.right
                 var value = agedData[i].value;
@@ -79,9 +84,9 @@ function queryZip(zip){
                 var value = v.value;
                 var disp_name = v.var_info.display_name;
                 var description = v.var_info.description
-                var max_zip = v.var_info.max_zip
-                var median_zip = v.var_info.median_zip
-                var min_zip = v.var_info.min_zip
+                var max_zip = v.state.max_zip
+                var median_zip = v.state.median_zip
+                var min_zip = v.state.min_zip
                 var order = v.var_info.order
                 var right = v.var_info.right
                 var var_name = v.var_name;
@@ -130,9 +135,9 @@ function queryZip(zip){
                     var value = v.value;
                     var disp_name = v.var_info.display_name;
                     var description = v.var_info.description
-                    var max_zip = v.var_info.max_zip
-                    var median_zip = v.var_info.median_zip
-                    var min_zip = v.var_info.min_zip
+                    var max_zip = v.state.max_zip
+                    var median_zip = v.state.median_zip
+                    var min_zip = v.state.min_zip
                     var order = v.var_info.order
                     var right = v.var_info.right
                     var var_name = v.var_name;
@@ -176,7 +181,7 @@ function queryZip(zip){
 
             $('#lower-content .button-group').empty()
             var buttonGroup = $('#lower-content .button-group')
-            buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/zip/'+query+'"><i class="fas fa-table"></i> Download data for '+query+'</a></button>')
+            buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/'+year+'/csv/zip/'+query+'"><i class="fas fa-table"></i> Download data for '+query+'</a></button>')
             buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
 
         }else{//if no data is returned

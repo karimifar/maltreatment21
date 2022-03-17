@@ -25,7 +25,7 @@
     <link rel="icon" type="image/png" href="./favicon.png"/>
     
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/b5e77ab30a.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.typekit.net/gjn3fft.css">
     <!-- BOOTSTRAP CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -46,6 +46,7 @@
         import * as d3 from "https://cdn.skypack.dev/d3@7";
     </script>
 
+    <link rel="stylesheet" href="./assets/css/navigation.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/responsive.css">
     <title>Maltreatment Risks</title>
@@ -55,6 +56,21 @@
     <div id="content-wrap">
         <div id="upper-content">
             <div id="home-left-col">
+                <div id="navigation">
+                    <div class='menu toggle'>
+                        <div class="hamburger">
+                            <i class="fas fa-bars"></i>
+                        </div>
+                    </div>
+                    <div class='menu menu-items'>
+                        <a href="#" class="active">Home</a>
+                        <a href="./variable-definitions/">Variable Definitions</a>
+                        <a href="./data-sources/">Data Sources</a>
+                        <a href="./about/">About</a>
+                    </div>
+                    
+                    
+                </div>
                 <div id="intro">
                     <h1>Maltreatment <br>Risk</h1>
                     <p>
@@ -66,11 +82,11 @@
                     <p>
                         Learn more about a community’s maltreatment risk by selecting it on the map and clicking “search” or by typing in the ZIP Code or county in the search bar
                     </p>
-                    <div class="button-group">
+                    <!-- <div class="button-group">
                         <button><a target="_blank" href="./webinars/">Webinars</a></button>
                         <button><a target="_blank" href="./variable-definitions/">Variable Definitions</a></button>
                         <button><a target="_blank" href="./data-sources/">Data Sources</a></button>
-                    </div>
+                    </div> -->
                     <p>
                         To request the predicted maltreatment risk score map layers for your modeling software, email us at <a href="mailto:txsafebabies@utsystem.edu">txsafebabies@utsystem.edu</a>. 
                     </p>
@@ -78,6 +94,15 @@
                 <div id="controls-container">
                     <div id="controls-wrap">
                         <div class="control-input switches d-flex">
+                            <div id="year-control">
+                                <label class="control-head">Year:</label>
+                                <select class="control-element" name="year" id="years" onchange="switchYear()">
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019" selected>2019</option>
+                                </select>
+                            </div>
                             <div id="age-control">
                                 <label class="control-head">Age group:</label>
                                 <select class="control-element" name="age-groups" id="ageGroups" onchange="switchAge()">
@@ -130,7 +155,7 @@
                     </div>
                 </div>
                 
-                <div id="logo-bar">
+                <!-- <div id="logo-bar">
                     <div class="logo-wrap" id="uthct-logo">
                         <img src="./assets/img/uthct-w.png" alt="University of Texas Health Science Center at Tyler logo">
                     </div>
@@ -140,7 +165,7 @@
                     <div class="logo-wrap" id="dfps-logo">
                         <img src="./assets/img/DFPS_Logo_w.png" alt="DFPS logo">
                     </div>
-                </div>
+                </div> -->
                 <!-- <div id="test">
                     
                 </div> -->
@@ -223,6 +248,7 @@
         Design and Development: Mohamad 'Em' Karimifar
     </div>
 
+    <script src= "./assets/js/navigation.js"></script>
     <script src= "./assets/js/app.js"></script>
     <script src= "./assets/js/zip.js"></script>
     <script src= "./assets/js/cty.js"></script>

@@ -14,6 +14,10 @@ h1{
     clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
     clip: rect(1px, 1px, 1px, 1px);
 }
+#navigation{
+    justify-content: flex-start;
+    padding: 15px 30px;
+}
 button:focus{
     outline:none;
 }
@@ -251,15 +255,15 @@ button:focus{
     border: 1px solid #fff;
     padding: 0 30px;
 }
-#age-control, #geo-control{
-    margin-right: 20px;
 
-}
-#ageGroups{
+.control-element{
+    margin-right: 20px;
     border-radius: 10px;
 }
 
-
+#geo-control{
+    margin-right: 20px;
+}
 /* Geography switch styles */
 .switch {
     position: relative;

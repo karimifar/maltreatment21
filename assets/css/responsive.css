@@ -158,6 +158,9 @@
         padding:20px 10px 10px;
         flex-wrap: wrap;
     }
+    #navigation{
+        padding: 15px 10px;
+    }
     .scrolled form.search{
         width: 100%;
         margin-bottom: 10px;

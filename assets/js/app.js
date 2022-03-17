@@ -1,4 +1,4 @@
-var apiUrl =   'https://texashealthdata.com' //'http://localhost:3306' //
+var apiUrl =   'http://localhost:3306' //'https://texashealthdata.com' //
 var map;
 var firstSymbolId;
 var hoveredZipId;
@@ -8,6 +8,8 @@ var geoIsZip = false;
 var geography= '_cty';
 var visible_layer;
 var younger = true;
+var year = '2019';
+var allYears = ['2016','2017','2018','2019']
 var firstZipQuery = true;
 var firstCtyQuery = true;
 var query;
@@ -18,12 +20,21 @@ var acList;
 var allZips;
 var controlsPos;
 var controlsH;
+var stateValues;
 
 var older_variables = ['factor', 'pred_lowincome', 'pred_health']
 
+updateStateValues()
+function updateStateValues(){
+    $.get(apiUrl+'/api/maltreatment/statevalues/'+year,function(data){
+        stateValues = data;
+        // console.log(stateValues)
+    })
+}
+
 $.get(apiUrl+"/api/alltxzips", function(data){
     allZips = data;
-    console.log(allZips)
+    // console.log(allZips)
 })
 function enableTooltips() {
     $('[data-toggle="tooltip"]').tooltip()
@@ -208,12 +219,12 @@ function createMap(){
 
         map.addSource("zips", {
             type: "geojson",
-            data: apiUrl+ "/maltreatment/zip-map",
+            data: apiUrl+ "/maltreatment/zipGeo",
             generateId: true,
         })
         map.addSource("counties", {
             type: "geojson",
-            data: apiUrl+ "/maltreatment/cty-map",
+            data: apiUrl+ "/maltreatment/ctyGeo",
             generateId: true,
         })
         map.addSource("highways", {
@@ -240,8 +251,11 @@ function createMap(){
         
         
         for (var i=0; i<ageGroups.length; i++){
-            addZipLayer(map,ageGroups[i].key)
-            addCtyLayer(map,ageGroups[i].key)
+            for(var j=0; j<allYears.length; j++){
+                addZipLayer(map,ageGroups[i].key, allYears[j])
+                addCtyLayer(map,ageGroups[i].key, allYears[j])
+            }
+            
         }
         
         
@@ -339,7 +353,7 @@ function createMap(){
         }, firstSymbolId);
 
         
-        visible_layer = 'pred_'+selectedAge+geography
+        visible_layer = 'pred_'+selectedAge+'_'+year+geography
         map.setLayoutProperty(
             visible_layer,
             'visibility',
@@ -400,9 +414,9 @@ $(window).scroll(function(){
     
 })
 
-function addZipLayer(themap, key){
-    var id = 'pred_' + key;
-    var layerId = 'pred_' + key+'_zip';
+function addZipLayer(themap, key, year){
+    var id = 'pred_' + key +'_'+ year;
+    var layerId = id + '_zip';
     themap.addLayer({
         'id':layerId,
         'type': 'fill',
@@ -486,8 +500,8 @@ function addZipLayer(themap, key){
 }
 
 
-function addCtyLayer(themap, key){
-    var id = 'pred_' + key;
+function addCtyLayer(themap, key, year){
+    var id = 'pred_' + key + '_'+year;
     var layerId = id+'_cty';
     themap.addLayer({
         'id':layerId,
@@ -590,7 +604,7 @@ function updateGeo(){
         geography = '_cty';
         autocomplete(input, acList);
     }
-    switchVisibility (visible_layer, 'pred_'+selectedAge+geography)
+    switchVisibility (visible_layer, 'pred_'+selectedAge+'_'+year+geography,true)
     map.setLayoutProperty(
         'outline'+geography,
         'visibility',
@@ -601,7 +615,7 @@ function updateGeo(){
 }
 function switchAge(){
     selectedAge = $('#ageGroups').val()
-    switchVisibility (visible_layer, 'pred_'+selectedAge+geography)
+    switchVisibility (visible_layer, 'pred_'+selectedAge+'_'+year+geography,true)
     if(popup){
         popup.remove()
     }
@@ -610,6 +624,21 @@ function switchAge(){
     }else{
         younger = false;
     }
+}
+function switchYear(){
+    year = $('#years').val()
+    console.log(year)
+    switchVisibility (visible_layer, 'pred_'+selectedAge+'_'+year+geography, false)
+    if(popup){
+        popup.remove()
+    }
+    if(geoIsZip && query){
+        queryZip(query)
+    }
+    if(!geoIsZip && query){
+        queryCty(query)
+    }
+    updateStateValues()
 }
 function switchGeo(){
     geoIsZip = !geoIsZip
@@ -621,7 +650,7 @@ function switchGeo(){
 }
 
 
-function switchVisibility(a,b){
+function switchVisibility(a,b,reset){
     map.setLayoutProperty(
         a,
         'visibility',
@@ -633,7 +662,9 @@ function switchVisibility(a,b){
         'visible'
     )
     visible_layer = b;
-    $('#content-wrap').removeClass('started')
+    if(reset){
+        $('#content-wrap').removeClass('started')
+    }
     
     setTimeout(()=>{
         map.resize()

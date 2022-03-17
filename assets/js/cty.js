@@ -1,6 +1,6 @@
 function queryCty(cty){
     $('#main-input').val(cty)
-    $.get(apiUrl+'/api/maltreatment/cty/'+cty,function(data){
+    $.get(apiUrl+'/api/maltreatment/'+year+'/cty/'+cty,function(data){
         console.log(data)        
         if(data[0]){
             cty = data[0].county
@@ -18,8 +18,10 @@ function queryCty(cty){
 
             //test for filtering https://www.javascripttutorial.net/javascript-array-filter/
             var agedData = data.filter(variable => variable.var_info.age ==2 ||variable.var_info.age == ageFilter)
-            console.log(agedData)
+            var agedState = stateValues.filter(variable => variable.var_info.age ==2 ||variable.var_info.age == ageFilter)
+
             for(var i=0; i<agedData.length; i++){
+                agedData[i].state = agedState[i]
                 var label = agedData[i].lbl;
                 var right = agedData[i].var_info.right
                 var value = agedData[i].value;
@@ -80,9 +82,9 @@ function queryCty(cty){
                 var value = v.value;
                 var disp_name = v.var_info.display_name;
                 var description = v.var_info.description
-                var max_cty = v.var_info.max_cty
-                var median_cty = v.var_info.median_cty
-                var min_cty = v.var_info.min_cty
+                var max_cty = v.state.max_cty
+                var median_cty = v.state.median_cty
+                var min_cty = v.state.min_cty
                 var order = v.var_info.order
                 var right = v.var_info.right
                 var var_name = v.var_name;
@@ -131,9 +133,9 @@ function queryCty(cty){
                     var value = v.value;
                     var disp_name = v.var_info.display_name;
                     var description = v.var_info.description
-                    var max_cty = v.var_info.max_cty
-                    var median_cty = v.var_info.median_cty
-                    var min_cty = v.var_info.min_cty
+                    var max_cty = v.state.max_cty
+                    var median_cty = v.state.median_cty
+                    var min_cty = v.state.min_cty
                     var order = v.var_info.order
                     var right = v.var_info.right
                     var var_name = v.var_name;
@@ -177,7 +179,7 @@ function queryCty(cty){
 
             $('#lower-content .button-group').empty()
             var buttonGroup = $('#lower-content .button-group')
-            buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/cty/'+query+'"><i class="fas fa-table"></i> Download data for '+query+' county</a></button>')
+            buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/'+year+'/cty/'+query+'"><i class="fas fa-table"></i> Download data for '+query+' county</a></button>')
             buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
 
         }else{//if no data is returned
