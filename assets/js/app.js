@@ -1,4 +1,4 @@
-var apiUrl =   'http://localhost:3306' //'https://texashealthdata.com' //
+var apiUrl =   'https://aab3-198-147-138-17.ngrok.io' //'https://texashealthdata.com' //
 var map;
 var firstSymbolId;
 var hoveredZipId;
