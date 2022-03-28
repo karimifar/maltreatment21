@@ -21,9 +21,12 @@ var allZips;
 var controlsPos;
 var controlsH;
 var stateValues;
-
+var countiesArray
 var older_variables = ['factor', 'pred_lowincome', 'pred_health']
 
+$.get(apiUrl+'/api/alltxcounties', function(data){
+    countiesArray = data;
+})
 updateStateValues()
 function updateStateValues(){
     $.get(apiUrl+'/api/maltreatment/statevalues/'+year,function(data){
