@@ -61,7 +61,7 @@ function queryCty(cty){
                                 
                                 
                             }else{
-                                alert('data not available for this age group')
+                                alert('Data not available for this age group')
                                 $('#content-wrap').removeClass('started')
                                 setTimeout(()=>{
                                     map.resize()
