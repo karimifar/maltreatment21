@@ -63,6 +63,9 @@ function queryCty(cty){
                             }else{
                                 alert('data not availble for this age group/year')
                                 $('#content-wrap').removeClass('started')
+                                setTimeout(()=>{
+                                    map.resize()
+                                },250);
                             }
                             
                         }
