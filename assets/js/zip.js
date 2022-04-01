@@ -190,11 +190,15 @@ function queryZip(zip){
         
                     $('#lower-content .button-group').empty()
                     var buttonGroup = $('#lower-content .button-group')
-                    buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/'+year+'/csv/zip/'+query+'"><i class="fas fa-table"></i> Download data for '+query+'</a></button>')
+                    buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/'+year+'/csv/zip/'+query+'"><i class="fas fa-table"></i> Download '+year+' data for '+query+'</a></button>')
                     buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
         
                 }else{//if no data is returned
                     alert('Risk is not calculated for '+ zip )
+                    $('#content-wrap').removeClass('started')
+                    setTimeout(()=>{
+                        map.resize()
+                    },250);
                 }
             }else{
                 alert(zip + ' is not a Texas residential ZIP Code')

@@ -145,20 +145,33 @@ button:focus{
     color: unset;
     text-decoration: underline;
 }
+
 #logo-bar{
     display: flex;
     background-color: #1A1A1A;
     padding: 0 20px;
 }
+.started #logo-bar{
+    display: none;
+}
+#footer-logo-bar{
+    background-color: #1A1A1A;
+    display: flex;
+    justify-content: center;
+    padding: 40px 15px 20px;
+}
 .logo-wrap{
-    width:30%;
-    max-width: 200px;
-    padding: 10px;
+    width:35%;
+    max-width: 210px;
+    padding: 10px 15px;
     align-self: center;
 }
+#uthct-logo{
+    max-width: 190px;
+}
 #uts-logo{
-    width: 40%;
-    max-width: 260px;
+    width: 45%;
+    max-width: 270px;
 }
 .logo-wrap img{
     width:100%;
@@ -419,7 +432,7 @@ line.arrow{
     font-size: 24px;
     align-self: center;
     padding: 0 20px;
-    max-width: 330px;
+    max-width: 380px;
     text-align: right;
 }
 #score .layer-title span{
@@ -443,6 +456,9 @@ line.arrow{
     padding: 5px;
     font-weight: 300;
     text-align: center;
+}
+#pop-desc{
+    text-transform: lowercase;
 }
 #population h2 span{
     font-weight: 700;
@@ -677,7 +693,7 @@ p.nodata-chart{
 }
 
 #lower-content .button-group{
-    padding: 20px 5% 80px;
+    padding: 40px 80px;
     display: flex;
     justify-content: center;
     background-color: #f0e1da;

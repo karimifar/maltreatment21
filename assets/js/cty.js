@@ -183,14 +183,19 @@ function queryCty(cty){
                     }
                     //end of new method
                     $('.disp-geo').text(query+' county');
+                    $('.disp-year').text(year);
         
                     $('#lower-content .button-group').empty()
                     var buttonGroup = $('#lower-content .button-group')
-                    buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/'+year+'/cty/'+query+'"><i class="fas fa-table"></i> Download data for '+query+' county</a></button>')
+                    buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/'+year+'/cty/'+query+'"><i class="fas fa-table"></i> Download '+year+' data for '+query+' county</a></button>')
                     buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
         
                 }else{//if no data is returned
                     alert('Risk not calculated for '+cty)
+                    $('#content-wrap').removeClass('started')
+                    setTimeout(()=>{
+                        map.resize()
+                    },250);
                 }
             }else{
                 alert(cty + ' is not a valid Texas county.')
