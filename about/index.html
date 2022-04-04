@@ -38,6 +38,7 @@
         import * as d3 from "https://cdn.skypack.dev/d3@7";
     </script>
 
+    <link rel="stylesheet" href="./assets/css/prism.css">
     <link rel="stylesheet" href="../assets/css/navigation.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/responsive.css">
@@ -77,7 +78,36 @@
                     These maps are an overview of community-level risk for maltreatment. Most users will be able to understand their community’s overall risk and risk profile from these maps. For those that would like more detailed maps with risk scores, they can be found here.
                 </p>
                 <hr>
+                <h2>How to use the data API</h2>
+                <p>
+                    The maltreatment risk API allows you to get all the data visualized on this website using code that you might be able to perform on your data analysis software, a website or a mobile application. Our API can return data in CSV or JSON formats. 
+                </p>
+                <p>
+                    <strong>CSV Format</strong><br>
+                    Below is an API call example to get data for a given ZIP Code in csv format:
+                </p>
+                <pre>
+                    <code class="language-javascript">
+$.get(‘https://texashealthdata.com/api/maltreatment/csv/zip/78701', function(data){
+    //It returns a csv file
+}
+                    </code>
+                </pre>
+                
+                <p>
+                    <strong>JSON Data</strong><br>
+                    Below is an API call example to get data for a given ZIP Code:
+                </p>
+                <pre>
+                    <code class="language-javascript">
+$.get(‘https://texashealthdata.com/api/maltreatment/zip/78701', function(data){
+    //It returns a data in JSON format
+}
+                    </code>
+                </pre>
+                <hr>
                 <h2>Webinars</h2>
+                
                 <div class="webinars">
                     
                     <div class="video-section">
@@ -115,6 +145,7 @@
         
     </div>
 
+    <script src= "./assets/js/prism.js"></script>
     <script src= "../assets/js/navigation.js"></script>
 </body>
 </html>
