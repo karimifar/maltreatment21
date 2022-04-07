@@ -32,3 +32,15 @@ h3{
 .vp-center{
     justify-content: flex-start !important;
 }
+.api-example{
+    font-family: Andale Mono, monospace;
+    color: #222;
+    background-color: #fff;
+}
+p.api-example{
+    padding: 20px;
+}
+span.api-example{
+    padding: 1px 5px ;
+    background-color: #f0e1dae1;
+}

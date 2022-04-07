@@ -83,28 +83,44 @@
                     The maltreatment risk API allows you to get all the data visualized on this website using code that you might be able to perform on your data analysis software, a website or a mobile application. Our API can return data in CSV or JSON formats. 
                 </p>
                 <p>
-                    <strong>CSV Format</strong><br>
-                    Below is an API call example to get data for a given ZIP Code in csv format:
+                    <strong>Endpoints</strong><br>
+                    The API endpoints for the maltreatment risk data at a specific ZIP code or county is:
                 </p>
-                <pre>
-                    <code class="language-javascript">
-$.get(‘https://texashealthdata.com/api/maltreatment/csv/zip/78701', function(data){
-    //It returns a csv file
-}
-                    </code>
-                </pre>
-                
+                <p class="api-example">
+                    https://texashealthdata.com/api/maltreatment/{year}/{data type}/{geography}/{query}
+                </p>
                 <p>
-                    <strong>JSON Data</strong><br>
-                    Below is an API call example to get data for a given ZIP Code:
+                    <strong>Year</strong><br>
+                    Enter the year of data you need. It can be any year between <span class="api-example">2016</span> to <span class="api-example">2019</span>
                 </p>
-                <pre>
+                <p>
+                    <strong>Data type</strong><br>
+                    To download the data in CSV format use <span class="api-example">csv</span>.<br> To get the data in JSON format you don't need data type in the url path.
+                </p>
+                <p>
+                    <strong>Geography</strong><br>
+                    To query a Texas county use <span class="api-example">cty</span> as geography.<br>
+                    To query a Texas ZIP code, use <span class="api-example">zip</span>
+                </p>
+                <div>
+                    <p><strong>API URL Examples:</strong></p>
+                    CSV format for Travis county in 2018:
+                    <p class="api-example">
+                        https://texashealthdata.com/api/maltreatment/2018/csv/cty/travis
+                    </p>
+                    JSON format for 78702 in 2019: 
+                    <p class="api-example">
+                        https://texashealthdata.com/api/maltreatment/2019/zip/78702
+                    </p>
+
+                </div>
+                <!-- <pre>
                     <code class="language-javascript">
-$.get(‘https://texashealthdata.com/api/maltreatment/zip/78701', function(data){
-    //It returns a data in JSON format
-}
+'https://texashealthdata.com/api/maltreatment/{data type}/{geography}/{variable}'
                     </code>
-                </pre>
+                </pre> -->
+                
+                
                 <hr>
                 <h2>Webinars</h2>
                 
