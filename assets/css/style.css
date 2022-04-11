@@ -106,7 +106,7 @@ button:focus{
     padding:5% 30px 15px;
 }
 .started #intro, .started #controls-wrap{
-    padding: 30px 15px;
+    padding: 30px
 }
 #intro{
     background-color: #f0e1da;
@@ -233,6 +233,10 @@ button:focus{
 
 .control-input{
     margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.control-input>div{
+    margin-bottom: 10px;
 }
 .scrolled .control-input{
     margin-bottom: 0px;

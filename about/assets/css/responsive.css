@@ -6,11 +6,24 @@
 
 }
 @media only screen and (max-width: 991px){
+    .credit-col{
+        width: 100%;
+        margin-top: 0px;
+        /* border-top: 1px solid #f0e1da; */
+    }
+    .credit-col hr:first-child{
+        display: block;
+    }
     
 }
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 767px){
     
 
+
+.video-section{
+    width: 100%;
+    margin: 20px 0;
+}
     
 }
 @media only screen and (max-width: 575px){

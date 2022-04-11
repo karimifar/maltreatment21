@@ -64,6 +64,32 @@ header{
     border-bottom: 1px solid #1A1A1A;
 }
 
+#footer-logo-bar{
+    background-color: #f0e1da;
+    display: flex;
+    justify-content: center;
+    /* flex-wrap: wrap; */
+    padding: 40px 15px 20px;
+}
+.logo-wrap{
+
+    padding: 10px 15px;
+    align-self: center;
+}
+#uthct-logo{
+    width: 190px;
+}
+#uts-logo{
+    width: 300px;
+}
+#dfps-logo{
+    width:45%;
+    width: 250px;
+}
+.logo-wrap img{
+    width:100%;
+}
+
 
 @media only screen and (max-width: 1199px){
     header{
@@ -152,6 +178,9 @@ header{
     }
     header, .content-wrap{
         padding: 20px 5px 5px;
+    }
+    #footer-logo-bar{
+        flex-wrap: wrap;
     }
 
 }

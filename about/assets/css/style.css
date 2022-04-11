@@ -20,9 +20,11 @@
 }
 .two-col{
     display: flex;
+    flex-wrap: wrap;
 }
 .webinars{
     display: flex;
+    flex-wrap: wrap;
 }
 h3{
     font-weight: 300;
@@ -36,6 +38,7 @@ h3{
     font-family: Andale Mono, monospace;
     color: #222;
     background-color: #fff;
+    overflow: scroll;
 }
 p.api-example{
     padding: 20px;
@@ -43,4 +46,10 @@ p.api-example{
 span.api-example{
     padding: 1px 5px ;
     background-color: #f0e1dae1;
+}
+.credit-col hr:first-child{
+    display: none;
+}
+.credit-col p{
+    font-size: 14px;
 }
