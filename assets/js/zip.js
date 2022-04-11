@@ -187,6 +187,7 @@ function queryZip(zip){
                     }
                     //end of new method
                     $('.disp-geo').text(zip);
+                    $('.disp-year').text(year);
         
                     $('#lower-content .button-group').empty()
                     var buttonGroup = $('#lower-content .button-group')
