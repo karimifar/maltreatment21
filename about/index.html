@@ -79,18 +79,19 @@
                 </p>
                 <p>
                     <strong>Endpoints</strong><br>
-                    The API endpoints for the maltreatment risk data at a specific ZIP code or county is:
+                    The API endpoint for the maltreatment risk data at a specific ZIP code or county is:
                 </p>
                 <p class="api-example">
-                    https://texashealthdata.com/api/maltreatment/{year}/{data type}/{geography}/{query}
+                    https://texashealthdata.com/api/maltreatment/{data type}/{year}/{geography}/{query}
+                </p>
+                
+                <p>
+                    <strong>Data type</strong><br>
+                    To download the data in CSV format use <span class="api-example">csv</span>.<br> To get the data in JSON format you don't need data type in the url path. <br> <strong>Note:</strong> you can query multiple ZIP codes or counties by separating them using comma. This feature is currently only available in CSV format.
                 </p>
                 <p>
                     <strong>Year</strong><br>
                     Enter the year of data you need. It can be any year between <span class="api-example">2016</span> to <span class="api-example">2019</span>
-                </p>
-                <p>
-                    <strong>Data type</strong><br>
-                    To download the data in CSV format use <span class="api-example">csv</span>.<br> To get the data in JSON format you don't need data type in the url path.
                 </p>
                 <p>
                     <strong>Geography</strong><br>
@@ -98,15 +99,16 @@
                     To query a Texas ZIP code, use <span class="api-example">zip</span>
                 </p>
                 <div>
-                    <p><strong>API URL Examples:</strong></p>
-                    CSV format for Travis county in 2018:
+                    <p><strong>Endpoint Examples:</strong></p>
+                    CSV format for Travis & Bexar counties in 2018:
                     <p class="api-example">
-                        https://texashealthdata.com/api/maltreatment/2018/csv/cty/travis
+                        https://texashealthdata.com/api/maltreatment/csv/2018/cty/travis,bexar
                     </p>
                     JSON format for 78702 in 2019: 
                     <p class="api-example">
                         https://texashealthdata.com/api/maltreatment/2019/zip/78702
                     </p>
+                    
 
                 </div>
                 <!-- <pre>
@@ -137,9 +139,15 @@
             
                     </div>
                 </div>
+                <hr>
+                <h2>Contact</h2>
+                <p>
+                    To request the predicted maltreatment risk score map layers for your modeling software, email us at <a href="mailto:txsafebabies@utsystem.edu">txsafebabies@utsystem.edu</a>. 
+                </p> 
             </div>
             <div class="col-lg-4 col credit-col">
                 <hr>
+                
                 <p>
                     This project is a collaboration between Department of Family & Protective Services, UT Tyler Health Science Center, and University of Texas System Population Health.
                 </p>

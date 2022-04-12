@@ -33,7 +33,7 @@ header{
     /* padding: 15px 30px; */
     background-color: #f0e1da;
     display: flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     /* border-bottom: 1px solid #1a1a1a35; */
 }
 .menu-items a{
