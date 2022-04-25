@@ -1,7 +1,7 @@
 function queryZip(zip){
     query = zip;
     $('#main-input').val(query)
-    $.get(apiUrl+'/api/maltreatment/'+year+'/zip/'+zip,function(data){
+    $.get(apiUrl+'/api/maltreatment/json/'+year+'/zip/'+zip,function(data){
         console.log(data)
         $.get(apiUrl+'/api/validatezcta/'+zip,function(zcta){
             if(zcta[0]){
@@ -65,7 +65,7 @@ function queryZip(zip){
                                 
                                 
                             }else{
-                                alert('Data not available for this age group')
+                                notify('Data not available for the selected age group and ZIP code')
                                 $('#content-wrap').removeClass('started')
                                 setTimeout(()=>{
                                     map.resize()
@@ -191,18 +191,18 @@ function queryZip(zip){
         
                     $('#lower-content .button-group').empty()
                     var buttonGroup = $('#lower-content .button-group')
-                    buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/'+year+'/csv/zip/'+query+'"><i class="fas fa-table"></i> Download '+year+' data for '+query+'</a></button>')
+                    buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/'+year+'/zip/'+query+'"><i class="fas fa-table"></i> Download '+year+' data for '+query+'</a></button>')
                     buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
         
                 }else{//if no data is returned
-                    alert('Risk is not calculated for '+ zip )
+                    notify('Risk is not calculated for '+ zip )
                     $('#content-wrap').removeClass('started')
                     setTimeout(()=>{
                         map.resize()
                     },250);
                 }
             }else{
-                alert(zip + ' is not a Texas residential ZIP Code')
+                notify(zip + ' is not a Texas residential ZIP Code')
             }
         })
         

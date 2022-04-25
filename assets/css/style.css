@@ -271,6 +271,7 @@ button:focus{
     font-family: aktiv-grotesk-extended, sans-serif;
     border: 1px solid #fff;
     padding: 0 30px;
+    color:#1A1A1A
 }
 
 .control-element{
@@ -706,4 +707,55 @@ p.nodata-chart{
 }
 #lower-content .button-group button{
     font-size: 19px;
+}
+
+#overlayMask{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top:0;
+    left:0;
+    background-color: #1A1A1A88;
+    display: none;
+}
+#notification{
+    background-color: #fff;
+    display: table;
+    padding:15px;
+    width:40%;
+    min-width: 600px;
+    height: fit-content;
+    position: fixed;
+    top:0;
+    left:0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    transform: translate(0, 0);
+    opacity: 1;
+    transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1) ;
+    z-index: 9999;
+    border-radius: 10px;
+    border: #f0e1da 1px solid
+}
+#notification.hidden{
+    transform: translate(0, -50px);
+    opacity: 0;
+}
+.closeNotif{
+    cursor: pointer;
+}
+p.notifMessage{
+    margin: 20px 0;
+}
+#notifX{
+    position: absolute;
+    right: 15px;
+    top: 15px
+}
+#notification button{
+    background-color: #1A1A1A;
+    color: #f0e1da;
+    font-family: aktiv-grotesk-extended, sans-serif;
+    border-color: #f0e1da;
 }

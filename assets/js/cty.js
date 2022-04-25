@@ -1,6 +1,6 @@
 function queryCty(cty){
     $('#main-input').val(cty)
-    $.get(apiUrl+'/api/maltreatment/'+year+'/cty/'+cty,function(data){
+    $.get(apiUrl+'/api/maltreatment/json/'+year+'/cty/'+cty,function(data){
         console.log(data)
         $.get(apiUrl+'/api/validatecty/'+cty,function(counties){
             if(counties[0]){
@@ -61,7 +61,7 @@ function queryCty(cty){
                                 
                                 
                             }else{
-                                alert('Data not available for this age group')
+                                notify('Data not available for the selected age group and county')
                                 $('#content-wrap').removeClass('started')
                                 setTimeout(()=>{
                                     map.resize()
@@ -191,14 +191,14 @@ function queryCty(cty){
                     buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
         
                 }else{//if no data is returned
-                    alert('Risk not calculated for '+cty)
+                    notify('Risk not calculated for '+cty + ' county')
                     $('#content-wrap').removeClass('started')
                     setTimeout(()=>{
                         map.resize()
                     },250);
                 }
             }else{
-                alert(cty + ' is not a valid Texas county.')
+                notify(cty + ' is not a valid Texas county.')
             }
             
         })

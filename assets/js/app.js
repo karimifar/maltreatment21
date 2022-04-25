@@ -1,4 +1,4 @@
-var apiUrl =   'https://aab3-198-147-138-17.ngrok.io' //'https://texashealthdata.com' //
+var apiUrl =    'https://texashealthdata.com' //'https://1630-2603-8080-1401-4948-b177-fbe7-8ee7-4274.ngrok.io'
 var map;
 var firstSymbolId;
 var hoveredZipId;
@@ -1136,3 +1136,22 @@ function capitalizeFirstLetter(string) {
 
 //TO TOGGLE THE DROPDOWNS OPEN AND COLLAPSE:
 //$('.drop-wrap').collapse('toggle')
+
+function notify(message){
+    $('#overlayMask').css('display', 'block')
+    $('#notification').removeClass('hidden')
+    $('.notifMessage').empty()
+    $('.notifMessage').text(message)
+
+    // var notifDiv = $('<div id="notification">')
+    // notifDiv.append('<div class="closeNotif"><i class="fa-solid fa-xmark"></i></div>')
+    // notifDiv.append('<p class="notifMessage">'+message+'</p>')
+    // $(body).append(notifDiv)
+}
+
+$('.closeNotif').on('click', function(){
+    $('#overlayMask').css('display', 'none')
+    $('#notification').addClass('hidden')
+})
+
+notify('Website under maintenance, please come back later!')
