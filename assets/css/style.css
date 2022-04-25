@@ -736,11 +736,13 @@ p.nodata-chart{
     transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1) ;
     z-index: 9999;
     border-radius: 10px;
-    border: #f0e1da 1px solid
+    border: #f0e1da 1px solid;
+    pointer-events: all;
 }
 #notification.hidden{
     transform: translate(0, -50px);
     opacity: 0;
+    pointer-events: none;
 }
 .closeNotif{
     cursor: pointer;
