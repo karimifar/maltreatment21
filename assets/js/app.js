@@ -1154,4 +1154,4 @@ $('.closeNotif').on('click', function(){
     $('#notification').addClass('hidden')
 })
 
-notify('Website under maintenance, please come back later!')
+// notify('Website under maintenance, please come back later!')
