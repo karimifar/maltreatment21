@@ -53,3 +53,12 @@ span.api-example{
 .credit-col p{
     font-size: 14px;
 }
+#award{
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+}
+#award img{
+    width: 100%;
+    max-width: 400px;
+}
