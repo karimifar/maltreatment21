@@ -187,9 +187,9 @@ function queryCty(cty){
         
                     $('#lower-content .button-group').empty()
                     var buttonGroup = $('#lower-content .button-group')
-                    buttonGroup.append('<button><a target="_blank" href="'+apiUrl+'/api/maltreatment/csv/'+year+'/cty/'+query+'"><i class="fas fa-table"></i> Download '+year+' data for '+query+' county</a></button>')
-                    buttonGroup.append('<button><a target="_blank" href="./assets/files/mltrisk2019_codebook.xlsx"><i class="fas fa-book"></i> Data dictionary</a></button>')
-        
+                    // Append buttons ensuring no nested focusable elements and proper ARIA attributes
+                    buttonGroup.append("<button onclick=\"window.open('" + apiUrl + "/api/maltreatment/csv/" + year + "/cty/" + query + "')\" aria-label=\"Download " + year + " data for " + query + " county\"><i class=\"fas fa-table\"></i> Download " + year + " data for " + query + " county</button>");
+                    buttonGroup.append('<button onclick="window.open(\'./assets/files/mltrisk2019_codebook.xlsx\')" aria-label="Open data dictionary"><i class="fas fa-book"></i> Data Dictionary</button>');
                 }else{//if no data is returned
                     notify('Risk not calculated for '+cty + ' county')
                     $('#content-wrap').removeClass('started')

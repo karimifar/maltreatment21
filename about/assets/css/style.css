@@ -62,3 +62,13 @@ span.api-example{
     width: 100%;
     max-width: 350px;
 }
+a{
+    color: #3399ff;
+    text-decoration: underline;
+  
+}
+a:hover,
+a:focus{
+    color: #0056b3;
+    text-decoration: none;
+}
