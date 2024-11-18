@@ -166,6 +166,9 @@ button:focus{
     padding: 10px 15px;
     align-self: center;
 }
+#uthh-logo{
+    max-width: 270px;
+}
 #uthct-logo{
     max-width: 190px;
 }
