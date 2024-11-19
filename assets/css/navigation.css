@@ -193,3 +193,86 @@ header{
 }
 
 
+#footer {
+    background: #f0e1da;
+    color: #1a1a1a;
+    padding: 2rem 1.5rem 1rem 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    margin: 0 auto;
+}
+
+#footer p {
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+.policy-links {
+    margin: 0 0 1rem 0;
+}
+
+.policy-links a {
+    color: #000;
+    text-decoration: none;
+    padding: 0 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.policy-links a:hover {
+    color: #ccc;
+}
+
+.separator {
+    color: #1a1a1a;
+}
+
+.contact a {
+    color: #1a1a1a;
+    text-decoration: underline;
+}
+
+.contact a:hover {
+    color: #ccc;
+}
+
+#footer-dark {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 2rem 1.5rem 1rem 1.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    margin: 0 auto;
+}
+
+#footer-dark p {
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
+.policy-links-dark {
+    margin: 0 0 1rem 0;
+}
+
+.policy-links-dark a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.policy-links-dark a:hover {
+    color: #ccc;
+}
+
+.separator-dark {
+    color: #fff;
+}
+
+.contact-dark a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.contact-dark a:hover {
+    color: #ccc;
+}

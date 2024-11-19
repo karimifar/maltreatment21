@@ -146,6 +146,20 @@ button:focus{
     text-decoration: underline;
 }
 
+#landing-page-footer{
+    display: flex;
+    justify-content: center;
+    background-color: #1A1A1A;
+    color: #fff;
+    padding: 0 20px;
+    font-size: 0.8rem;
+}
+
+#landing-page-footer p {
+    margin: 0 0 1rem 0;
+    line-height: 1.5;
+}
+
 #logo-bar{
     display: flex;
     background-color: #1A1A1A;
